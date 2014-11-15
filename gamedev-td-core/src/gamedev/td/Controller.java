@@ -80,14 +80,14 @@ public class Controller implements InputProcessor {
 		
 		for (int i = 0; i < gameScreen.getGameState().GRIDX; i++) {
 			if(screenX <= i*gameScreen.getTileSize()) {
-				p.x = screenX * i;
+				p.x = (i-1)*gameScreen.getTileSize();
 				break;
 			}
 		}
 		
 		for (int j = 0; j < gameScreen.getGameState().GRIDY; j++) {
 			if(screenY <= j*gameScreen.getTileSize()) {
-				p.y = screenY * j;
+				p.y = (j-1)*gameScreen.getTileSize();
 				break;
 			}
 		}
