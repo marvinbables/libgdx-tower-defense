@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="assets"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="src" path="/gamedev-td-core"/>
+	<classpathentry kind="lib" path="lib/gdx-1.4.1.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-backend-lwjgl-1.4.1.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-box2d-platform-1.4.1-natives-desktop.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-freetype-platform-1.4.1-natives-desktop.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-platform-1.4.1-natives-desktop.jar"/>
+	<classpathentry kind="lib" path="lib/jinput-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/jinput-platform-2.0.5-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/jorbis-0.0.17.jar"/>
+	<classpathentry kind="lib" path="lib/jutils-1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl_util-2.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-2.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-platform-2.9.1-natives-windows.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

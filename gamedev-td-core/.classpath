@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/gdx-1.4.1.jar" sourcepath="lib/gdx-1.4.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-box2d-1.4.1.jar" sourcepath="lib/gdx-box2d-1.4.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-freetype-1.4.1.jar" sourcepath="lib/gdx-freetype-1.4.1-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
