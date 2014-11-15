@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
 
 	SpriteBatch spriteBatch;
 	List<Sprite> tiles;
-	Sprite highlightTile;
+	Sprite highlightTile, uiSprite;
 	
 	final int tileSize = 40;
 	
@@ -56,17 +56,25 @@ public class GameScreen implements Screen {
 		Texture grass = new Texture(Gdx.files.internal("assets/img/grass.png"));
 		Texture dirt = new Texture(Gdx.files.internal("assets/img/dirt_light.png"));
 		Texture dirtDark = new Texture(Gdx.files.internal("assets/img/dirt_dark.png"));
+		Texture steve = new Texture(Gdx.files.internal("assets/img/steve.png"));
 		
 		Sprite grassTile = createTile(grass);
 		Sprite dirtTile = createTile(dirt);
 		Sprite dirtDarkTile = createTile(dirtDark);
+		Sprite steveTile = createTile(steve);
 		
 		tiles.add(grassTile);
 		tiles.add(dirtTile);
 		tiles.add(dirtDarkTile);
+		tiles.add(steveTile);
 		
 		Texture highlight = new Texture(Gdx.files.internal("assets/img/tile_highlight.png"));
 		highlightTile = createTile(highlight);
+		
+		Texture ui = new Texture(Gdx.files.internal("assets/img/ui2.png"));
+		uiSprite = new Sprite(ui);
+		uiSprite.flip(false, true);
+		uiSprite.setPosition(0, GameState.GRIDY*tileSize);
 	}
 
 	@Override
@@ -90,6 +98,8 @@ public class GameScreen implements Screen {
 			}
 			
 			highlightTile.draw(spriteBatch);
+			
+			uiSprite.draw(spriteBatch);
 			
 		spriteBatch.end();
 		
@@ -146,6 +156,7 @@ public class GameScreen implements Screen {
 			case 0: return tiles.get(0);
 			case 1: return tiles.get(1);
 			case 2: return tiles.get(2);
+			case 3: return tiles.get(3);
 			default: return tiles.get(0);
 		}
 	}
