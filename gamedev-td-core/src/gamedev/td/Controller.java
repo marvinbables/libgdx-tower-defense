@@ -78,14 +78,14 @@ public class Controller implements InputProcessor {
 	private Point getGridCoordinate(int screenX, int screenY) {
 		Point p = new Point(-50, -50);
 		
-		for (int i = 0; i < gameScreen.getGameState().GRIDX; i++) {
+		for (int i = 0; i < gameScreen.getGameState().GRIDX+1; i++) {
 			if(screenX <= i*gameScreen.getTileSize()) {
 				p.x = (i-1)*gameScreen.getTileSize();
 				break;
 			}
 		}
 		
-		for (int j = 0; j < gameScreen.getGameState().GRIDY; j++) {
+		for (int j = 0; j < gameScreen.getGameState().GRIDY+1; j++) {
 			if(screenY <= j*gameScreen.getTileSize()) {
 				p.y = (j-1)*gameScreen.getTileSize();
 				break;
