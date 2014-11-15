@@ -1,5 +1,7 @@
 package gamedev.td;
 
+import java.awt.Point;
+
 import gamedev.entity.GameState;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
@@ -67,10 +69,33 @@ public class Controller implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		if(currentScreen.equals(gameScreen)) {
-			
+			Point point = getGridCoordinate(screenX, screenY);
+			gameScreen.setHighlightCoord(point.x, point.y);
 		}
 		return false;
 	}
+	
+	private Point getGridCoordinate(int screenX, int screenY) {
+		Point p = new Point(-50, -50);
+		
+		for (int i = 0; i < gameScreen.getGameState().GRIDX; i++) {
+			if(screenX <= i*gameScreen.getTileSize()) {
+				p.x = screenX * i;
+				break;
+			}
+		}
+		
+		for (int j = 0; j < gameScreen.getGameState().GRIDY; j++) {
+			if(screenY <= j*gameScreen.getTileSize()) {
+				p.y = screenY * j;
+				break;
+			}
+		}
+		
+		return p;
+	}
+	
+	
 
 	@Override
 	public boolean scrolled(int amount) {

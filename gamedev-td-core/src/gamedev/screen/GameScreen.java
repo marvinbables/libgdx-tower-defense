@@ -27,10 +27,14 @@ public class GameScreen implements Screen {
 	
 	GameState gameState; // Model
 	
-	SpriteBatch spriteBatch;
 	OrthographicCamera camera;
+
+	SpriteBatch spriteBatch;
 	List<Sprite> tiles;
+	Sprite highlightTile;
+	
 	final int tileSize = 40;
+	
 	
 	float sec = 0, time = 0; // test
 	
@@ -60,6 +64,9 @@ public class GameScreen implements Screen {
 		tiles.add(grassTile);
 		tiles.add(dirtTile);
 		tiles.add(dirtDarkTile);
+		
+		Texture highlight = new Texture(Gdx.files.internal("assets/img/tile_highlight.png"));
+		highlightTile = createTile(highlight);
 	}
 
 	@Override
@@ -81,7 +88,15 @@ public class GameScreen implements Screen {
 					getSprite(grid[i][j]).draw(spriteBatch);
 				}
 			}
+			
+			highlightTile.draw(spriteBatch);
+			
 		spriteBatch.end();
+		
+	}
+	
+	public void setHighlightCoord(int x, int y) {
+		highlightTile.setPosition(x, y);
 	}
 
 	@Override
@@ -113,16 +128,12 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		
 	}
-
-	public GameState getGameState() {
-		return gameState;
-	}
 	
 	// Factory
 	private Sprite createTile(Texture texture) {
 		Sprite sprite = new Sprite(texture);
 		// tile size 40x40
-		sprite.setBounds(-10, -10, tileSize, tileSize);
+		sprite.setBounds(-50, -50, tileSize, tileSize);
 		sprite.flip(false, true);
 		return sprite;
 	}
@@ -139,4 +150,11 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	public int getTileSize() {
+		return tileSize;
+	}
+	
+	public GameState getGameState() {
+		return gameState;
+	}
 }
