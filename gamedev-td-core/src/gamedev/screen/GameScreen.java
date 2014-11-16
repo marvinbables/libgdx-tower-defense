@@ -213,11 +213,11 @@ public class GameScreen implements Screen {
 		
 		if(clonedTowerSprite != null) {
 			towerRangeRenderer.begin(ShapeType.Line);
-				towerRangeRenderer.setColor(53/255, 70/255, 145/255, 221/255);
-				if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50)
-					towerRangeRenderer.circle(clonedTowerSprite.getX() + tileSize / 2, convertYforShapeRenderer(clonedTowerSprite.getY() + rangeRadius) , rangeRadius);
+			towerRangeRenderer.setColor(53/255, 70/255, 145/255, 221/255);
+			if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50)
+				towerRangeRenderer.circle(clonedTowerSprite.getX() + tileSize / 2, convertYforShapeRenderer(clonedTowerSprite.getY() + tileSize * 3 / 2) , rangeRadius);
 			towerRangeRenderer.end();
-			System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
+			//System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
 		}
 			
 	}
