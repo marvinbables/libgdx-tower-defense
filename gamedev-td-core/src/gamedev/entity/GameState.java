@@ -13,6 +13,7 @@ public class GameState {
 	public static final int GRIDX = 17, GRIDY = 12;
 	
 	private int currentLevel, score, grid[][], money;
+	private float waveSpawnTime;
 	private List<Enemy> enemies;
 	private List<Tower> towersDeployed;
 	private List<Point> currentWaypoints;
@@ -35,6 +36,7 @@ public class GameState {
 		currentLevel = 1;
 		score = 0;
 		money = 100;
+		waveSpawnTime = 30;
 	}
 	
 	public void update(float delta) {
@@ -115,6 +117,17 @@ public class GameState {
 
 	public void setMoney(int money) {
 		this.money = money;
+	}
+
+	public float getWaveSpawnTime() {
+		return waveSpawnTime;
+	}
+
+	public void setWaveSpawnTime(float waveSpawnTime) {
+		if(this.waveSpawnTime - waveSpawnTime < 0)
+			this.waveSpawnTime = 30;
+		else
+			this.waveSpawnTime = waveSpawnTime;
 	}
 	
 }

@@ -34,14 +34,14 @@ public class GameScreen implements Screen {
 	OrthographicCamera camera;
 
 	SpriteBatch spriteBatch;
-	Sprite highlightTile, uiSprite, towerLabel, emerald;
+	Sprite highlightTile, uiSprite, towerLabel, emeraldSprite, waveSprite;
 	List<Sprite> tiles, availableTowers;
 
 	BitmapFont font;
 	
 	final int tileSize = 40;
 	
-	float sec = 0, time = 0; // test
+	float sec = 0;
 	
 	public GameScreen() {
 		gameState = new GameState();
@@ -63,7 +63,6 @@ public class GameScreen implements Screen {
 		parameter.size = 14;
 		parameter.flip = true;
 		font = generator.generateFont(parameter); // font size 12 pixels
-		font.setColor(new Color(65/255f, 243/255f, 132/255f, 1));
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 	}
 
@@ -98,8 +97,12 @@ public class GameScreen implements Screen {
 		towerLabel.setPosition(0, 13*tileSize);
 		
 		Texture emeraldTex = new Texture(Gdx.files.internal("assets/img/emerald.png"));
-		emerald = createTile(emeraldTex);
-		emerald.setPosition(0, 14*tileSize);
+		emeraldSprite = createTile(emeraldTex);
+		emeraldSprite.setPosition(0, 14*tileSize);
+		
+		Texture waveTex = new Texture(Gdx.files.internal("assets/img/wave.png"));
+		waveSprite = createTile(waveTex);
+		waveSprite.setPosition(0, 15*tileSize);
 		
 		initializeTowerSprites();
 	}
@@ -141,7 +144,7 @@ public class GameScreen implements Screen {
 
 		sec += delta;
 		if(sec >= 1) {
-			time++;
+			gameState.setWaveSpawnTime(gameState.getWaveSpawnTime()-1);
 //			System.out.println(time);
 			sec -= 1;
 		}
@@ -163,13 +166,37 @@ public class GameScreen implements Screen {
 			}
 			
 			towerLabel.draw(spriteBatch);
-			emerald.draw(spriteBatch);
+			emeraldSprite.draw(spriteBatch);
 			
 			// View accesses the model (GameState). Tinamad na sa MVC
-			font.draw(spriteBatch, ""+gameState.getMoney(), emerald.getX() + tileSize+3, emerald.getY() + 15);
+			font.setColor(new Color(65/255f, 243/255f, 132/255f, 1));
+			font.draw(spriteBatch, ""+gameState.getMoney(), emeraldSprite.getX() + tileSize+3, emeraldSprite.getY() + 15);
+			font.setColor(Color.BLACK);
+			font.draw(spriteBatch, convertSecToMinSec(gameState.getWaveSpawnTime()), waveSprite.getX() + tileSize+3, waveSprite.getY() + 15);
+			
+			waveSprite.draw(spriteBatch);
 			
 		spriteBatch.end();
 		
+	}
+	
+	private String convertSecToMinSec(float timeInSec) {
+		String time = "";
+		float minute = timeInSec/60;
+		float sec = timeInSec % 60;
+		if(minute < 10)
+			time += "0" + (int)minute;
+		else
+			time += (int)minute;
+		
+		time += ":";
+		
+		if(sec < 10)
+			time += "0" + (int)sec;
+		else
+			time += (int)sec;
+		
+		return time;
 	}
 	
 	public void setHighlightCoord(int x, int y) {
