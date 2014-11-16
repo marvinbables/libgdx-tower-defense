@@ -83,8 +83,9 @@ public class Controller implements InputProcessor {
 					gameScreen.drawToolTip(true, (int)sprite.getX(), (int)sprite.getY());
 					break;
 				}
+				else
+					gameScreen.drawToolTip(false, -50, -50);
 			}
-			gameScreen.drawToolTip(false, -50, -50);
 		}
 		return false;
 	}
