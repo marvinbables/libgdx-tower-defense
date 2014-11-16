@@ -188,6 +188,11 @@ public class GameScreen implements Screen {
 			
 			waveSprite.draw(spriteBatch);
 			
+			
+			for (Sprite sprite : deployedTowerSprites) {
+				sprite.draw(spriteBatch);
+			}
+			
 			if(drawToolTip) {
 				uiTowerHighlight.draw(spriteBatch);
 				// TODO: Draw tooltip showing information of the tower
@@ -300,5 +305,12 @@ public class GameScreen implements Screen {
 	
 	public void nullClonedTower() {
 		clonedTowerSprite = null;
+	}
+	
+	public void addDeployedTowerSprite() {
+		if(clonedTowerSprite != null) {
+			deployedTowerSprites.add(clonedTowerSprite);
+			clonedTowerSprite = null;
+		}
 	}
 }

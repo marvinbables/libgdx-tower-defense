@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.List;
 
 import gamedev.entity.GameState;
+import gamedev.entity.Tower;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
 
@@ -25,6 +26,8 @@ public class Controller implements InputProcessor {
 	
 	// Model
 	private GameState gameState;
+	
+	Tower towerToPut; // The tower to put when the player wants to deploy a tower
 
 	public Controller(Screen currentScreen, GameScreen gameScreen,
 			MainMenuScreen mainMenuScreen, GameState gameState) {
@@ -32,6 +35,7 @@ public class Controller implements InputProcessor {
 		this.gameScreen = gameScreen;
 		this.mainMenuScreen = mainMenuScreen;
 		this.gameState = gameState;
+		towerToPut = null;
 	}
 
 	@Override
@@ -64,9 +68,22 @@ public class Controller implements InputProcessor {
 				if(Gdx.input.isButtonPressed(Buttons.LEFT))
 					if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 							&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
-						gameScreen.cloneSprite(0);
+						gameScreen.cloneSprite(i);
+						towerToPut = gameState.newTower(i);
 					}
 			}
+			
+			if(Gdx.input.isButtonPressed(Buttons.LEFT)) {
+				Point point = getGridCoordinate(screenX, screenY);
+				if(point.x != -50 && point.y != -50) {
+					towerToPut.setX(point.x);
+					towerToPut.setY(point.y);
+					gameState.deployTower(towerToPut);
+					towerToPut = null;
+					gameScreen.addDeployedTowerSprite();
+				}
+			}
+			
 			
 			if (Gdx.input.isButtonPressed(Buttons.RIGHT)){
 			    gameScreen.nullClonedTower();
@@ -113,14 +130,14 @@ public class Controller implements InputProcessor {
 	private Point getGridCoordinate(int screenX, int screenY) {
 		Point p = new Point(-50, -50);
 		
-		for (int i = 0; i < gameScreen.getGameState().GRIDX+1; i++) {
+		for (int i = 0; i < GameState.GRIDX+1; i++) {
 			if(screenX <= i*gameScreen.getTileSize()) {
 				p.x = (i-1)*gameScreen.getTileSize();
 				break;
 			}
 		}
 		
-		for (int j = 0; j < gameScreen.getGameState().GRIDY+1; j++) {
+		for (int j = 0; j < GameState.GRIDY+1; j++) {
 			if(screenY <= j*gameScreen.getTileSize()) {
 				p.y = (j-1)*gameScreen.getTileSize();
 				break;

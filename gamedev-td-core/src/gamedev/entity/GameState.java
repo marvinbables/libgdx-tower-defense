@@ -6,9 +6,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-
 public class GameState {
 	public static final int GRIDX = 17, GRIDY = 12;
 	
@@ -31,8 +28,29 @@ public class GameState {
 		enemies = new ArrayList<Enemy>();
 		towersDeployed = new ArrayList<Tower>();
 		availableTowers = new ArrayList<Tower>();
+		createTowers();
 	}
 	
+	private void createTowers() {
+		// Parameters: damage, attackRange, attackRate
+		Tower dirtTower = new Tower(5, 10, 1);
+		Tower arrowTower = new Tower(7, 10, 1);
+		Tower eggTower = new Tower(7, 10, 1.3f);
+		Tower potionTower = new Tower(5, 9, 0.9f); // ? 
+		Tower currencyTower = new Tower(1, 5, 2f); // ?
+		
+		availableTowers.add(dirtTower);
+		availableTowers.add(arrowTower);
+		availableTowers.add(eggTower);
+		availableTowers.add(potionTower);
+		availableTowers.add(currencyTower);
+	}
+	
+	public Tower newTower(int index) {
+		Tower t = availableTowers.get(index);
+		return new Tower(t.getDamage(), t.getAttackRange(), t.getAttackRate());
+	}
+
 	public void initGame() {
 		currentLevel = 1;
 		score = 0;

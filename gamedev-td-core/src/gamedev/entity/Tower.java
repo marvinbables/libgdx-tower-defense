@@ -6,14 +6,13 @@ public class Tower {
 	private float attackRange, attackRate,
 		attackTimer;
 	
-	public Tower(int damage, float attackRange, float attackRate,
-			float attackTimer) {
+	public Tower(int damage, float attackRange, float attackRate) {
 		this.damage = damage;
 		this.attackRange = attackRange;
 		this.attackRate = attackRate;
-		this.attackTimer = attackTimer;
 		x = -50;
 		y = -50;
+		attackTimer = 0;
 	}
 
 	public int getDamage() {
