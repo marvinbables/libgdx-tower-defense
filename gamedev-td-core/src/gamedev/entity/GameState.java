@@ -15,9 +15,9 @@ public class GameState {
 	private int currentLevel, score, grid[][], money;
 	private float waveSpawnTime;
 	private List<Enemy> enemies;
-	private List<Tower> towersDeployed;
+	private List<Tower> towersDeployed, availableTowers;
 	private List<Point> currentWaypoints;
-
+	
 	{
 		grid = new int[GRIDX][GRIDY];
 		for (int i = 0; i < GRIDX; i++) {
@@ -30,6 +30,7 @@ public class GameState {
 	public GameState() {
 		enemies = new ArrayList<Enemy>();
 		towersDeployed = new ArrayList<Tower>();
+		availableTowers = new ArrayList<Tower>();
 	}
 	
 	public void initGame() {
@@ -64,7 +65,9 @@ public class GameState {
 	
 	
 	
-	
+	public void deployTower(Tower tower) {
+		towersDeployed.add(tower);
+	}
 	
 	// Getters & Setters
 	public int getCurrentLevel() {
@@ -95,10 +98,6 @@ public class GameState {
 		return towersDeployed;
 	}
 
-	public void setTowersDeployed(List<Tower> towersDeployed) {
-		this.towersDeployed = towersDeployed;
-	}
-
 	public List<Point> getCurrentWaypoints() {
 		return currentWaypoints;
 	}
@@ -124,7 +123,7 @@ public class GameState {
 	}
 
 	public void setWaveSpawnTime(float waveSpawnTime) {
-		if(this.waveSpawnTime - waveSpawnTime < 0)
+		if(waveSpawnTime < 0)
 			this.waveSpawnTime = 30;
 		else
 			this.waveSpawnTime = waveSpawnTime;

@@ -35,8 +35,9 @@ public class GameScreen implements Screen {
 
 	SpriteBatch spriteBatch;
 	Sprite highlightTile, uiSprite, towerLabel, 
-						emeraldSprite, waveSprite, uiTowerHighlight;
-	List<Sprite> tiles, availableTowers;
+						emeraldSprite, waveSprite, uiTowerHighlight, 
+						clonedTowerSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
+	List<Sprite> tiles, availableTowers, deployedTowerSprites;
 
 	BitmapFont font;
 	
@@ -47,6 +48,7 @@ public class GameScreen implements Screen {
 	boolean drawToolTip = false;
 	
 	public GameScreen() {
+		clonedTowerSprite = null;
 		gameState = new GameState();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
@@ -70,6 +72,7 @@ public class GameScreen implements Screen {
 	}
 
 	private void initializeSprites() {
+		deployedTowerSprites = new ArrayList<Sprite>();
 		tiles = new ArrayList<Sprite>();
 		
 		Texture grass = new Texture(Gdx.files.internal("assets/img/grass.png"));
@@ -142,6 +145,10 @@ public class GameScreen implements Screen {
 		availableTowers.add(potionTower);
 		availableTowers.add(currencyTower);
 	}
+	
+	public void cloneSprite(int index) {
+		clonedTowerSprite = createTile(availableTowers.get(index).getTexture());
+	}
 
 	@Override
 	public void render(float delta) {
@@ -151,9 +158,9 @@ public class GameScreen implements Screen {
 		sec += delta;
 		if(sec >= 1) {
 			gameState.setWaveSpawnTime(gameState.getWaveSpawnTime()-1);
-//			System.out.println(time);
 			sec -= 1;
 		}
+		
 		spriteBatch.begin();
 			int grid[][] = gameState.getGrid();
 			for (int i = 0; i < grid.length; i++) {
@@ -164,7 +171,6 @@ public class GameScreen implements Screen {
 			}
 			
 			highlightTile.draw(spriteBatch);
-			
 			uiSprite.draw(spriteBatch);
 			
 			for (Sprite tower : availableTowers) {
@@ -186,6 +192,10 @@ public class GameScreen implements Screen {
 				uiTowerHighlight.draw(spriteBatch);
 				// TODO: Draw tooltip showing information of the tower
 			}
+			
+			if(clonedTowerSprite != null) 
+				clonedTowerSprite.draw(spriteBatch);
+			
 			
 		spriteBatch.end();
 		
@@ -281,5 +291,14 @@ public class GameScreen implements Screen {
 	public void drawToolTip(boolean b, int x, int y) {
 		uiTowerHighlight.setPosition(x, y);
 		drawToolTip = b;
+	}
+
+	public void setClonedTowerSpriteLoc(int x, int y) {
+		if(clonedTowerSprite != null)
+			clonedTowerSprite.setPosition(x, y);
+	}
+	
+	public void nullClonedTower() {
+		clonedTowerSprite = null;
 	}
 }

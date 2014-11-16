@@ -7,6 +7,8 @@ import gamedev.entity.GameState;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -55,6 +57,22 @@ public class Controller implements InputProcessor {
 		// TODO: Get components of Screen
 		// 		 For each component, check if mouseX mouseY is inside
 		// 		 Call the appropriate action in GameState
+		if(currentScreen.equals(gameScreen)) {
+			List<Sprite> availableTowers = gameScreen.getAvailableTowers();
+			for (int i = 0; i < availableTowers.size(); i++) {
+				Sprite sprite = availableTowers.get(i);
+				if(Gdx.input.isButtonPressed(Buttons.LEFT))
+					if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
+							&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
+						gameScreen.cloneSprite(0);
+					}
+			}
+			
+			if (Gdx.input.isButtonPressed(Buttons.RIGHT)){
+			    gameScreen.nullClonedTower();
+			}
+		}
+		
 		return false;
 	}
 
@@ -75,6 +93,7 @@ public class Controller implements InputProcessor {
 		if(currentScreen.equals(gameScreen)) {
 			Point point = getGridCoordinate(screenX, screenY);
 			gameScreen.setHighlightCoord(point.x, point.y);
+			gameScreen.setClonedTowerSpriteLoc(point.x, point.y);
 			
 			List<Sprite> towers = gameScreen.getAvailableTowers();
 			for (Sprite sprite : towers) {
@@ -86,6 +105,7 @@ public class Controller implements InputProcessor {
 				else
 					gameScreen.drawToolTip(false, -50, -50);
 			}
+			
 		}
 		return false;
 	}
