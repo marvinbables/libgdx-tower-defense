@@ -76,7 +76,7 @@ public class Controller implements InputProcessor {
 			
 			if(Gdx.input.isButtonPressed(Buttons.LEFT)) {
 				Point point = getGridCoordinate(screenX, screenY);
-				if(point.x != -50 && point.y != -50) {
+				if(point.x != -50 && point.y != -50 && towerToPut != null) {
 					towerToPut.setX(point.x);
 					towerToPut.setY(point.y);
 					gameState.deployTower(towerToPut);
