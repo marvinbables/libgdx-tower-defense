@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class GameScreen implements Screen {
 
@@ -38,17 +40,20 @@ public class GameScreen implements Screen {
 						emeraldSprite, waveSprite, uiTowerHighlight, 
 						clonedTowerSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
 	List<Sprite> tiles, availableTowers, deployedTowerSprites;
+	
+	ShapeRenderer towerRangeRenderer;
 
 	BitmapFont font;
 	
 	final int tileSize = 40;
 	
-	float sec = 0;
+	float sec = 0, 
+			rangeRadius = 0; // Used in drawing the tower range
 
 	boolean drawToolTip = false;
 	
 	public GameScreen() {
-		clonedTowerSprite = null;
+		towerRangeRenderer = new ShapeRenderer();
 		gameState = new GameState();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
@@ -72,6 +77,7 @@ public class GameScreen implements Screen {
 	}
 
 	private void initializeSprites() {
+		clonedTowerSprite = null;
 		deployedTowerSprites = new ArrayList<Sprite>();
 		tiles = new ArrayList<Sprite>();
 		
@@ -198,12 +204,22 @@ public class GameScreen implements Screen {
 				// TODO: Draw tooltip showing information of the tower
 			}
 			
-			if(clonedTowerSprite != null) 
+			if(clonedTowerSprite != null) {
 				clonedTowerSprite.draw(spriteBatch);
+			}
 			
 			
 		spriteBatch.end();
 		
+		if(clonedTowerSprite != null) {
+			towerRangeRenderer.begin(ShapeType.Line);
+				towerRangeRenderer.setColor(53/255, 70/255, 145/255, 221/255);
+				if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50)
+					towerRangeRenderer.circle((int)clonedTowerSprite.getX(), (int)clonedTowerSprite.getY(), rangeRadius);
+			towerRangeRenderer.end();
+			System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
+		}
+			
 	}
 	
 	private String convertSecToMinSec(float timeInSec) {
@@ -312,5 +328,9 @@ public class GameScreen implements Screen {
 			deployedTowerSprites.add(clonedTowerSprite);
 			clonedTowerSprite = null;
 		}
+	}
+
+	public void setDrawRadius(float attackRange) {
+		rangeRadius = 2*attackRange;
 	}
 }

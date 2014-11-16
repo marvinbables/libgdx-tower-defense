@@ -70,6 +70,7 @@ public class Controller implements InputProcessor {
 							&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
 						gameScreen.cloneSprite(i);
 						towerToPut = gameState.newTower(i);
+						gameScreen.setDrawRadius(towerToPut.getAttackRange());
 					}
 			}
 			
