@@ -13,7 +13,9 @@ public class Level {
 									  "00000011111000000",
 									  "00000000000000000",
 									  "00000000000000000",};
-	
+	public static int level_1_waypoints[][] = {	// x, y
+												{0, 1}
+												};
 	
 	public static String[] getLevel(int level) {
 		switch(level) {

@@ -12,7 +12,7 @@ import com.badlogic.gdx.files.FileHandle;
 public class GameState {
 	public static final int GRIDX = 17, GRIDY = 12;
 	
-	private int currentLevel, score, grid[][];
+	private int currentLevel, score, grid[][], money;
 	private List<Enemy> enemies;
 	private List<Tower> towersDeployed;
 	private List<Point> currentWaypoints;
@@ -34,6 +34,7 @@ public class GameState {
 	public void initGame() {
 		currentLevel = 1;
 		score = 0;
+		money = 100;
 	}
 	
 	public void update(float delta) {
@@ -106,6 +107,14 @@ public class GameState {
 
 	public int[][] getGrid() {
 		return grid;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
 	}
 	
 }

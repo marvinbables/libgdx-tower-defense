@@ -7,11 +7,15 @@ import gamedev.entity.GameState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class GameScreen implements Screen {
 
@@ -30,11 +34,12 @@ public class GameScreen implements Screen {
 	OrthographicCamera camera;
 
 	SpriteBatch spriteBatch;
-	List<Sprite> tiles;
-	Sprite highlightTile, uiSprite;
+	Sprite highlightTile, uiSprite, towerLabel, emerald;
+	List<Sprite> tiles, availableTowers;
+
+	BitmapFont font;
 	
 	final int tileSize = 40;
-	
 	
 	float sec = 0, time = 0; // test
 	
@@ -46,13 +51,25 @@ public class GameScreen implements Screen {
 		spriteBatch = new SpriteBatch();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		
-		tiles = new ArrayList<Sprite>();
-		
 		initializeSprites();
+		initializeFont();
+		gameState.initGame();
 		gameState.prepareLevel(1);
 	}
 	
+	private void initializeFont() {
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/Minecrafter.Reg.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 14;
+		parameter.flip = true;
+		font = generator.generateFont(parameter); // font size 12 pixels
+		font.setColor(new Color(65/255f, 243/255f, 132/255f, 1));
+		generator.dispose(); // don't forget to dispose to avoid memory leaks!
+	}
+
 	private void initializeSprites() {
+		tiles = new ArrayList<Sprite>();
+		
 		Texture grass = new Texture(Gdx.files.internal("assets/img/grass.png"));
 		Texture dirt = new Texture(Gdx.files.internal("assets/img/dirt_light.png"));
 		Texture dirtDark = new Texture(Gdx.files.internal("assets/img/dirt_dark.png"));
@@ -71,10 +88,50 @@ public class GameScreen implements Screen {
 		Texture highlight = new Texture(Gdx.files.internal("assets/img/tile_highlight.png"));
 		highlightTile = createTile(highlight);
 		
-		Texture ui = new Texture(Gdx.files.internal("assets/img/ui2.png"));
+		Texture ui = new Texture(Gdx.files.internal("assets/img/ui.png"));
 		uiSprite = new Sprite(ui);
 		uiSprite.flip(false, true);
 		uiSprite.setPosition(0, GameState.GRIDY*tileSize);
+		
+		Texture tower = new Texture(Gdx.files.internal("assets/img/tower_label.png"));
+		towerLabel = createTile(tower);
+		towerLabel.setPosition(0, 13*tileSize);
+		
+		Texture emeraldTex = new Texture(Gdx.files.internal("assets/img/emerald.png"));
+		emerald = createTile(emeraldTex);
+		emerald.setPosition(0, 14*tileSize);
+		
+		initializeTowerSprites();
+	}
+
+	private void initializeTowerSprites() {
+		availableTowers = new ArrayList<Sprite>();
+		
+		Texture dirt = new Texture(Gdx.files.internal("assets/img/dirt_tower.png"));
+		Texture arrow = new Texture(Gdx.files.internal("assets/img/arrow_tower.png"));
+		Texture egg = new Texture(Gdx.files.internal("assets/img/egg_tower.png"));
+		Texture potion = new Texture(Gdx.files.internal("assets/img/potion_tower.png"));
+		Texture currency = new Texture(Gdx.files.internal("assets/img/currency_tower.png"));
+		
+		Sprite dirtTower = createTile(dirt);
+		Sprite arrowTower = createTile(arrow);
+		Sprite eggTower = createTile(egg);
+		Sprite potionTower = createTile(potion);
+		Sprite currencyTower = createTile(currency);
+		
+		
+		int offset = 3, y = 13;
+		dirtTower.setPosition(tileSize, y*tileSize);
+		arrowTower.setPosition(tileSize*2 + offset, y*tileSize);
+		eggTower.setPosition(tileSize*3 + offset*2, y*tileSize);
+		potionTower.setPosition(tileSize*4 + offset*3, y*tileSize);
+		currencyTower.setPosition(tileSize*5 + offset*4, y*tileSize);
+		
+		availableTowers.add(dirtTower);
+		availableTowers.add(arrowTower);
+		availableTowers.add(eggTower);
+		availableTowers.add(potionTower);
+		availableTowers.add(currencyTower);
 	}
 
 	@Override
@@ -100,6 +157,16 @@ public class GameScreen implements Screen {
 			highlightTile.draw(spriteBatch);
 			
 			uiSprite.draw(spriteBatch);
+			
+			for (Sprite tower : availableTowers) {
+				tower.draw(spriteBatch);
+			}
+			
+			towerLabel.draw(spriteBatch);
+			emerald.draw(spriteBatch);
+			
+			// View accesses the model (GameState). Tinamad na sa MVC
+			font.draw(spriteBatch, ""+gameState.getMoney(), emerald.getX() + tileSize+3, emerald.getY() + 15);
 			
 		spriteBatch.end();
 		
