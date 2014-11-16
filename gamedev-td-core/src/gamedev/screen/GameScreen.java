@@ -34,7 +34,8 @@ public class GameScreen implements Screen {
 	OrthographicCamera camera;
 
 	SpriteBatch spriteBatch;
-	Sprite highlightTile, uiSprite, towerLabel, emeraldSprite, waveSprite;
+	Sprite highlightTile, uiSprite, towerLabel, 
+						emeraldSprite, waveSprite, uiTowerHighlight;
 	List<Sprite> tiles, availableTowers;
 
 	BitmapFont font;
@@ -42,6 +43,8 @@ public class GameScreen implements Screen {
 	final int tileSize = 40;
 	
 	float sec = 0;
+
+	boolean drawToolTip = false;
 	
 	public GameScreen() {
 		gameState = new GameState();
@@ -103,6 +106,9 @@ public class GameScreen implements Screen {
 		Texture waveTex = new Texture(Gdx.files.internal("assets/img/wave.png"));
 		waveSprite = createTile(waveTex);
 		waveSprite.setPosition(0, 15*tileSize);
+		
+		Texture uiTowerTex = new Texture(Gdx.files.internal("assets/img/ui_tower_highlight.png"));
+		uiTowerHighlight = createTile(uiTowerTex);
 		
 		initializeTowerSprites();
 	}
@@ -175,6 +181,11 @@ public class GameScreen implements Screen {
 			font.draw(spriteBatch, convertSecToMinSec(gameState.getWaveSpawnTime()), waveSprite.getX() + tileSize+3, waveSprite.getY() + 15);
 			
 			waveSprite.draw(spriteBatch);
+			
+			if(drawToolTip) {
+				uiTowerHighlight.draw(spriteBatch);
+				// TODO: Draw tooltip showing information of the tower
+			}
 			
 		spriteBatch.end();
 		
@@ -261,5 +272,14 @@ public class GameScreen implements Screen {
 	
 	public GameState getGameState() {
 		return gameState;
+	}
+	
+	public List<Sprite> getAvailableTowers() {
+		return availableTowers;
+	}
+
+	public void drawToolTip(boolean b, int x, int y) {
+		uiTowerHighlight.setPosition(x, y);
+		drawToolTip = b;
 	}
 }

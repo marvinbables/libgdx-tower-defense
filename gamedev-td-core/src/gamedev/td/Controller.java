@@ -1,6 +1,7 @@
 package gamedev.td;
 
 import java.awt.Point;
+import java.util.List;
 
 import gamedev.entity.GameState;
 import gamedev.screen.GameScreen;
@@ -8,6 +9,7 @@ import gamedev.screen.MainMenuScreen;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class Controller implements InputProcessor {
@@ -73,6 +75,16 @@ public class Controller implements InputProcessor {
 		if(currentScreen.equals(gameScreen)) {
 			Point point = getGridCoordinate(screenX, screenY);
 			gameScreen.setHighlightCoord(point.x, point.y);
+			
+			List<Sprite> towers = gameScreen.getAvailableTowers();
+			for (Sprite sprite : towers) {
+				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
+						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
+					gameScreen.drawToolTip(true, (int)sprite.getX(), (int)sprite.getY());
+					break;
+				}
+			}
+			gameScreen.drawToolTip(false, -50, -50);
 		}
 		return false;
 	}
