@@ -215,11 +215,15 @@ public class GameScreen implements Screen {
 			towerRangeRenderer.begin(ShapeType.Line);
 				towerRangeRenderer.setColor(53/255, 70/255, 145/255, 221/255);
 				if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50)
-					towerRangeRenderer.circle((int)clonedTowerSprite.getX(), (int)clonedTowerSprite.getY(), rangeRadius);
+					towerRangeRenderer.circle((int)clonedTowerSprite.getX(), convertYforShapeRenderer(clonedTowerSprite.getY() + rangeRadius) , rangeRadius);
 			towerRangeRenderer.end();
 			System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
 		}
 			
+	}
+	
+	private float convertYforShapeRenderer(float y) {
+		return Gdx.graphics.getWidth() - y;
 	}
 	
 	private String convertSecToMinSec(float timeInSec) {
