@@ -76,7 +76,8 @@ public class Controller implements InputProcessor {
 			
 			if(Gdx.input.isButtonPressed(Buttons.LEFT)) {
 				Point point = getGridCoordinate(screenX, screenY);
-				if(point.x != -50 && point.y != -50 && towerToPut != null) {
+				if(point.x != -50 && point.y != -50 && towerToPut != null && isPlaceable(point.x, point.y)) {
+					gameState.getGrid()[point.x/40][point.y/40] = -1;
 					towerToPut.setX(point.x);
 					towerToPut.setY(point.y);
 					gameState.deployTower(towerToPut);
@@ -156,6 +157,11 @@ public class Controller implements InputProcessor {
 		return false;
 	}
 
-	
+	public boolean isPlaceable(int x, int y){
+		if(gameState.getGrid()[x/40][y/40] != 0)
+			return false;
+		else return true;
+		
+	}
 
 }

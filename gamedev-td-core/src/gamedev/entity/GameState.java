@@ -33,9 +33,9 @@ public class GameState {
 	
 	private void createTowers() {
 		// Parameters: damage, attackRange, attackRate
-		Tower dirtTower = new Tower(5, 30, 1);
-		Tower arrowTower = new Tower(7, 30, 1);
-		Tower eggTower = new Tower(7, 30, 1.3f);
+		Tower dirtTower = new Tower(5, 50, 1);
+		Tower arrowTower = new Tower(7, 50, 1);
+		Tower eggTower = new Tower(7, 50, 1.3f);
 		Tower potionTower = new Tower(5, 25, 0.9f); // ? 
 		Tower currencyTower = new Tower(1, 20, 2f); // ?
 		

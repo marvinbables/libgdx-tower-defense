@@ -32,9 +32,8 @@ public class GameScreen implements Screen {
 	 */
 	
 	GameState gameState; // Model
-	
 	OrthographicCamera camera;
-
+	
 	SpriteBatch spriteBatch;
 	Sprite highlightTile, uiSprite, towerLabel, 
 						emeraldSprite, waveSprite, uiTowerHighlight, 
@@ -167,6 +166,8 @@ public class GameScreen implements Screen {
 			sec -= 1;
 		}
 		
+
+		
 		spriteBatch.begin();
 			int grid[][] = gameState.getGrid();
 			for (int i = 0; i < grid.length; i++) {
@@ -175,6 +176,22 @@ public class GameScreen implements Screen {
 					getSprite(grid[i][j]).draw(spriteBatch);
 				}
 			}
+		spriteBatch.end();
+		
+		if(clonedTowerSprite != null) {
+			Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+			towerRangeRenderer.begin(ShapeType.Filled);
+				towerRangeRenderer.setColor(1, 1, 1, .5f);
+			if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50){
+				towerRangeRenderer.circle(clonedTowerSprite.getX() + tileSize / 2, convertYforShapeRenderer(clonedTowerSprite.getY() + tileSize * 3 / 2) , rangeRadius);
+			}
+			towerRangeRenderer.end();
+			//System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
+		}
+
+		spriteBatch.begin();
+		
+		
 			
 			highlightTile.draw(spriteBatch);
 			uiSprite.draw(spriteBatch);
@@ -211,14 +228,8 @@ public class GameScreen implements Screen {
 			
 		spriteBatch.end();
 		
-		if(clonedTowerSprite != null) {
-			towerRangeRenderer.begin(ShapeType.Line);
-			towerRangeRenderer.setColor(53/255, 70/255, 145/255, 221/255);
-			if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50)
-				towerRangeRenderer.circle(clonedTowerSprite.getX() + tileSize / 2, convertYforShapeRenderer(clonedTowerSprite.getY() + tileSize * 3 / 2) , rangeRadius);
-			towerRangeRenderer.end();
-			//System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
-		}
+		
+		
 			
 	}
 	
