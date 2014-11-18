@@ -78,7 +78,11 @@ public class GameState {
 		
 	}
 	
-	
+	// Baka sample lang
+	public void prepareEnemies() {
+		enemies.add(new Enemy("spider", 50, 20, 1.5f));
+		
+	}
 	
 	
 	

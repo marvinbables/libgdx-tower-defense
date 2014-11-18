@@ -14,7 +14,12 @@ public class Level {
 									  "00000000000000000",
 									  "00000000000000000",};
 	public static int level_1_waypoints[][] = {	// x, y
-												{0, 1}
+												{0, 1},
+												{6, 1},
+												{6, 9},
+												{10, 9},
+												{10, 6},
+												{12, 6}
 												};
 	
 	public static String[] getLevel(int level) {

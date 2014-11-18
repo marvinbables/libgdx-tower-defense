@@ -289,6 +289,13 @@ public class GameScreen implements Screen {
 		
 	}
 	
+	private Sprite newEnemySprite(String name) {
+		Texture texture = new Texture(Gdx.files.internal("assets/img/" + name + ".png"));
+		Sprite sprite = new Sprite(texture);
+		sprite.setPosition(-50, -50);
+		return sprite;
+	}
+	
 	// Factory
 	private Sprite createTile(Texture texture) {
 		Sprite sprite = new Sprite(texture);
