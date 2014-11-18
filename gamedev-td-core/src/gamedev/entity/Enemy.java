@@ -12,6 +12,7 @@ public class Enemy {
 	List<Point> waypoints;
 	
 	public Enemy(String name, int health, int moneyReward, float speed) {
+		this.name = name;
 		this.health = health;
 		this.moneyReward = moneyReward;
 		this.speed = speed;
