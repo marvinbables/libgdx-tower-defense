@@ -158,16 +158,15 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT |
+				(Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 
 		sec += delta;
 		if(sec >= 1) {
 			gameState.setWaveSpawnTime(gameState.getWaveSpawnTime()-1);
 			sec -= 1;
 		}
-		
 
-		
 		spriteBatch.begin();
 			int grid[][] = gameState.getGrid();
 			for (int i = 0; i < grid.length; i++) {
@@ -180,6 +179,7 @@ public class GameScreen implements Screen {
 		
 		if(clonedTowerSprite != null) {
 			Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+			
 			towerRangeRenderer.begin(ShapeType.Filled);
 				towerRangeRenderer.setColor(1, 1, 1, .5f);
 			if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50){
@@ -191,8 +191,6 @@ public class GameScreen implements Screen {
 
 		spriteBatch.begin();
 		
-		
-			
 			highlightTile.draw(spriteBatch);
 			uiSprite.draw(spriteBatch);
 			
