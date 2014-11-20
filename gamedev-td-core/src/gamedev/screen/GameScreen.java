@@ -3,7 +3,12 @@ package gamedev.screen;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SpinnerDateModel;
+
+import gamedev.entity.Enemy;
+import gamedev.entity.EnemyFactory;
 import gamedev.entity.GameState;
+import gamedev.level.Level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -38,7 +43,7 @@ public class GameScreen implements Screen {
 	Sprite highlightTile, uiSprite, towerLabel, 
 						emeraldSprite, waveSprite, uiTowerHighlight, 
 						clonedTowerSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
-	List<Sprite> tiles, availableTowers, deployedTowerSprites;
+	List<Sprite> tiles, availableTowers, deployedTowerSprites, enemySprites, spawnedEnemySprites;
 	
 	ShapeRenderer towerRangeRenderer;
 
@@ -119,6 +124,20 @@ public class GameScreen implements Screen {
 		uiTowerHighlight = createTile(uiTowerTex);
 		
 		initializeTowerSprites();
+		initializeEnemySprites();
+	}
+
+	private void initializeEnemySprites() {
+		spawnedEnemySprites = new ArrayList<Sprite>();
+		enemySprites = new ArrayList<Sprite>();
+		
+		Texture spiderTexture = new Texture(Gdx.files.internal("assets/img/spiderTemp.png")); //TODO: change spider asset
+		
+		Sprite spider = createTile(spiderTexture);
+		
+		enemySprites.add(spider);
+		
+		
 	}
 
 	private void initializeTowerSprites() {
@@ -161,11 +180,9 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT |
 				(Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 
-		sec += delta;
-		if(sec >= 1) {
-			gameState.setWaveSpawnTime(gameState.getWaveSpawnTime()-1);
-			sec -= 1;
-		}
+		update(delta);
+		
+		
 
 		spriteBatch.begin();
 			int grid[][] = gameState.getGrid();
@@ -223,14 +240,35 @@ public class GameScreen implements Screen {
 				clonedTowerSprite.draw(spriteBatch);
 			}
 			
+			for (int i = 0; i < spawnedEnemySprites.size(); i++) {
+				spawnedEnemySprites.get(i).setX(gameState.getEnemies().get(i).getX());
+				spawnedEnemySprites.get(i).setY(gameState.getEnemies().get(i).getY());
+				spawnedEnemySprites.get(i).draw(spriteBatch);
+			}
 			
 		spriteBatch.end();
-		
 		
 		
 			
 	}
 	
+	private void update(float delta) {
+		
+		sec += delta;
+		if(sec >= 1) {
+			gameState.setWaveSpawnTime(gameState.getWaveSpawnTime()-1);
+			sec -= 1;
+		}
+		
+		if(gameState.getWaveSpawnTime() == 0){
+			gameState.prepareEnemies();
+			if(gameState.getCurrentLevel() == 1){
+				spawnedEnemySprites.add(newEnemySprite(Level.level_1_enemies[0][1]));
+				
+			}
+		}
+	}
+
 	private float convertYforShapeRenderer(float y) {
 		return Gdx.graphics.getWidth() - y;
 	
@@ -289,8 +327,15 @@ public class GameScreen implements Screen {
 		
 	}
 	
-	private Sprite newEnemySprite(String name) {
-		Texture texture = new Texture(Gdx.files.internal("assets/img/" + name + ".png"));
+	private Sprite newEnemySprite(int enemyType) {
+		String path = "";
+		
+		switch(enemyType) {
+			case 1: path = "assets/img/spiderTemp.png";
+			default: path = "assets/img/spiderTemp.png";
+		}
+		
+		Texture texture = new Texture(Gdx.files.internal(path));
 		Sprite sprite = new Sprite(texture);
 		sprite.setPosition(-50, -50);
 		return sprite;

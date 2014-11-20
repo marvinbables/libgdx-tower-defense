@@ -1,20 +1,25 @@
 package gamedev.entity;
 
+import java.awt.Point;
+import java.util.Arrays;
+
 public class EnemyFactory {
 	
-	public Enemy makeEnemy(String enemyType){
+	public static Enemy makeEnemy(int enemyType, Point [] waypoints){
 		Enemy enemy = null;		
-		enemyType = enemyType.toLowerCase();
 		int health, moneyReward;
 		float speed;
 		
-		if(enemyType.equals("spider")){
+		if(enemyType == 1){
 			health = 50;
 			moneyReward = 10;
 			speed = 1.5f;
-			enemy = new Enemy(enemyType, health, moneyReward, speed);
+			enemy = new Enemy("spider", health, moneyReward, speed);
+			enemy.addWaypoint(Arrays.asList(waypoints));
+			enemy.setX(waypoints[0].x);
+			enemy.setY(waypoints[0].y);
 		}
-		else if (enemyType.equals("skeleton")){
+		else if (enemyType == 2){
 			//TODO skeleton stats
 			
 		}

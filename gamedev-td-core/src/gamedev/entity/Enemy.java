@@ -6,10 +6,11 @@ import java.util.List;
 
 
 public class Enemy {
+	private int x, y;
 	private String name;
 	private int health, moneyReward;
 	private float speed;
-	List<Point> waypoints;
+	private List<Point> waypoints;
 	
 	public Enemy(String name, int health, int moneyReward, float speed) {
 		this.name = name;
@@ -39,8 +40,24 @@ public class Enemy {
 		return waypoints;
 	}
 	
-	public void addWaypoint(Point point) {
-		waypoints.add(point);
+	public void addWaypoint(List<Point> points) {
+		waypoints = points;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 }

@@ -55,7 +55,7 @@ public class GameState {
 		currentLevel = 1;
 		score = 0;
 		money = 100;
-		waveSpawnTime = 30;
+		waveSpawnTime = 5;
 	}
 	
 	public void update(float delta) {
@@ -78,10 +78,17 @@ public class GameState {
 		
 	}
 	
-	// Baka sample lang
 	public void prepareEnemies() {
-		enemies.add(new Enemy("spider", 50, 20, 1.5f));
-		
+		if(getWaveSpawnTime() == 0){
+			if(getCurrentLevel() == 1){
+				int instances = Level.level_1_enemies[0][0];
+				for (int i = 0; i < instances; i++) {
+					Enemy enemy = EnemyFactory.makeEnemy(Level.level_1_enemies[0][1], Level.level_1_waypoints);
+					enemies.add(enemy);
+				}
+				
+			}
+		}
 	}
 	
 	
