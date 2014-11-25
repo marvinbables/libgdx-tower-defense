@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
 
 	BitmapFont font;
 	
-	final int tileSize = 40;
+	public static final int tileSize = 40;
 	
 	float sec = 0, 
 			rangeRadius = 0; // Used in drawing the tower range
@@ -331,8 +331,8 @@ public class GameScreen implements Screen {
 		String path = "";
 		
 		switch(enemyType) {
-			case 1: path = "assets/img/spiderTemp.png";
-			default: path = "assets/img/spiderTemp.png";
+			case 1: path = "assets/img/spider.png";
+			default: path = "assets/img/spider.png";
 		}
 		
 		Texture texture = new Texture(Gdx.files.internal(path));
