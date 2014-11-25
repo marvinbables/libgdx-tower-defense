@@ -3,6 +3,7 @@ package gamedev.entity;
 import gamedev.screen.GameScreen;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class EnemyFactory {
@@ -21,7 +22,9 @@ public class EnemyFactory {
 				waypoints[i].x *= GameScreen.tileSize;
 				waypoints[i].y *= GameScreen.tileSize;
 			}
-			enemy.addWaypoint(Arrays.asList(waypoints));
+			// Throws UnsupportedOperationException when Arrays.asList(waypoints) is used as it is 
+			// (must pass it to a constructor of a List eg. ArrayList or LinkedList)
+			enemy.addWaypoint(new ArrayList<Point>(Arrays.asList(waypoints))); 
 			enemy.setX(waypoints[0].x);
 			enemy.setY(waypoints[0].y);
 		}

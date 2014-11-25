@@ -10,7 +10,7 @@ public class GameState {
 	public static final int GRIDX = 17, GRIDY = 12;
 	
 	private int currentLevel, score, grid[][], money;
-	private float waveSpawnTime, SPAWN_TIME = 5;
+	private float waveSpawnTime, SPAWN_TIME = 1;
 	private List<Enemy> enemies;
 	private List<Tower> towersDeployed, availableTowers;
 	private List<Point> currentWaypoints;
@@ -82,13 +82,14 @@ public class GameState {
 		if(getWaveSpawnTime() == 0){
 			if(getCurrentLevel() == 1){
 				int instances = Level.level_1_enemies[0][0];
+				// TODO: Don't for loop because all of them will be in the exact same place, instead add a delay and shit
 				for (int i = 0; i < instances; i++) {
 					Enemy enemy = EnemyFactory.makeEnemy(Level.level_1_enemies[0][1], Level.level_1_waypoints);
 					enemies.add(enemy);
 				}
 				
 			}
-			waveSpawnTime = SPAWN_TIME;
+			waveSpawnTime = 30;
 		}
 	}
 	
@@ -154,7 +155,7 @@ public class GameState {
 
 	public void setWaveSpawnTime(float waveSpawnTime) {
 		if(waveSpawnTime < 0)
-			this.waveSpawnTime = SPAWN_TIME;
+			this.waveSpawnTime = 30;
 		else
 			this.waveSpawnTime = waveSpawnTime;
 	}

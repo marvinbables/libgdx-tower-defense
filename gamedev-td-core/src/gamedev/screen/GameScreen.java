@@ -1,14 +1,11 @@
 package gamedev.screen;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.SpinnerDateModel;
-
 import gamedev.entity.Enemy;
-import gamedev.entity.EnemyFactory;
 import gamedev.entity.GameState;
 import gamedev.level.Level;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -240,6 +237,7 @@ public class GameScreen implements Screen {
 				clonedTowerSprite.draw(spriteBatch);
 			}
 			
+			// Move enemy sprite
 			for (int i = 0; i < spawnedEnemySprites.size(); i++) {
 				spawnedEnemySprites.get(i).setX(gameState.getEnemies().get(i).getX());
 				spawnedEnemySprites.get(i).setY(gameState.getEnemies().get(i).getY());
@@ -266,6 +264,10 @@ public class GameScreen implements Screen {
 				spawnedEnemySprites.add(newEnemySprite(Level.level_1_enemies[0][1]));
 				
 			}
+		}
+		
+		for (Enemy enemy : gameState.getEnemies()) {
+			enemy.move();
 		}
 	}
 
