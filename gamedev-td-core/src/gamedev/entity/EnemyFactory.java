@@ -22,6 +22,13 @@ public class EnemyFactory {
 				waypoints[i].x *= GameScreen.tileSize;
 				waypoints[i].y *= GameScreen.tileSize;
 			}
+			
+			/*
+			 * "From the API:
+			 * 		Arrays.asList: Returns a fixed-size list backed by the specified array.
+			 *  You can't add to it; you can't remove from it. You can't structurally modify the List."
+			 *  --> http://stackoverflow.com/questions/2965747/why-i-get-unsupportedoperationexception-when-trying-to-remove-from-the-list
+			 */
 			// Throws UnsupportedOperationException when Arrays.asList(waypoints) is used as it is 
 			// (must pass it to a constructor of a List eg. ArrayList or LinkedList)
 			enemy.addWaypoint(new ArrayList<Point>(Arrays.asList(waypoints))); 

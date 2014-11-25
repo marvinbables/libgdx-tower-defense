@@ -6,6 +6,8 @@ public class Tower {
 	private float attackRange, attackRate,
 		attackTimer;
 	
+	private Enemy target = null;
+	
 	public Tower(int damage, float attackRange, float attackRate) {
 		this.damage = damage;
 		this.attackRange = attackRange;
@@ -13,6 +15,17 @@ public class Tower {
 		x = -50;
 		y = -50;
 		attackTimer = 0;
+	}
+	
+	public void acquireTarget() {
+		// TODO: Acquire target. If current target leaves the range, target the next enemy behind the previous target that left the tower range
+	}
+	
+	public void shoot() {
+		/*
+		 * http://gamedev.stackexchange.com/questions/14469/2d-tower-defense-a-bullet-to-an-enemy
+		 * http://blog.publysher.nl/2012/05/stencyl-tower-defense-4-shooting.html
+		 */
 	}
 
 	public int getDamage() {
@@ -45,6 +58,14 @@ public class Tower {
 
 	public int getY() {
 		return y;
+	}
+
+	public Enemy getTarget() {
+		return target;
+	}
+
+	public void setTarget(Enemy target) {
+		this.target = target;
 	}
 	
 }
