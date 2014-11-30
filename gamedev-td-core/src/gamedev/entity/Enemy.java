@@ -10,7 +10,7 @@ public class Enemy {
 		LEFT, RIGHT, UP, DOWN
 	}
 	
-	private int x, y;
+	private float x, y, angle;
 	private String name;
 	private int health, moneyReward;
 	private float speed;
@@ -18,6 +18,7 @@ public class Enemy {
 	private Dir dir = Dir.RIGHT;
 	
 	public Enemy(String name, int health, int moneyReward, float speed) {
+		angle = 0;
 		this.name = name;
 		this.health = health;
 		this.moneyReward = moneyReward;
@@ -41,21 +42,25 @@ public class Enemy {
 				dir = Dir.DOWN;
 			
 			if(dir == Dir.LEFT) {
+				angle = 180;
 				x -= speed;
 				if(x <= waypoint.x)
 					x = waypoint.x;
 			}
 			else if(dir == Dir.RIGHT) {
+				angle = 0;
 				x += speed;
 				if(x >= waypoint.x)
 					x = waypoint.x;
 			}
 			else if(dir == Dir.UP) {
+				angle = 270;
 				y -= speed;
 				if(y <= waypoint.y)
 					y = waypoint.y;
 			}
 			else if(dir == Dir.DOWN) {
+				angle = 90;
 				y += speed;
 				if(y >= waypoint.y)
 					y = waypoint.y;
@@ -91,7 +96,7 @@ public class Enemy {
 		waypoints = points;
 	}
 
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 
@@ -99,7 +104,7 @@ public class Enemy {
 		this.x = x;
 	}
 
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 
@@ -113,5 +118,9 @@ public class Enemy {
 
 	public void setDir(Dir dir) {
 		this.dir = dir;
+	}
+	
+	public float getAngle(){
+		return this.angle;
 	}
 }

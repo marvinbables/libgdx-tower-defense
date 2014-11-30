@@ -241,6 +241,7 @@ public class GameScreen implements Screen {
 			for (int i = 0; i < spawnedEnemySprites.size(); i++) {
 				spawnedEnemySprites.get(i).setX(gameState.getEnemies().get(i).getX());
 				spawnedEnemySprites.get(i).setY(gameState.getEnemies().get(i).getY());
+				spawnedEnemySprites.get(i).setRotation(gameState.getEnemies().get(i).getAngle());
 				spawnedEnemySprites.get(i).draw(spriteBatch);
 			}
 			
