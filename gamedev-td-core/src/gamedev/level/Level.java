@@ -17,12 +17,12 @@ public class Level {
 									  "00000000000000000",
 									  "00000000000000000",};
 	public static Point level_1_waypoints[] = {	// x, y
-												new Point(0, 1),
-												new Point(6, 1),
-												new Point(6, 9),
-												new Point(10, 9),
-												new Point(10, 6),
-												new Point(12, 6)
+												new Point(0, 40),
+												new Point(240, 40),
+												new Point(240, 360),
+												new Point(400, 360),
+												new Point(400, 240),
+												new Point(480, 240)
 												};
 	
 	
@@ -35,7 +35,7 @@ public class Level {
 	
 	public static int[][] level_1_enemies = {
 		// instances, enemy type
-		{1, 1}
+		{1, 1}, {1,1}
 	};
 	
 	

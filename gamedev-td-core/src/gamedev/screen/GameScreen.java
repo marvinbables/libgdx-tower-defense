@@ -263,10 +263,11 @@ public class GameScreen implements Screen {
 		}
 		
 		if(gameState.getWaveSpawnTime() == 0){
-			spawn = true;	
+			spawn = true;
+			gameState.prepareEnemies();
 		}
 		if(spawn){
-			if(gameState.prepareEnemies(delta))
+			if(gameState.spawnEnemy(delta))
 				spawnedEnemySprites.add(newEnemySprite(Level.level_1_enemies[0][1]));
 		}
 		
