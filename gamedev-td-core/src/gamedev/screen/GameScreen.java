@@ -141,11 +141,11 @@ public class GameScreen implements Screen {
 	private void initializeTowerSprites() {
 		availableTowers = new ArrayList<Sprite>();
 		
-		Texture dirt = new Texture(Gdx.files.internal("assets/img/dirt_tower.png"));
-		Texture arrow = new Texture(Gdx.files.internal("assets/img/arrow_tower.png"));
-		Texture egg = new Texture(Gdx.files.internal("assets/img/egg_tower.png"));
-		Texture potion = new Texture(Gdx.files.internal("assets/img/potion_tower.png"));
-		Texture currency = new Texture(Gdx.files.internal("assets/img/currency_tower.png"));
+		Texture dirt = new Texture(Gdx.files.internal("assets/img/new_dirt_tower.png"));
+		Texture arrow = new Texture(Gdx.files.internal("assets/img/new_arrow_tower.png"));
+		Texture egg = new Texture(Gdx.files.internal("assets/img/new_egg_tower.png"));
+		Texture potion = new Texture(Gdx.files.internal("assets/img/new_potion_tower.png"));
+		Texture currency = new Texture(Gdx.files.internal("assets/img/new_currency_tower.png"));
 		
 		Sprite dirtTower = createTile(dirt);
 		Sprite arrowTower = createTile(arrow);
