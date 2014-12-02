@@ -12,6 +12,7 @@ public class GameState {
 	private int currentLevel, score, grid[][], money, life, spawnedEnemies;
 	private float waveSpawnTime, SPAWN_TIME = 1, spawnDelay;
 	private List<Enemy> enemies;
+	private List<Integer> enemiesToBeSpawned;
 	private List<Tower> towersDeployed, availableTowers;
 	private List<Point> currentWaypoints;
 	
@@ -25,6 +26,7 @@ public class GameState {
 	}
 	
 	public GameState() {
+		enemiesToBeSpawned = new ArrayList<Integer>();
 		enemies = new ArrayList<Enemy>();
 		towersDeployed = new ArrayList<Tower>();
 		availableTowers = new ArrayList<Tower>();
@@ -57,6 +59,7 @@ public class GameState {
 		money = 100;
 		life = 20;
 		spawnDelay = 0;
+		spawnedEnemies = 0;
 		waveSpawnTime = SPAWN_TIME;
 	}
 	
@@ -95,26 +98,38 @@ public class GameState {
 	 * prepare enemies gets the list of enemies, instances e.g. { {1,2} , {2,1} , {1,2} } 2 spiders, 1 skeleton, 2 spiders in order
 	 */
 	
-	public boolean prepareEnemies(float delta) {
+	public boolean spawnEnemy(float delta){
 		boolean spawned = false;
+		int instances = enemiesToBeSpawned.size();
+		spawnDelay += delta;
+		if(spawnDelay >= .5 && spawnedEnemies < instances){
+			Enemy enemy = EnemyFactory.makeEnemy(enemiesToBeSpawned.get(spawnedEnemies), Level.level_1_waypoints);
+			enemies.add(enemy);
+			spawnDelay = 0;
+			++spawnedEnemies;
+			spawned = true;
+		}
+
+		return spawned;
+
+		
+	}
+	
+	public void prepareEnemies() {
 		if(getWaveSpawnTime() == 0){
 			if(getCurrentLevel() == 1){
-				int instances = Level.level_1_enemies[0][0];
-				// TODO: Don't for loop because all of them will be in the exact same place, instead add a delay and shit
-				int i = 0;
-				spawnDelay += delta;
-					if(spawnDelay >= .5 && spawnedEnemies < instances){
-						Enemy enemy = EnemyFactory.makeEnemy(Level.level_1_enemies[0][1], Level.level_1_waypoints);
-						enemies.add(enemy);
-						spawnDelay = 0;
-						++spawnedEnemies;
-						spawned = true;
+				for(int i = 0; i < Level.level_1_enemies.length; i++){
+					for(int j = 0; j < Level.level_1_enemies[i][0]; j++)
+						enemiesToBeSpawned.add(Level.level_1_enemies[i][1]);
 				}
 				
 			}
 			waveSpawnTime = 30;
 		}
-		return spawned;
+		
+
+
+			
 	}
 	
 	
