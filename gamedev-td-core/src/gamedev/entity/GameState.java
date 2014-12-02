@@ -131,19 +131,17 @@ public class GameState {
 
 			
 	}
-	
-	public void deployTower(Tower tower) {
+	public boolean deployTower(Tower tower) {
+		boolean success = false;
 		
-		int temp = money -= tower.getCost();
-		
-		if(temp <= 0){
-			money = 0;
+		if(money > tower.getCost()){
+			money -= tower.getCost();
+			towersDeployed.add(tower);
+			success = true;
 		}
-		else
-		money = temp;
+		else System.out.println("skwater");
 		
-		System.out.println(money);
-		towersDeployed.add(tower);
+		return success;
 	}
 	
 	// Getters & Setters

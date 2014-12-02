@@ -80,9 +80,11 @@ public class Controller implements InputProcessor {
 					gameState.getGrid()[point.x/40][point.y/40] = -1;
 					towerToPut.setX(point.x);
 					towerToPut.setY(point.y);
-					gameState.deployTower(towerToPut);
+					if(gameState.deployTower(towerToPut)){
+						gameScreen.addDeployedTowerSprite();
+					}
 					towerToPut = null;
-					gameScreen.addDeployedTowerSprite();
+					
 				}
 			}
 			

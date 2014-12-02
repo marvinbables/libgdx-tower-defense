@@ -12,7 +12,7 @@ public class Tower {
 		this.damage = damage;
 		this.attackRange = attackRange;
 		this.attackRate = attackRate;
-		this.cost = cost;
+	this.cost = cost;
 		x = -50;
 		y = -50;
 		attackTimer = 0;
