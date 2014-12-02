@@ -52,6 +52,7 @@ public class GameScreen implements Screen {
 			rangeRadius = 0; // Used in drawing the tower range
 
 	boolean drawToolTip = false;
+	private boolean spawn;
 	
 	public GameScreen() {
 		towerRangeRenderer = new ShapeRenderer();
@@ -239,10 +240,12 @@ public class GameScreen implements Screen {
 			
 			// Move enemy sprite
 			for (int i = 0; i < spawnedEnemySprites.size(); i++) {
-				spawnedEnemySprites.get(i).setX(gameState.getEnemies().get(i).getX());
-				spawnedEnemySprites.get(i).setY(gameState.getEnemies().get(i).getY());
-				spawnedEnemySprites.get(i).setRotation(gameState.getEnemies().get(i).getAngle());
-				spawnedEnemySprites.get(i).draw(spriteBatch);
+				if(gameState.getEnemies().get(i).isActive()){
+					spawnedEnemySprites.get(i).setX(gameState.getEnemies().get(i).getX());
+					spawnedEnemySprites.get(i).setY(gameState.getEnemies().get(i).getY());
+					spawnedEnemySprites.get(i).setRotation(gameState.getEnemies().get(i).getAngle());
+					spawnedEnemySprites.get(i).draw(spriteBatch);
+				}
 			}
 			
 		spriteBatch.end();
@@ -260,16 +263,15 @@ public class GameScreen implements Screen {
 		}
 		
 		if(gameState.getWaveSpawnTime() == 0){
-			gameState.prepareEnemies();
-			if(gameState.getCurrentLevel() == 1){
+			spawn = true;	
+		}
+		if(spawn){
+			if(gameState.prepareEnemies(delta))
 				spawnedEnemySprites.add(newEnemySprite(Level.level_1_enemies[0][1]));
-				
-			}
 		}
 		
-		for (Enemy enemy : gameState.getEnemies()) {
-			enemy.move();
-		}
+		gameState.update(delta);
+		
 	}
 
 	private float convertYforShapeRenderer(float y) {

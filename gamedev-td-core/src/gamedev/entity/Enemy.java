@@ -16,8 +16,10 @@ public class Enemy {
 	private float speed;
 	private List<Point> waypoints;
 	private Dir dir = Dir.RIGHT;
+	private boolean active;
 	
 	public Enemy(String name, int health, int moneyReward, float speed) {
+		active = true;
 		angle = 0;
 		this.name = name;
 		this.health = health;
@@ -123,4 +125,14 @@ public class Enemy {
 	public float getAngle(){
 		return this.angle;
 	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	
 }

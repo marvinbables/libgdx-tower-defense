@@ -9,8 +9,8 @@ import java.util.List;
 public class GameState {
 	public static final int GRIDX = 17, GRIDY = 12;
 	
-	private int currentLevel, score, grid[][], money;
-	private float waveSpawnTime, SPAWN_TIME = 1;
+	private int currentLevel, score, grid[][], money, life, spawnedEnemies;
+	private float waveSpawnTime, SPAWN_TIME = 1, spawnDelay;
 	private List<Enemy> enemies;
 	private List<Tower> towersDeployed, availableTowers;
 	private List<Point> currentWaypoints;
@@ -55,10 +55,23 @@ public class GameState {
 		currentLevel = 1;
 		score = 0;
 		money = 100;
+		life = 20;
+		spawnDelay = 0;
 		waveSpawnTime = SPAWN_TIME;
 	}
 	
 	public void update(float delta) {
+		for (int i = enemies.size() - 1; i >= 0; i--){
+			if(enemies.get(i).getWaypoints().size() == 0 && enemies.get(i).isActive()){
+				enemies.get(i).setActive(false);
+				life--;
+			}
+		}
+		
+		for(Enemy enemy : enemies){
+			enemy.move();
+		}
+		
 		
 	}
 	
@@ -78,19 +91,30 @@ public class GameState {
 		
 	}
 	
-	public void prepareEnemies() {
+	/*TODO
+	 * prepare enemies gets the list of enemies, instances e.g. { {1,2} , {2,1} , {1,2} } 2 spiders, 1 skeleton, 2 spiders in order
+	 */
+	
+	public boolean prepareEnemies(float delta) {
+		boolean spawned = false;
 		if(getWaveSpawnTime() == 0){
 			if(getCurrentLevel() == 1){
 				int instances = Level.level_1_enemies[0][0];
 				// TODO: Don't for loop because all of them will be in the exact same place, instead add a delay and shit
-				for (int i = 0; i < instances; i++) {
-					Enemy enemy = EnemyFactory.makeEnemy(Level.level_1_enemies[0][1], Level.level_1_waypoints);
-					enemies.add(enemy);
+				int i = 0;
+				spawnDelay += delta;
+					if(spawnDelay >= .5 && spawnedEnemies < instances){
+						Enemy enemy = EnemyFactory.makeEnemy(Level.level_1_enemies[0][1], Level.level_1_waypoints);
+						enemies.add(enemy);
+						spawnDelay = 0;
+						++spawnedEnemies;
+						spawned = true;
 				}
 				
 			}
 			waveSpawnTime = 30;
 		}
+		return spawned;
 	}
 	
 	
