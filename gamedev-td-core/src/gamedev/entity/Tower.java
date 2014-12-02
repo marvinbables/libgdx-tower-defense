@@ -2,16 +2,17 @@ package gamedev.entity;
 
 
 public class Tower {
-	private int damage, x, y;
+	private int damage, x, y, cost;
 	private float attackRange, attackRate,
 		attackTimer;
 	
 	private Enemy target = null;
 	
-	public Tower(int damage, float attackRange, float attackRate) {
+	public Tower(int damage, float attackRange, float attackRate, int cost) {
 		this.damage = damage;
 		this.attackRange = attackRange;
 		this.attackRate = attackRate;
+		this.cost = cost;
 		x = -50;
 		y = -50;
 		attackTimer = 0;
@@ -66,6 +67,14 @@ public class Tower {
 
 	public void setTarget(Enemy target) {
 		this.target = target;
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 	
 }

@@ -35,11 +35,11 @@ public class GameState {
 	
 	private void createTowers() {
 		// Parameters: damage, attackRange, attackRate
-		Tower dirtTower = new Tower(5, 50, 1);
-		Tower arrowTower = new Tower(7, 50, 1);
-		Tower eggTower = new Tower(7, 50, 1.3f);
-		Tower potionTower = new Tower(5, 25, 0.9f); // ? 
-		Tower currencyTower = new Tower(1, 20, 2f); // ?
+		Tower dirtTower = new Tower(5, 50, 1, 20);
+		Tower arrowTower = new Tower(7, 50, 1, 30);
+		Tower eggTower = new Tower(7, 50, 1.3f, 40);
+		Tower potionTower = new Tower(5, 25, 0.9f, 70); // ? 
+		Tower currencyTower = new Tower(1, 20, 2f, 100); // ?
 		
 		availableTowers.add(dirtTower);
 		availableTowers.add(arrowTower);
@@ -50,7 +50,7 @@ public class GameState {
 	
 	public Tower newTower(int index) {
 		Tower t = availableTowers.get(index);
-		return new Tower(t.getDamage(), t.getAttackRange(), t.getAttackRate());
+		return new Tower(t.getDamage(), t.getAttackRange(), t.getAttackRate(), t.getCost());
 	}
 
 	public void initGame() {
@@ -132,10 +132,17 @@ public class GameState {
 			
 	}
 	
-	
-	
-	
 	public void deployTower(Tower tower) {
+		
+		int temp = money -= tower.getCost();
+		
+		if(temp <= 0){
+			money = 0;
+		}
+		else
+		money = temp;
+		
+		System.out.println(money);
 		towersDeployed.add(tower);
 	}
 	
