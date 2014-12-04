@@ -12,6 +12,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
@@ -68,9 +69,12 @@ public class Controller implements InputProcessor {
 				if(Gdx.input.isButtonPressed(Buttons.LEFT))
 					if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 							&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
-						gameScreen.cloneSprite(i);
 						towerToPut = gameState.newTower(i);
-						gameScreen.setDrawRadius(towerToPut.getAttackRange());
+						if(gameState.enoughMoney(towerToPut)){
+							gameScreen.setDrawRadius(towerToPut.getAttackRange());
+							gameScreen.cloneSprite(i);
+						}
+						else towerToPut = null;
 					}
 			}
 			
@@ -80,15 +84,16 @@ public class Controller implements InputProcessor {
 					gameState.getGrid()[point.x/40][point.y/40] = -1;
 					towerToPut.setX(point.x);
 					towerToPut.setY(point.y);
-					if(gameState.deployTower(towerToPut)){
+					if(gameState.enoughMoney(towerToPut)){
+						towerToPut.setCenter((float) point.x + gameScreen.getTileSize() / 2, (float) point.y + gameScreen.getTileSize() / 2);
+						gameState.deployTower(towerToPut);
 						gameScreen.addDeployedTowerSprite();
 					}
-					towerToPut = null;
+					else towerToPut = null;
 					
 				}
+				
 			}
-			
-			
 			if (Gdx.input.isButtonPressed(Buttons.RIGHT)){
 			    gameScreen.nullClonedTower();
 			}
@@ -127,6 +132,11 @@ public class Controller implements InputProcessor {
 					gameScreen.drawToolTip(false, -50, -50);
 			}
 			
+			if(!isPlaceable(point.x, point.y)){
+				gameScreen.getTowerRangeRenderer().setColor(1,0,0,.5f);
+			}
+			else gameScreen.getTowerRangeRenderer().setColor(1,1,1,.5f);
+			
 		}
 		return false;
 	}
@@ -160,10 +170,9 @@ public class Controller implements InputProcessor {
 	}
 
 	public boolean isPlaceable(int x, int y){
-		if(gameState.getGrid()[x/40][y/40] != 0)
+		if(x < 0 || y < 0 || gameState.getGrid()[x/40][y/40] != 0)
 			return false;
 		else return true;
-		
 	}
 
 }

@@ -75,6 +75,10 @@ public class GameState {
 			enemy.move();
 		}
 		
+		for(Tower tower : towersDeployed){
+			tower.acquireTarget(enemies);
+			tower.updateTargets();
+		}
 		
 	}
 	
@@ -125,23 +129,26 @@ public class GameState {
 				
 			}
 			waveSpawnTime = 30;
-		}
-		
-
-
-			
+		}		
 	}
-	public boolean deployTower(Tower tower) {
-		boolean success = false;
+	public void deployTower(Tower tower) {
 		
-		if(money > tower.getCost()){
+		if(money >= tower.getCost()){
 			money -= tower.getCost();
 			towersDeployed.add(tower);
-			success = true;
+		}
+		
+	}
+	
+	public boolean enoughMoney(Tower tower){
+		boolean enough = false;
+		
+		if(money >= tower.getCost()){
+			enough = true;
 		}
 		else System.out.println("skwater");
 		
-		return success;
+		return enough;
 	}
 	
 	// Getters & Setters

@@ -35,7 +35,7 @@ public class Level {
 	
 	public static int[][] level_1_enemies = {
 		// instances, enemy type
-		{1, 1}, {1,1}
+		{10, 1}, {1,1}
 	};
 	
 	

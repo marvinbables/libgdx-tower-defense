@@ -1,25 +1,42 @@
 package gamedev.entity;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Tower {
 	private int damage, x, y, cost;
 	private float attackRange, attackRate,
 		attackTimer;
+	private Point2D.Float center;
 	
-	private Enemy target = null;
+	private ArrayList<Enemy> targets = null;
 	
 	public Tower(int damage, float attackRange, float attackRate, int cost) {
 		this.damage = damage;
 		this.attackRange = attackRange;
 		this.attackRate = attackRate;
-	this.cost = cost;
+		this.cost = cost;
 		x = -50;
 		y = -50;
 		attackTimer = 0;
+		targets = new ArrayList<Enemy>();
+		center = new Point2D.Float();
 	}
 	
-	public void acquireTarget() {
-		// TODO: Acquire target. If current target leaves the range, target the next enemy behind the previous target that left the tower range
+	public void acquireTarget(List<Enemy> enemies) {
+		float tempX;
+		float tempY;
+		for(Enemy enemy : enemies){
+			if(!targets.contains(enemy)){
+				tempX = (float) (enemy.getX() - center.getX());
+				tempY = (float) (enemy.getY() - center.getY());
+				if(tempX * tempX + tempY * tempY < attackRange * attackRange){
+					targets.add(enemy);
+				}
+			}
+		}
 	}
 	
 	public void shoot() {
@@ -61,12 +78,25 @@ public class Tower {
 		return y;
 	}
 
-	public Enemy getTarget() {
-		return target;
+	public ArrayList<Enemy> getTarget() {
+		return targets;
 	}
 
-	public void setTarget(Enemy target) {
-		this.target = target;
+	public void setTarget(ArrayList<Enemy> targets) {
+		this.targets = targets;
+	}
+	
+	public void updateTargets(){
+		float tempX;
+		float tempY;
+		for(int i = targets.size() - 1; i >= 0; i--){
+			tempX = (float) (targets.get(i).getX() - center.getX());
+			tempY = (float) (targets.get(i).getY() - center.getY());
+			if(tempX * tempX + tempY * tempY >= attackRange * attackRange){
+				targets.remove(i);
+			}
+				
+		}
 	}
 
 	public int getCost() {
@@ -75,6 +105,10 @@ public class Tower {
 
 	public void setCost(int cost) {
 		this.cost = cost;
+	}
+	
+	public void setCenter(float x, float y){
+		center.setLocation(x, y);
 	}
 	
 }
