@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 	OrthographicCamera camera;
 	
 	SpriteBatch spriteBatch;
-	Sprite highlightTile, uiSprite, towerLabel, 
+	Sprite highlightTile, uiSprite, towerLabel, heartSprite[],
 						emeraldSprite, waveSprite, uiTowerHighlight, 
 						clonedTowerSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
 	List<Sprite> tiles, availableTowers, deployedTowerSprites, enemySprites, spawnedEnemySprites;
@@ -63,10 +63,10 @@ public class GameScreen implements Screen {
 		spriteBatch = new SpriteBatch();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		
-		initializeSprites();
 		initializeFont();
 		gameState.initGame();
 		gameState.prepareLevel(1);
+		initializeSprites();
 	}
 	
 	private void initializeFont() {
@@ -82,6 +82,7 @@ public class GameScreen implements Screen {
 		clonedTowerSprite = null;
 		deployedTowerSprites = new ArrayList<Sprite>();
 		tiles = new ArrayList<Sprite>();
+		heartSprite = new Sprite[10];
 		
 		Texture grass = new Texture(Gdx.files.internal("assets/img/grass.png"));
 		Texture dirt = new Texture(Gdx.files.internal("assets/img/dirt_light.png"));
@@ -106,6 +107,13 @@ public class GameScreen implements Screen {
 		uiSprite.flip(false, true);
 		uiSprite.setPosition(0, GameState.GRIDY*tileSize);
 		
+		Texture heart = new Texture(Gdx.files.internal("assets/img/heart.png"));
+		for (int i = 0; i < heartSprite.length; i++) {
+			heartSprite[i] = new Sprite(heart);
+			heartSprite[i].flip(false, true);
+			heartSprite[i].setPosition(i*20 + i*2 + 10, 12*tileSize + 10);
+		}
+		
 		Texture tower = new Texture(Gdx.files.internal("assets/img/tower_label.png"));
 		towerLabel = createTile(tower);
 		towerLabel.setPosition(0, 13*tileSize);
@@ -120,6 +128,8 @@ public class GameScreen implements Screen {
 		
 		Texture uiTowerTex = new Texture(Gdx.files.internal("assets/img/ui_tower_highlight.png"));
 		uiTowerHighlight = createTile(uiTowerTex);
+		
+		
 		
 		initializeTowerSprites();
 		initializeEnemySprites();
@@ -232,6 +242,10 @@ public class GameScreen implements Screen {
 			if(drawToolTip) {
 				uiTowerHighlight.draw(spriteBatch);
 				// TODO: Draw tooltip showing information of the tower
+			}
+			
+			for (int i = 0; i < gameState.getLife(); i++) {
+				heartSprite[i].draw(spriteBatch);
 			}
 			
 			if(clonedTowerSprite != null) {

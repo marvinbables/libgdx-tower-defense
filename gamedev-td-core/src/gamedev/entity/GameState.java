@@ -9,8 +9,8 @@ import java.util.List;
 public class GameState {
 	public static final int GRIDX = 17, GRIDY = 12;
 	
-	private int currentLevel, score, grid[][], money, life, spawnedEnemies;
-	private float waveSpawnTime, SPAWN_TIME = 1, spawnDelay;
+	private int currentLevel, score, grid[][], money, life = 10, spawnedEnemies;
+	private float waveSpawnTime, SPAWN_TIME = 5, spawnDelay;
 	private List<Enemy> enemies;
 	private List<Integer> enemiesToBeSpawned;
 	private List<Tower> towersDeployed, availableTowers;
@@ -57,7 +57,7 @@ public class GameState {
 		currentLevel = 1;
 		score = 0;
 		money = 100;
-		life = 20;
+		life = 10;
 		spawnDelay = 0;
 		spawnedEnemies = 0;
 		waveSpawnTime = SPAWN_TIME;
@@ -182,6 +182,14 @@ public class GameState {
 
 	public int getMoney() {
 		return money;
+	}
+	
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
 	}
 
 	public void setMoney(int money) {
