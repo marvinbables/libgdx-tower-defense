@@ -56,6 +56,7 @@ public class GameScreen implements Screen {
 	
 	public GameScreen() {
 		towerRangeRenderer = new ShapeRenderer();
+		towerRangeRenderer.setColor(1, 1, 1, .5f);
 		gameState = new GameState();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
@@ -206,7 +207,6 @@ public class GameScreen implements Screen {
 			Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
 			
 			towerRangeRenderer.begin(ShapeType.Filled);
-				towerRangeRenderer.setColor(1, 1, 1, .5f);
 			if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50){
 				towerRangeRenderer.circle(clonedTowerSprite.getX() + tileSize / 2, convertYforShapeRenderer(clonedTowerSprite.getY() + tileSize * 3 / 2) , rangeRadius);
 			}
@@ -215,8 +215,9 @@ public class GameScreen implements Screen {
 		}
 
 		spriteBatch.begin();
-		
-			highlightTile.draw(spriteBatch);
+			if(clonedTowerSprite == null)
+				highlightTile.draw(spriteBatch);
+			
 			uiSprite.draw(spriteBatch);
 			
 			for (Sprite tower : availableTowers) {
@@ -284,6 +285,8 @@ public class GameScreen implements Screen {
 			if(gameState.spawnEnemy(delta))
 				spawnedEnemySprites.add(newEnemySprite(Level.level_1_enemies[0][1]));
 		}
+		
+		
 		
 		gameState.update(delta);
 		
@@ -419,4 +422,11 @@ public class GameScreen implements Screen {
 	public void setDrawRadius(float attackRange) {
 		rangeRadius = 2*attackRange;
 	}
+
+	public ShapeRenderer getTowerRangeRenderer() {
+		return towerRangeRenderer;
+	}
+	
+	
+	
 }
