@@ -4,6 +4,17 @@ import java.awt.Point;
 
 
 public class Level {
+	
+	public static String[] grid;
+	public static Point[] waypoints;
+	public static int [][] enemies;
+	
+	public Level(String[] grid, Point[] waypoints, int[][] enemies){
+		Level.grid = grid;
+		Level.waypoints = waypoints;
+		Level.enemies = enemies;
+	}
+	
 	public static String level_1[] = {"00000000000000000",
 									  "11111110000000000",
 									  "00000010000000000",
