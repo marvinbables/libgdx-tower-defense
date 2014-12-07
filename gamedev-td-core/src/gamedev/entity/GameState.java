@@ -146,7 +146,6 @@ public class GameState {
 		if(money >= tower.getCost()){
 			enough = true;
 		}
-		else System.out.println("skwater");
 		
 		return enough;
 	}

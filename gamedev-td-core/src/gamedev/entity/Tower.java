@@ -33,6 +33,7 @@ public class Tower {
 				tempX = (float) (enemy.getX() - center.getX());
 				tempY = (float) (enemy.getY() - center.getY());
 				if(tempX * tempX + tempY * tempY < attackRange * attackRange){
+					System.out.println("eto");
 					targets.add(enemy);
 				}
 			}
