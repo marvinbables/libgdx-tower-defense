@@ -35,11 +35,11 @@ public class GameState {
 	
 	private void createTowers() {
 		// Parameters: damage, attackRange, attackRate
-		Tower dirtTower = new Tower(5, 50, 1, 20);
-		Tower arrowTower = new Tower(7, 50, 1, 30);
-		Tower eggTower = new Tower(7, 50, 1.3f, 40);
-		Tower potionTower = new Tower(5, 25, 0.9f, 70); // ? 
-		Tower currencyTower = new Tower(1, 20, 2f, 100); // ?
+		Tower dirtTower = new Tower(5, 80, 1, 20);
+		Tower arrowTower = new Tower(7, 80, 1, 30);
+		Tower eggTower = new Tower(7, 100, 1.3f, 40);
+		Tower potionTower = new Tower(5, 100, 0.9f, 70); // ? 
+		Tower currencyTower = new Tower(1, 0, 2f, 100); // ?
 		
 		availableTowers.add(dirtTower);
 		availableTowers.add(arrowTower);

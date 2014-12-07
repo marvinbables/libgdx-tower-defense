@@ -30,10 +30,10 @@ public class Tower {
 		float tempY;
 		for(Enemy enemy : enemies){
 			if(!targets.contains(enemy)){
-				tempX = (float) (enemy.getX() - center.getX());
-				tempY = (float) (enemy.getY() - center.getY());
+				tempX = (float) (enemy.getX() + 20 - center.getX());
+				tempY = (float) (enemy.getY() + 20 - center.getY());
 				if(tempX * tempX + tempY * tempY < attackRange * attackRange){
-					System.out.println("eto");
+					System.out.println("eto " + enemy.getName());
 					targets.add(enemy);
 				}
 			}

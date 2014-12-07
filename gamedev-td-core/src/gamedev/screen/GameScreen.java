@@ -420,7 +420,7 @@ public class GameScreen implements Screen {
 	}
 
 	public void setDrawRadius(float attackRange) {
-		rangeRadius = 2*attackRange;
+		rangeRadius = attackRange;
 	}
 
 	public ShapeRenderer getTowerRangeRenderer() {
