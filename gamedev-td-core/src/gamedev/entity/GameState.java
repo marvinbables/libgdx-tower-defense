@@ -175,6 +175,10 @@ public class GameState {
 		this.enemies = enemies;
 	}
 
+	public List<Tower> getAvailableTowers() {
+		return availableTowers;
+	}
+
 	public List<Tower> getTowersDeployed() {
 		return towersDeployed;
 	}

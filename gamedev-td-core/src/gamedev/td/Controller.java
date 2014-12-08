@@ -70,11 +70,19 @@ public class Controller implements InputProcessor {
 					if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 							&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
 						towerToPut = gameState.newTower(i);
+						gameScreen.setTowerInfo(towerToPut);
+						gameScreen.setTowerToPutSprite(i);
+						gameScreen.setTowerInfoSprite(i);
 						if(gameState.enoughMoney(towerToPut)){
 							gameScreen.setDrawRadius(towerToPut.getAttackRange());
 							gameScreen.cloneSprite(i);
 						}
-						else towerToPut = null;
+						else {
+							gameScreen.setDrawRedHighlight(true);
+							towerToPut = null;
+							gameScreen.setTowerToPutSprite(-1);
+							gameScreen.nullClonedTower();
+						}
 					}
 			}
 			
@@ -88,14 +96,25 @@ public class Controller implements InputProcessor {
 						towerToPut.setCenter((float) point.x + gameScreen.getTileSize() / 2, (float) point.y + gameScreen.getTileSize() / 2);
 						gameState.deployTower(towerToPut);
 						gameScreen.addDeployedTowerSprite();
+						towerToPut = null;
+						gameScreen.setTowerInfoSprite(-1);
+						gameScreen.setTowerToPutSprite(-1);
+						gameScreen.setTowerInfo(null);
 					}
-					else towerToPut = null;
+					else {
+						towerToPut = null;
+						gameScreen.setTowerInfoSprite(-1);
+						gameScreen.setTowerToPutSprite(-1);
+					}
 					
 				}
-				
 			}
 			if (Gdx.input.isButtonPressed(Buttons.RIGHT)){
 			    gameScreen.nullClonedTower();
+			    gameScreen.setTowerInfo(null);
+			    towerToPut = null;
+			    gameScreen.setTowerInfoSprite(-1);
+			    gameScreen.setTowerToPutSprite(-1);
 			}
 		}
 		
@@ -121,15 +140,29 @@ public class Controller implements InputProcessor {
 			gameScreen.setHighlightCoord(point.x, point.y);
 			gameScreen.setClonedTowerSpriteLoc(point.x, point.y);
 			
-			List<Sprite> towers = gameScreen.getAvailableTowers();
-			for (Sprite sprite : towers) {
+			gameScreen.setDrawRedHighlight(false);
+			List<Sprite> towerSprites = gameScreen.getAvailableTowers();
+			for (int i = 0; i < towerSprites.size(); i++) {
+				Sprite sprite = towerSprites.get(i);
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
-					gameScreen.drawToolTip(true, (int)sprite.getX(), (int)sprite.getY());
+					// assumes size of sprites of available towers is equal to the size of the available towers model
+					if(towerToPut == null)
+						gameScreen.drawTowerInfo(true, (int)sprite.getX(), (int)sprite.getY(), gameState.getAvailableTowers().get(i));
+					else 
+						gameScreen.drawTowerInfo(true, (int)sprite.getX(), (int)sprite.getY(), towerToPut);
+					gameScreen.setTowerInfoSprite(i);
 					break;
 				}
-				else
-					gameScreen.drawToolTip(false, -50, -50);
+				else {
+					gameScreen.drawTowerInfo(false, -50, -50, towerToPut);
+//					if(towerToPut != null)
+//						gameScreen.setTowerInfoSprite(i);
+//					else
+					if(towerToPut == null)
+						gameScreen.setTowerInfoSprite(-1);
+						
+				}
 			}
 			
 			if(!isPlaceable(point.x, point.y)){

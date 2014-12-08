@@ -2,6 +2,7 @@ package gamedev.screen;
 
 import gamedev.entity.Enemy;
 import gamedev.entity.GameState;
+import gamedev.entity.Tower;
 import gamedev.level.Level;
 
 import java.util.ArrayList;
@@ -38,11 +39,13 @@ public class GameScreen implements Screen {
 	
 	SpriteBatch spriteBatch;
 	Sprite highlightTile, uiSprite, towerLabel, heartSprite[],
-						emeraldSprite, waveSprite, uiTowerHighlight, 
+						emeraldSprite, waveSprite, uiTowerHighlight, redHighlight,
 						clonedTowerSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
 	List<Sprite> tiles, availableTowers, deployedTowerSprites, enemySprites, spawnedEnemySprites;
 	
 	ShapeRenderer towerRangeRenderer;
+	
+	TowerInformation uiInformation;
 
 	BitmapFont font;
 	
@@ -51,7 +54,7 @@ public class GameScreen implements Screen {
 	float sec = 0, 
 			rangeRadius = 0; // Used in drawing the tower range
 
-	boolean drawToolTip = false;
+	boolean drawToolTip = false, drawRedHighlight = false;
 	private boolean spawn;
 	
 	public GameScreen() {
@@ -60,6 +63,8 @@ public class GameScreen implements Screen {
 		gameState = new GameState();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
+		
+		uiInformation = new TowerInformation();
 		
 		spriteBatch = new SpriteBatch();
 		spriteBatch.setProjectionMatrix(camera.combined);
@@ -130,7 +135,8 @@ public class GameScreen implements Screen {
 		Texture uiTowerTex = new Texture(Gdx.files.internal("assets/img/ui_tower_highlight.png"));
 		uiTowerHighlight = createTile(uiTowerTex);
 		
-		
+		Texture redTexHighlight = new Texture(Gdx.files.internal("assets/img/red_highlight.png"));
+		redHighlight = createTile(redTexHighlight);
 		
 		initializeTowerSprites();
 		initializeEnemySprites();
@@ -182,7 +188,7 @@ public class GameScreen implements Screen {
 	public void cloneSprite(int index) {
 		clonedTowerSprite = createTile(availableTowers.get(index).getTexture());
 	}
-
+	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -262,6 +268,11 @@ public class GameScreen implements Screen {
 					spawnedEnemySprites.get(i).draw(spriteBatch);
 				}
 			}
+			
+			uiInformation.draw(spriteBatch);
+			
+			if(drawRedHighlight)
+				redHighlight.draw(spriteBatch);
 			
 		spriteBatch.end();
 		
@@ -398,9 +409,40 @@ public class GameScreen implements Screen {
 		return availableTowers;
 	}
 
-	public void drawToolTip(boolean b, int x, int y) {
+	public void drawTowerInfo(boolean b, int x, int y, Tower towerInfo) {
 		uiTowerHighlight.setPosition(x, y);
+		redHighlight.setPosition(x, y);
 		drawToolTip = b;
+		setTowerInfo(towerInfo);
+	}
+	
+	public void setTowerInfo(Tower towerInfo) {
+		if(towerInfo != null) {
+			uiInformation.setDamage(towerInfo.getDamage()+"");
+			uiInformation.setCost(towerInfo.getCost()+"");
+			uiInformation.setRange(towerInfo.getAttackRange()+"");
+			uiInformation.setAttackRate(towerInfo.getAttackRate()+"");
+		}
+		else {
+			uiInformation.setDamage("");
+			uiInformation.setCost("");
+			uiInformation.setRange("");
+			uiInformation.setAttackRate("");
+		}
+	}
+	
+	public void setTowerInfoSprite(int i) {
+		uiInformation.setTowerSprite(cloneSprite2(i));
+	}
+	
+	public void setTowerToPutSprite(int i) {
+		uiInformation.setTowerToPutSprite(cloneSprite2(i));
+	}
+	
+	private Sprite cloneSprite2(int index) {
+		if(index < 0)
+			return null;
+		return createTile(availableTowers.get(index).getTexture());
 	}
 
 	public void setClonedTowerSpriteLoc(int x, int y) {
@@ -426,7 +468,10 @@ public class GameScreen implements Screen {
 	public ShapeRenderer getTowerRangeRenderer() {
 		return towerRangeRenderer;
 	}
-	
-	
+
+	public void setDrawRedHighlight(boolean drawRedHighlight) {
+		this.drawRedHighlight = drawRedHighlight;
+	}
+
 	
 }
