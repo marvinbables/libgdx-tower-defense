@@ -1,5 +1,7 @@
 package gamedev.entity;
 
+import gamedev.screen.GameScreen;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,7 @@ public class Tower {
 	private float attackRange, attackRate,
 		attackTimer;
 	private Point2D.Float center;
+	
 	
 	private ArrayList<Enemy> targets = null;
 	
@@ -26,24 +29,27 @@ public class Tower {
 	}
 	
 	public void acquireTarget(List<Enemy> enemies) {
-		float tempX;
-		float tempY;
 		for(Enemy enemy : enemies){
 			if(!targets.contains(enemy)){
-				tempX = (float) (enemy.getX() + 20 - center.getX());
-				tempY = (float) (enemy.getY() + 20 - center.getY());
-				if(tempX * tempX + tempY * tempY < attackRange * attackRange){
+				if(intersects(enemy)){
 					targets.add(enemy);
 				}
 			}
 		}
 	}
 	
+	public void updateTargets(){
+
+		for(int i = targets.size() - 1; i >= 0; i--){
+			if(!intersects(targets.get(i))){
+				targets.remove(i);
+			}
+				
+		}
+	}
+	
 	public void shoot() {
-		/*
-		 * http://gamedev.stackexchange.com/questions/14469/2d-tower-defense-a-bullet-to-an-enemy
-		 * http://blog.publysher.nl/2012/05/stencyl-tower-defense-4-shooting.html
-		 */
+		
 	}
 
 	public int getDamage() {
@@ -86,17 +92,32 @@ public class Tower {
 		this.targets = targets;
 	}
 	
-	public void updateTargets(){
-		float tempX;
-		float tempY;
-		for(int i = targets.size() - 1; i >= 0; i--){
-			tempX = (float) (targets.get(i).getX() - center.getX());
-			tempY = (float) (targets.get(i).getY() - center.getY());
-			if(tempX * tempX + tempY * tempY >= attackRange * attackRange){
-				targets.remove(i);
-			}
-				
+
+	
+	public boolean intersects(Enemy enemy){
+		float circleDistanceX = (float) Math.abs(center.getX() - enemy.getX());
+		float circleDistanceY = (float) Math.abs(center.getY() - enemy.getY());
+		
+		if(circleDistanceX > GameScreen.tileSize/2 + attackRange){
+			return false;
 		}
+		
+		if(circleDistanceY > GameScreen.tileSize/2 + attackRange){
+			return false;
+		}
+		
+		if(circleDistanceX <= GameScreen.tileSize/2){
+			return true;
+		}
+	
+		if(circleDistanceY <= GameScreen.tileSize/2){
+			return true;
+		}
+		
+		float cornerDistance = (circleDistanceX - GameScreen.tileSize/2) * (circleDistanceX - GameScreen.tileSize/2) 
+				+ (circleDistanceY - GameScreen.tileSize/2) * (circleDistanceY - GameScreen.tileSize/2);
+		
+		return (cornerDistance <= attackRange * attackRange);
 	}
 
 	public int getCost() {
