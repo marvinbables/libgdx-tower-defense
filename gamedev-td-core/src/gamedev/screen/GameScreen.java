@@ -2,6 +2,7 @@ package gamedev.screen;
 
 import gamedev.entity.GameState;
 import gamedev.entity.Tower;
+import gamedev.input.GDInputProcessor;
 import gamedev.input.GameInputProcessor;
 import gamedev.level.Level;
 import gamedev.td.GDSprite;
@@ -39,7 +40,7 @@ public class GameScreen extends GDScreen {
 	SpriteBatch spriteBatch;
 	GDSprite highlightTile, uiSprite, towerLabel, heartSprite[],
 						emeraldSprite, waveSprite, uiTowerHighlight, redHighlight,
-						clonedTowerSprite; // clonedTowerSprite - the GDSprite that the mouse holds when he wants to deploy a tower
+						clonedTowerSprite, selectedSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
 	List<GDSprite> tiles, availableTowers, deployedTowerSprites, enemySprites, spawnedEnemySprites;
 	
 	ShapeRenderer towerRangeRenderer;
@@ -53,7 +54,7 @@ public class GameScreen extends GDScreen {
 	float sec = 0, 
 			rangeRadius = 0; // Used in drawing the tower range
 
-	boolean drawToolTip = false, drawRedHighlight = false;
+	boolean drawInfo = false, drawRedHighlight = false;
 	private boolean spawn;
 	
 	public GameScreen() {
@@ -72,7 +73,7 @@ public class GameScreen extends GDScreen {
 		gameState.initGame();
 		gameState.prepareLevel(1);
 		initializeSprites();
-		inputProcessor = new GameInputProcessor(this);
+		this.inputProcessor = new GameInputProcessor(this);
 	}
 	
 	private void initializeFont() {
@@ -85,6 +86,7 @@ public class GameScreen extends GDScreen {
 	}
 
 	private void initializeSprites() {
+		selectedSprite = null;
 		clonedTowerSprite = null;
 		deployedTowerSprites = new ArrayList<GDSprite>();
 		tiles = new ArrayList<GDSprite>();
@@ -209,16 +211,20 @@ public class GameScreen extends GDScreen {
 			}
 		spriteBatch.end();
 		
-		if(clonedTowerSprite != null) {
-			Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-			
-			towerRangeRenderer.begin(ShapeType.Filled);
+		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+		
+		towerRangeRenderer.begin(ShapeType.Filled);
+		if(selectedSprite != null) {
+			towerRangeRenderer.circle(selectedSprite.getX() + tileSize / 2, convertYforShapeRenderer(selectedSprite.getY() + tileSize * 3 / 2) , rangeRadius);
+		}
+		else if(clonedTowerSprite != null) {
 			if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50){
 				towerRangeRenderer.circle(clonedTowerSprite.getX() + tileSize / 2, convertYforShapeRenderer(clonedTowerSprite.getY() + tileSize * 3 / 2) , rangeRadius);
 			}
-			towerRangeRenderer.end();
-			//System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
 		}
+		
+		towerRangeRenderer.end();
+			//System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
 
 		spriteBatch.begin();
 			if(clonedTowerSprite == null)
@@ -246,7 +252,7 @@ public class GameScreen extends GDScreen {
 				GDSprite.draw(spriteBatch);
 			}
 			
-			if(drawToolTip) {
+			if(drawInfo) {
 				uiTowerHighlight.draw(spriteBatch);
 				// TODO: Draw tooltip showing information of the tower
 			}
@@ -405,14 +411,22 @@ public class GameScreen extends GDScreen {
 		return gameState;
 	}
 	
+	public List<GDSprite> getDeployedTowerSprites() {
+		return deployedTowerSprites;
+	}
+
 	public List<GDSprite> getAvailableTowers() {
 		return availableTowers;
+	}
+	
+	public TowerInformation getUiInformation() {
+		return uiInformation;
 	}
 
 	public void drawTowerInfo(boolean b, int x, int y, Tower towerInfo) {
 		uiTowerHighlight.setPosition(x, y);
 		redHighlight.setPosition(x, y);
-		drawToolTip = b;
+		drawInfo = b;
 		setTowerInfo(towerInfo);
 	}
 	
@@ -433,6 +447,13 @@ public class GameScreen extends GDScreen {
 	
 	public void setTowerInfoSprite(int i) {
 		uiInformation.setTowerSprite(cloneSprite2(i));
+	}
+	
+	public GDSprite cloneSprite(GDSprite sprite) {
+		GDSprite newSprite = new GDSprite(sprite.getTexture());
+		newSprite.setPosition(sprite.getX(), sprite.getY());
+		newSprite.setFlip(false, true);
+		return newSprite;
 	}
 	
 	public void setTowerToPutSprite(int i) {
@@ -471,6 +492,10 @@ public class GameScreen extends GDScreen {
 
 	public void setDrawRedHighlight(boolean drawRedHighlight) {
 		this.drawRedHighlight = drawRedHighlight;
+	}
+	
+	public void setSelectedSprite(GDSprite sprite) {
+		selectedSprite = sprite;
 	}
 
 	

@@ -1,5 +1,6 @@
 package gamedev.td;
 
+import gamedev.input.GameInputProcessor;
 import gamedev.screen.GDScreen;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
@@ -12,7 +13,6 @@ public class TowerDefense extends Game {
 	private MainMenuScreen mainMenuScreen;
 	private GameScreen gameScreen;
 	
-	Controller controller;
 	
 	@Override
 	public void create () {
@@ -21,8 +21,7 @@ public class TowerDefense extends Game {
 		
 		setScreen(gameScreen);
 		
-		controller = new Controller(this.getScreen(), gameScreen, mainMenuScreen, gameScreen.getGameState());
-		Gdx.input.setInputProcessor(controller);
+		Gdx.input.setInputProcessor(gameScreen.getInputProcessor());
 		
 	}
 	
@@ -57,5 +56,21 @@ public class TowerDefense extends Game {
 	@Override
 	public void resume() {
 		super.resume();
+	}
+
+	public MainMenuScreen getMainMenuScreen() {
+		return mainMenuScreen;
+	}
+
+	public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {
+		this.mainMenuScreen = mainMenuScreen;
+	}
+
+	public GameScreen getGameScreen() {
+		return gameScreen;
+	}
+
+	public void setGameScreen(GameScreen gameScreen) {
+		this.gameScreen = gameScreen;
 	}
 }
