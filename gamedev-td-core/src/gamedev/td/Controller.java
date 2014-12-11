@@ -28,6 +28,9 @@ public class Controller implements InputProcessor {
 	// Model
 	private GameState gameState;
 	
+	Color red = new Color(1,0,0,.5f);
+	Color white = new Color(1,1,1,.5f);
+	
 	Tower towerToPut,
 			selectedTower; // The tower to put when the player wants to deploy a tower
 	Sprite selectedSprite;
@@ -79,6 +82,7 @@ public class Controller implements InputProcessor {
 						gameScreen.setTowerInfoSprite(i);
 						selectedSprite = null;
 						selectedTower = null;
+						gameScreen.setSelectedSprite(null);
 						if(gameState.enoughMoney(towerToPut)){
 							gameScreen.setDrawRadius(towerToPut.getAttackRange());
 							gameScreen.cloneSprite(i);
@@ -101,7 +105,10 @@ public class Controller implements InputProcessor {
 						selectedTower = gameState.getDeployedTowers().get(i);
 						gameScreen.setTowerInfo(selectedTower);
 						selectedSprite = gameScreen.cloneSprite(sprite);
+						gameScreen.setSelectedSprite(deployedTowers.get(i));
+						gameScreen.setDrawRadius(selectedTower.getAttackRange());
 						gameScreen.setTowerInfoSprite(i);
+						gameScreen.getTowerRangeRenderer().setColor(white);
 					}
 				}
 			}
@@ -137,6 +144,7 @@ public class Controller implements InputProcessor {
 			    gameScreen.setTowerToPutSprite(-1);
 			    selectedSprite = null;
 			    selectedTower = null;
+			    gameScreen.setSelectedSprite(null);
 			}
 		}
 		
@@ -164,6 +172,13 @@ public class Controller implements InputProcessor {
 			
 			gameScreen.setDrawRedHighlight(false);
 			
+			if(selectedTower == null) {
+				if(!isPlaceable(point.x, point.y)){
+					gameScreen.getTowerRangeRenderer().setColor(red);
+				}
+				else gameScreen.getTowerRangeRenderer().setColor(white);
+			}
+			else gameScreen.getTowerRangeRenderer().setColor(white);
 			
 			List<Sprite> towerSprites = gameScreen.getAvailableTowers();
 			for (int i = 0; i < towerSprites.size(); i++) {
@@ -198,10 +213,6 @@ public class Controller implements InputProcessor {
 			
 			
 			
-			if(!isPlaceable(point.x, point.y)){
-				gameScreen.getTowerRangeRenderer().setColor(1,0,0,.5f);
-			}
-			else gameScreen.getTowerRangeRenderer().setColor(1,1,1,.5f);
 			
 		}
 		return false;

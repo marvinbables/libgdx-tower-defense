@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
 	SpriteBatch spriteBatch;
 	Sprite highlightTile, uiSprite, towerLabel, heartSprite[],
 						emeraldSprite, waveSprite, uiTowerHighlight, redHighlight,
-						clonedTowerSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
+						clonedTowerSprite, selectedSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
 	List<Sprite> tiles, availableTowers, deployedTowerSprites, enemySprites, spawnedEnemySprites;
 	
 	ShapeRenderer towerRangeRenderer;
@@ -85,6 +85,7 @@ public class GameScreen implements Screen {
 	}
 
 	private void initializeSprites() {
+		selectedSprite = null;
 		clonedTowerSprite = null;
 		deployedTowerSprites = new ArrayList<Sprite>();
 		tiles = new ArrayList<Sprite>();
@@ -209,16 +210,20 @@ public class GameScreen implements Screen {
 			}
 		spriteBatch.end();
 		
-		if(clonedTowerSprite != null) {
-			Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-			
-			towerRangeRenderer.begin(ShapeType.Filled);
+		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+		
+		towerRangeRenderer.begin(ShapeType.Filled);
+		if(selectedSprite != null) {
+			towerRangeRenderer.circle(selectedSprite.getX() + tileSize / 2, convertYforShapeRenderer(selectedSprite.getY() + tileSize * 3 / 2) , rangeRadius);
+		}
+		else if(clonedTowerSprite != null) {
 			if(clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50){
 				towerRangeRenderer.circle(clonedTowerSprite.getX() + tileSize / 2, convertYforShapeRenderer(clonedTowerSprite.getY() + tileSize * 3 / 2) , rangeRadius);
 			}
-			towerRangeRenderer.end();
-			//System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
 		}
+		
+		towerRangeRenderer.end();
+			//System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
 
 		spriteBatch.begin();
 			if(clonedTowerSprite == null)
@@ -486,6 +491,10 @@ public class GameScreen implements Screen {
 
 	public void setDrawRedHighlight(boolean drawRedHighlight) {
 		this.drawRedHighlight = drawRedHighlight;
+	}
+	
+	public void setSelectedSprite(Sprite sprite) {
+		selectedSprite = sprite;
 	}
 
 	
