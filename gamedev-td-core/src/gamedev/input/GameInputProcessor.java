@@ -15,13 +15,18 @@ import com.badlogic.gdx.graphics.Color;
 public class GameInputProcessor extends GDInputProcessor{
 		
 	private GameScreen gameScreen;
-	private Tower towerToPut;
+	private Tower towerToPut, selectedTower;
+	
+	private GDSprite selectedSprite;
 
 	Color red = new Color(1,0,0,.5f);
 	Color white = new Color(1,1,1,.5f);
 	
 	public GameInputProcessor(GameScreen screen){
 		this.gameScreen = screen;
+		towerToPut = null;
+		selectedSprite = null;
+		selectedTower = null;
 		
 	}
 		
@@ -55,6 +60,9 @@ public class GameInputProcessor extends GDInputProcessor{
 					gameScreen.setTowerInfo(towerToPut);
 					gameScreen.setTowerToPutSprite(i);
 					gameScreen.setTowerInfoSprite(i);
+					selectedSprite = null;
+					selectedSprite = null;
+					gameScreen.setSelectedSprite(null);
 					if(gameScreen.getGameState().enoughMoney(towerToPut)){
 						gameScreen.setDrawRadius(towerToPut.getAttackRange());
 						gameScreen.cloneSprite(i);
@@ -66,6 +74,23 @@ public class GameInputProcessor extends GDInputProcessor{
 						gameScreen.nullClonedTower();
 					}
 				}
+		}
+		
+		List<GDSprite> deployedTowers = gameScreen.getDeployedTowerSprites();
+		for (int i = 0; i < deployedTowers.size(); i++) {
+			GDSprite sprite = deployedTowers.get(i);
+			if(Gdx.input.isButtonPressed(Buttons.LEFT)) {
+				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
+						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
+					selectedTower = gameScreen.getGameState().getDeployedTowers().get(i);
+					gameScreen.setTowerInfo(selectedTower);
+					selectedSprite = gameScreen.cloneSprite(sprite);
+					gameScreen.setSelectedSprite(deployedTowers.get(i));
+					gameScreen.setDrawRadius(selectedTower.getAttackRange());
+					gameScreen.setTowerInfoSprite(i);
+					gameScreen.getTowerRangeRenderer().setColor(white);
+				}
+			}
 		}
 		
 		if(Gdx.input.isButtonPressed(Buttons.LEFT)) {
@@ -97,30 +122,15 @@ public class GameInputProcessor extends GDInputProcessor{
 		    towerToPut = null;
 		    gameScreen.setTowerInfoSprite(-1);
 		    gameScreen.setTowerToPutSprite(-1);
+		    selectedSprite = null;
+		    selectedTower = null;
+		    gameScreen.setSelectedSprite(null);
 		}
 	
 		return false;
 	}
 	
-	private Point getGridCoordinate(int screenX, int screenY) {
-		Point p = new Point(-50, -50);
-		
-		for (int i = 0; i < GameState.GRIDX+1; i++) {
-			if(screenX <= i*gameScreen.getTileSize()) {
-				p.x = (i-1)*gameScreen.getTileSize();
-				break;
-			}
-		}
-		
-		for (int j = 0; j < GameState.GRIDY+1; j++) {
-			if(screenY <= j*gameScreen.getTileSize()) {
-				p.y = (j-1)*gameScreen.getTileSize();
-				break;
-			}
-		}
-		
-		return p;
-	}
+
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -143,26 +153,43 @@ public class GameInputProcessor extends GDInputProcessor{
 			
 			gameScreen.setDrawRedHighlight(false);
 			List<GDSprite> towerSprites = gameScreen.getAvailableTowers();
+			
+			if(selectedTower == null) {
+				if(!isPlaceable(point)){
+					gameScreen.getTowerRangeRenderer().setColor(red);
+				}
+				else gameScreen.getTowerRangeRenderer().setColor(white);
+			}
+			else gameScreen.getTowerRangeRenderer().setColor(white);
+			
 			for (int i = 0; i < towerSprites.size(); i++) {
 				GDSprite sprite = towerSprites.get(i);
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
 					// assumes size of sprites of available towers is equal to the size of the available towers model
+					boolean showTooltip = true;
 					Point spritePoint = sprite.getPosition();
+					
 					if(towerToPut == null)
-						gameScreen.drawTowerInfo(true, spritePoint.x, spritePoint.y, gameScreen.getGameState().getAvailableTowers().get(i));
+						gameScreen.drawTowerInfo(showTooltip, spritePoint.x, spritePoint.y, gameScreen.getGameState().getAvailableTowers().get(i));
 					else 
-						gameScreen.drawTowerInfo(true, spritePoint.x, spritePoint.y, towerToPut);
+						gameScreen.drawTowerInfo(showTooltip, spritePoint.x, spritePoint.y, towerToPut);
 					gameScreen.setTowerInfoSprite(i);
 					break;
 				}
 				else {
 					gameScreen.drawTowerInfo(false, -50, -50, towerToPut);
+					if(selectedTower != null) {
+						gameScreen.drawTowerInfo(false, (int)selectedSprite.getX(), (int)selectedSprite.getY(), selectedTower);
+						gameScreen.getUiInformation().setTowerSprite(selectedSprite);
+					}
+					else {
+						if(towerToPut == null)
+							gameScreen.setTowerInfoSprite(-1);
+					}
 //					if(towerToPut != null)
 //						gameScreen.setTowerInfoSprite(i);
 //					else
-					if(towerToPut == null)
-						gameScreen.setTowerInfoSprite(-1);
 						
 				}
 			}
@@ -179,6 +206,26 @@ public class GameInputProcessor extends GDInputProcessor{
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private Point getGridCoordinate(int screenX, int screenY) {
+		Point p = new Point(-50, -50);
+		
+		for (int i = 0; i < GameState.GRIDX+1; i++) {
+			if(screenX <= i*gameScreen.getTileSize()) {
+				p.x = (i-1)*gameScreen.getTileSize();
+				break;
+			}
+		}
+		
+		for (int j = 0; j < GameState.GRIDY+1; j++) {
+			if(screenY <= j*gameScreen.getTileSize()) {
+				p.y = (j-1)*gameScreen.getTileSize();
+				break;
+			}
+		}
+		
+		return p;
 	}
 	
 	public boolean isPlaceable(Point p){

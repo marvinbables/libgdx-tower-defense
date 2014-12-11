@@ -1,6 +1,5 @@
 package gamedev.td;
 
-import gamedev.input.GameInputProcessor;
 import gamedev.screen.GDScreen;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
