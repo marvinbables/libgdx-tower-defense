@@ -1,16 +1,16 @@
 package gamedev.td;
 
+import gamedev.screen.GDScreen;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 
 public class TowerDefense extends Game {
 
-	MainMenuScreen mainMenuScreen;
-	GameScreen gameScreen;
+	private MainMenuScreen mainMenuScreen;
+	private GameScreen gameScreen;
 	
 	Controller controller;
 	
@@ -23,6 +23,12 @@ public class TowerDefense extends Game {
 		
 		controller = new Controller(this.getScreen(), gameScreen, mainMenuScreen, gameScreen.getGameState());
 		Gdx.input.setInputProcessor(controller);
+		
+	}
+	
+	public void switchScreen(GDScreen screen){
+		setScreen(screen);
+		Gdx.input.setInputProcessor(screen.getInputProcessor());
 		
 	}
 

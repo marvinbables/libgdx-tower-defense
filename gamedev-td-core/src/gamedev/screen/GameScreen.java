@@ -1,28 +1,27 @@
 package gamedev.screen;
 
-import gamedev.entity.Enemy;
 import gamedev.entity.GameState;
 import gamedev.entity.Tower;
+import gamedev.input.GameInputProcessor;
 import gamedev.level.Level;
+import gamedev.td.GDSprite;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class GameScreen implements Screen {
+public class GameScreen extends GDScreen {
 
 	/*
 	 * Screen is view (MVC)
@@ -38,10 +37,10 @@ public class GameScreen implements Screen {
 	OrthographicCamera camera;
 	
 	SpriteBatch spriteBatch;
-	Sprite highlightTile, uiSprite, towerLabel, heartSprite[],
+	GDSprite highlightTile, uiSprite, towerLabel, heartSprite[],
 						emeraldSprite, waveSprite, uiTowerHighlight, redHighlight,
-						clonedTowerSprite; // clonedTowerSprite - the sprite that the mouse holds when he wants to deploy a tower
-	List<Sprite> tiles, availableTowers, deployedTowerSprites, enemySprites, spawnedEnemySprites;
+						clonedTowerSprite; // clonedTowerSprite - the GDSprite that the mouse holds when he wants to deploy a tower
+	List<GDSprite> tiles, availableTowers, deployedTowerSprites, enemySprites, spawnedEnemySprites;
 	
 	ShapeRenderer towerRangeRenderer;
 	
@@ -73,6 +72,7 @@ public class GameScreen implements Screen {
 		gameState.initGame();
 		gameState.prepareLevel(1);
 		initializeSprites();
+		inputProcessor = new GameInputProcessor(this);
 	}
 	
 	private void initializeFont() {
@@ -86,19 +86,19 @@ public class GameScreen implements Screen {
 
 	private void initializeSprites() {
 		clonedTowerSprite = null;
-		deployedTowerSprites = new ArrayList<Sprite>();
-		tiles = new ArrayList<Sprite>();
-		heartSprite = new Sprite[10];
+		deployedTowerSprites = new ArrayList<GDSprite>();
+		tiles = new ArrayList<GDSprite>();
+		heartSprite = new GDSprite[10];
 		
 		Texture grass = new Texture(Gdx.files.internal("assets/img/grass.png"));
 		Texture dirt = new Texture(Gdx.files.internal("assets/img/dirt_light.png"));
 		Texture dirtDark = new Texture(Gdx.files.internal("assets/img/dirt_dark.png"));
 		Texture steve = new Texture(Gdx.files.internal("assets/img/steve.png"));
 		
-		Sprite grassTile = createTile(grass);
-		Sprite dirtTile = createTile(dirt);
-		Sprite dirtDarkTile = createTile(dirtDark);
-		Sprite steveTile = createTile(steve);
+		GDSprite grassTile = createTile(grass);
+		GDSprite dirtTile = createTile(dirt);
+		GDSprite dirtDarkTile = createTile(dirtDark);
+		GDSprite steveTile = createTile(steve);
 		
 		tiles.add(grassTile);
 		tiles.add(dirtTile);
@@ -109,13 +109,13 @@ public class GameScreen implements Screen {
 		highlightTile = createTile(highlight);
 		
 		Texture ui = new Texture(Gdx.files.internal("assets/img/ui.png"));
-		uiSprite = new Sprite(ui);
+		uiSprite = new GDSprite(ui);
 		uiSprite.flip(false, true);
 		uiSprite.setPosition(0, GameState.GRIDY*tileSize);
 		
 		Texture heart = new Texture(Gdx.files.internal("assets/img/heart.png"));
 		for (int i = 0; i < heartSprite.length; i++) {
-			heartSprite[i] = new Sprite(heart);
+			heartSprite[i] = new GDSprite(heart);
 			heartSprite[i].flip(false, true);
 			heartSprite[i].setPosition(i*20 + i*2 + 10, 12*tileSize + 10);
 		}
@@ -143,12 +143,12 @@ public class GameScreen implements Screen {
 	}
 
 	private void initializeEnemySprites() {
-		spawnedEnemySprites = new ArrayList<Sprite>();
-		enemySprites = new ArrayList<Sprite>();
+		spawnedEnemySprites = new ArrayList<GDSprite>();
+		enemySprites = new ArrayList<GDSprite>();
 		
 		Texture spiderTexture = new Texture(Gdx.files.internal("assets/img/spiderTemp.png")); //TODO: change spider asset
 		
-		Sprite spider = createTile(spiderTexture);
+		GDSprite spider = createTile(spiderTexture);
 		
 		enemySprites.add(spider);
 		
@@ -156,7 +156,7 @@ public class GameScreen implements Screen {
 	}
 
 	private void initializeTowerSprites() {
-		availableTowers = new ArrayList<Sprite>();
+		availableTowers = new ArrayList<GDSprite>();
 		
 		Texture dirt = new Texture(Gdx.files.internal("assets/img/new_dirt_tower.png"));
 		Texture arrow = new Texture(Gdx.files.internal("assets/img/new_arrow_tower.png"));
@@ -164,11 +164,11 @@ public class GameScreen implements Screen {
 		Texture potion = new Texture(Gdx.files.internal("assets/img/new_potion_tower.png"));
 		Texture currency = new Texture(Gdx.files.internal("assets/img/new_currency_tower.png"));
 		
-		Sprite dirtTower = createTile(dirt);
-		Sprite arrowTower = createTile(arrow);
-		Sprite eggTower = createTile(egg);
-		Sprite potionTower = createTile(potion);
-		Sprite currencyTower = createTile(currency);
+		GDSprite dirtTower = createTile(dirt);
+		GDSprite arrowTower = createTile(arrow);
+		GDSprite eggTower = createTile(egg);
+		GDSprite potionTower = createTile(potion);
+		GDSprite currencyTower = createTile(currency);
 		
 		
 		int offset = 3, y = 13;
@@ -226,7 +226,7 @@ public class GameScreen implements Screen {
 			
 			uiSprite.draw(spriteBatch);
 			
-			for (Sprite tower : availableTowers) {
+			for (GDSprite tower : availableTowers) {
 				tower.draw(spriteBatch);
 			}
 			
@@ -242,8 +242,8 @@ public class GameScreen implements Screen {
 			waveSprite.draw(spriteBatch);
 			
 			
-			for (Sprite sprite : deployedTowerSprites) {
-				sprite.draw(spriteBatch);
+			for (GDSprite GDSprite : deployedTowerSprites) {
+				GDSprite.draw(spriteBatch);
 			}
 			
 			if(drawToolTip) {
@@ -259,7 +259,7 @@ public class GameScreen implements Screen {
 				clonedTowerSprite.draw(spriteBatch);
 			}
 			
-			// Move enemy sprite
+			// Move enemy GDSprite
 			for (int i = 0; i < spawnedEnemySprites.size(); i++) {
 				if(gameState.getEnemies().get(i).isActive()){
 					spawnedEnemySprites.get(i).setX(gameState.getEnemies().get(i).getX());
@@ -361,7 +361,7 @@ public class GameScreen implements Screen {
 		
 	}
 	
-	private Sprite newEnemySprite(int enemyType) {
+	private GDSprite newEnemySprite(int enemyType) {
 		String path = "";
 		
 		switch(enemyType) {
@@ -370,21 +370,21 @@ public class GameScreen implements Screen {
 		}
 		
 		Texture texture = new Texture(Gdx.files.internal(path));
-		Sprite sprite = new Sprite(texture);
-		sprite.setPosition(-50, -50);
-		return sprite;
+		GDSprite GDSprite = new GDSprite(texture);
+		GDSprite.setPosition(-50, -50);
+		return GDSprite;
 	}
 	
 	// Factory
-	private Sprite createTile(Texture texture) {
-		Sprite sprite = new Sprite(texture);
+	private GDSprite createTile(Texture texture) {
+		GDSprite GDSprite = new GDSprite(texture);
 		// tile size 40x40
-		sprite.setBounds(-50, -50, tileSize, tileSize);
-		sprite.flip(false, true);
-		return sprite;
+		GDSprite.setBounds(-50, -50, tileSize, tileSize);
+		GDSprite.flip(false, true);
+		return GDSprite;
 	}
 	
-	private Sprite getSprite(int correspondingNumber) {
+	private GDSprite getSprite(int correspondingNumber) {
 		if(correspondingNumber >= tiles.size())
 			return tiles.get(0);
 		
@@ -405,7 +405,7 @@ public class GameScreen implements Screen {
 		return gameState;
 	}
 	
-	public List<Sprite> getAvailableTowers() {
+	public List<GDSprite> getAvailableTowers() {
 		return availableTowers;
 	}
 
@@ -439,7 +439,7 @@ public class GameScreen implements Screen {
 		uiInformation.setTowerToPutSprite(cloneSprite2(i));
 	}
 	
-	private Sprite cloneSprite2(int index) {
+	private GDSprite cloneSprite2(int index) {
 		if(index < 0)
 			return null;
 		return createTile(availableTowers.get(index).getTexture());

@@ -1,8 +1,7 @@
 package gamedev.screen;
 
-import com.badlogic.gdx.Screen;
 
-public class MainMenuScreen  implements Screen {
+public class MainMenuScreen extends GDScreen {
 
 	public MainMenuScreen() {
 		

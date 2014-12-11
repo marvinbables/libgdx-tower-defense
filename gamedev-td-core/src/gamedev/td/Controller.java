@@ -63,7 +63,7 @@ public class Controller implements InputProcessor {
 		// 		 For each component, check if mouseX mouseY is inside
 		// 		 Call the appropriate action in GameState
 		if(currentScreen.equals(gameScreen)) {
-			List<Sprite> availableTowers = gameScreen.getAvailableTowers();
+			List<GDSprite> availableTowers = gameScreen.getAvailableTowers();
 			for (int i = 0; i < availableTowers.size(); i++) {
 				Sprite sprite = availableTowers.get(i);
 				if(Gdx.input.isButtonPressed(Buttons.LEFT))
@@ -141,16 +141,19 @@ public class Controller implements InputProcessor {
 			gameScreen.setClonedTowerSpriteLoc(point.x, point.y);
 			
 			gameScreen.setDrawRedHighlight(false);
-			List<Sprite> towerSprites = gameScreen.getAvailableTowers();
+			List<GDSprite> towerSprites = gameScreen.getAvailableTowers();
 			for (int i = 0; i < towerSprites.size(); i++) {
 				Sprite sprite = towerSprites.get(i);
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
 					// assumes size of sprites of available towers is equal to the size of the available towers model
+					
+					boolean showTooltip = true;
+					
 					if(towerToPut == null)
-						gameScreen.drawTowerInfo(true, (int)sprite.getX(), (int)sprite.getY(), gameState.getAvailableTowers().get(i));
+						gameScreen.drawTowerInfo(showTooltip, (int)sprite.getX(), (int)sprite.getY(), gameState.getAvailableTowers().get(i));
 					else 
-						gameScreen.drawTowerInfo(true, (int)sprite.getX(), (int)sprite.getY(), towerToPut);
+						gameScreen.drawTowerInfo(showTooltip, (int)sprite.getX(), (int)sprite.getY(), towerToPut);
 					gameScreen.setTowerInfoSprite(i);
 					break;
 				}
