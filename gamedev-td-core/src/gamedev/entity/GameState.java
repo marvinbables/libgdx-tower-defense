@@ -13,7 +13,7 @@ public class GameState {
 	private float waveSpawnTime, SPAWN_TIME = 5, spawnDelay;
 	private List<Enemy> enemies;
 	private List<Integer> enemiesToBeSpawned;
-	private List<Tower> towersDeployed, availableTowers;
+	private List<Tower> deployedTowers, availableTowers;
 	private List<Point> currentWaypoints;
 	
 	{
@@ -28,7 +28,7 @@ public class GameState {
 	public GameState() {
 		enemiesToBeSpawned = new ArrayList<Integer>();
 		enemies = new ArrayList<Enemy>();
-		towersDeployed = new ArrayList<Tower>();
+		deployedTowers = new ArrayList<Tower>();
 		availableTowers = new ArrayList<Tower>();
 		createTowers();
 	}
@@ -75,7 +75,7 @@ public class GameState {
 			enemy.move();
 		}
 		
-		for(Tower tower : towersDeployed){
+		for(Tower tower : deployedTowers){
 			tower.acquireTarget(enemies);
 			tower.updateTargets();
 		}
@@ -135,7 +135,7 @@ public class GameState {
 		
 		if(money >= tower.getCost()){
 			money -= tower.getCost();
-			towersDeployed.add(tower);
+			deployedTowers.add(tower);
 		}
 		
 	}
@@ -179,8 +179,8 @@ public class GameState {
 		return availableTowers;
 	}
 
-	public List<Tower> getTowersDeployed() {
-		return towersDeployed;
+	public List<Tower> getDeployedTowers() {
+		return deployedTowers;
 	}
 
 	public List<Point> getCurrentWaypoints() {

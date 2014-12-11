@@ -54,7 +54,7 @@ public class GameScreen implements Screen {
 	float sec = 0, 
 			rangeRadius = 0; // Used in drawing the tower range
 
-	boolean drawToolTip = false, drawRedHighlight = false;
+	boolean drawInfo = false, drawRedHighlight = false;
 	private boolean spawn;
 	
 	public GameScreen() {
@@ -246,7 +246,7 @@ public class GameScreen implements Screen {
 				sprite.draw(spriteBatch);
 			}
 			
-			if(drawToolTip) {
+			if(drawInfo) {
 				uiTowerHighlight.draw(spriteBatch);
 				// TODO: Draw tooltip showing information of the tower
 			}
@@ -405,14 +405,22 @@ public class GameScreen implements Screen {
 		return gameState;
 	}
 	
+	public List<Sprite> getDeployedTowerSprites() {
+		return deployedTowerSprites;
+	}
+
 	public List<Sprite> getAvailableTowers() {
 		return availableTowers;
+	}
+	
+	public TowerInformation getUiInformation() {
+		return uiInformation;
 	}
 
 	public void drawTowerInfo(boolean b, int x, int y, Tower towerInfo) {
 		uiTowerHighlight.setPosition(x, y);
 		redHighlight.setPosition(x, y);
-		drawToolTip = b;
+		drawInfo = b;
 		setTowerInfo(towerInfo);
 	}
 	
@@ -433,6 +441,13 @@ public class GameScreen implements Screen {
 	
 	public void setTowerInfoSprite(int i) {
 		uiInformation.setTowerSprite(cloneSprite2(i));
+	}
+	
+	public Sprite cloneSprite(Sprite sprite) {
+		Sprite newSprite = new Sprite(sprite.getTexture());
+		newSprite.setPosition(sprite.getX(), sprite.getY());
+		newSprite.setFlip(false, true);
+		return newSprite;
 	}
 	
 	public void setTowerToPutSprite(int i) {
