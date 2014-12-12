@@ -41,7 +41,7 @@ public class TextureFactory {
 			else if(key.equals("heart")){
 				path = "assets/img/heart.png";
 			}
-			else if(key.equals("label")){
+			else if(key.equals("tower_label")){
 				path = "assets/img/tower_label.png";
 			}
 			else if(key.equals("emerald")){
@@ -68,14 +68,16 @@ public class TextureFactory {
 			else if(key.equals("currency_tower")){
 				path = "assets/img/new_currency_tower.png";
 			}
+			else if(key.equals("tower_highlight")){
+				path = "assets/img/ui_tower_highlight.png";
+			}
 			else{
 				return null;
 			}
 			
-			
 			texture = new Texture(Gdx.files.internal(path));
+			textures.put(key, texture);
 		}
-		
 		
 		return texture;
 	}

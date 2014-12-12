@@ -1,6 +1,8 @@
 package gamedev.screen;
 
 import gamedev.entity.GameState;
+import gamedev.entity.SpriteFactory;
+import gamedev.entity.TextureFactory;
 import gamedev.entity.Tower;
 import gamedev.input.GameInputProcessor;
 import gamedev.level.Level;
@@ -16,6 +18,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -95,15 +98,12 @@ public class GameScreen extends GDScreen {
 		tiles = new ArrayList<GDSprite>();
 		heartSprite = new GDSprite[10];
 		
-		Texture grass = new Texture(Gdx.files.internal("assets/img/grass.png"));
-		Texture dirt = new Texture(Gdx.files.internal("assets/img/dirt_light.png"));
-		Texture dirtDark = new Texture(Gdx.files.internal("assets/img/dirt_dark.png"));
-		Texture steve = new Texture(Gdx.files.internal("assets/img/steve.png"));
+
 		
-		GDSprite grassTile = createTile(grass);
-		GDSprite dirtTile = createTile(dirt);
-		GDSprite dirtDarkTile = createTile(dirtDark);
-		GDSprite steveTile = createTile(steve);
+		GDSprite grassTile = SpriteFactory.createSpriteTile("grass");
+		GDSprite dirtTile = SpriteFactory.createSpriteTile("dirt");
+		GDSprite dirtDarkTile = SpriteFactory.createSpriteTile("dirt_dark");
+		GDSprite steveTile = SpriteFactory.createSpriteTile("steve");
 		
 		tiles.add(grassTile);
 		tiles.add(dirtTile);
@@ -113,35 +113,26 @@ public class GameScreen extends GDScreen {
 		Texture highlight = new Texture(Gdx.files.internal("assets/img/tile_highlight.png"));
 		highlightTile = createTile(highlight);
 		
-		Texture ui = new Texture(Gdx.files.internal("assets/img/ui.png"));
-		uiSprite = new GDSprite(ui);
-		uiSprite.flip(false, true);
+		uiSprite = SpriteFactory.createSprite("ui");
 		uiSprite.setPosition(0, GameState.GRIDY*tileSize);
 		
-		Texture heart = new Texture(Gdx.files.internal("assets/img/heart.png"));
 		for (int i = 0; i < heartSprite.length; i++) {
-			heartSprite[i] = new GDSprite(heart);
-			heartSprite[i].flip(false, true);
+			heartSprite[i] = SpriteFactory.createSprite("heart");;
 			heartSprite[i].setPosition(i*20 + i*2 + 10, 12*tileSize + 10);
 		}
 		
-		Texture tower = new Texture(Gdx.files.internal("assets/img/tower_label.png"));
-		towerLabel = createTile(tower);
+		towerLabel = SpriteFactory.createSprite("tower_label");
 		towerLabel.setPosition(0, 13*tileSize);
 		
-		Texture emeraldTex = new Texture(Gdx.files.internal("assets/img/emerald.png"));
-		emeraldSprite = createTile(emeraldTex);
+		emeraldSprite = SpriteFactory.createSprite("emerald");
 		emeraldSprite.setPosition(0, 14*tileSize);
 		
-		Texture waveTex = new Texture(Gdx.files.internal("assets/img/wave.png"));
-		waveSprite = createTile(waveTex);
+		waveSprite = SpriteFactory.createSprite("wave");
 		waveSprite.setPosition(0, 15*tileSize);
 		
-		Texture uiTowerTex = new Texture(Gdx.files.internal("assets/img/ui_tower_highlight.png"));
-		uiTowerHighlight = createTile(uiTowerTex);
+		uiTowerHighlight = SpriteFactory.createSprite("tower_highlight");
 		
-		Texture redTexHighlight = new Texture(Gdx.files.internal("assets/img/red_highlight.png"));
-		redHighlight = createTile(redTexHighlight);
+		redHighlight = SpriteFactory.createSprite("red_highlight");
 		
 		initializeTowerSprites();
 		initializeEnemySprites();
@@ -151,10 +142,11 @@ public class GameScreen extends GDScreen {
 		spawnedEnemySprites = new ArrayList<GDSprite>();
 		enemySprites = new ArrayList<GDSprite>();
 		
-		Texture spiderTexture = new Texture(Gdx.files.internal("assets/img/spiderTemp.png")); //TODO: change spider asset
+		 //TODO: change spider asset
 		
-		GDSprite spider = createTile(spiderTexture);
+		GDSprite spider = SpriteFactory.createSprite("spider");
 		
+		//This isn't used?
 		enemySprites.add(spider);
 		
 		
@@ -163,17 +155,11 @@ public class GameScreen extends GDScreen {
 	private void initializeTowerSprites() {
 		availableTowers = new ArrayList<GDSprite>();
 		
-		Texture dirt = new Texture(Gdx.files.internal("assets/img/new_dirt_tower.png"));
-		Texture arrow = new Texture(Gdx.files.internal("assets/img/new_arrow_tower.png"));
-		Texture egg = new Texture(Gdx.files.internal("assets/img/new_egg_tower.png"));
-		Texture potion = new Texture(Gdx.files.internal("assets/img/new_potion_tower.png"));
-		Texture currency = new Texture(Gdx.files.internal("assets/img/new_currency_tower.png"));
-		
-		GDSprite dirtTower = createTile(dirt);
-		GDSprite arrowTower = createTile(arrow);
-		GDSprite eggTower = createTile(egg);
-		GDSprite potionTower = createTile(potion);
-		GDSprite currencyTower = createTile(currency);
+		GDSprite dirtTower = SpriteFactory.createSpriteTile("dirt_tower");
+		GDSprite arrowTower = SpriteFactory.createSpriteTile("arrow_tower");
+		GDSprite eggTower = SpriteFactory.createSpriteTile("egg_tower");
+		GDSprite potionTower = SpriteFactory.createSpriteTile("potion_tower");
+		GDSprite currencyTower = SpriteFactory.createSpriteTile("currency_tower");
 		
 		
 		int offset = 3, y = 13;
