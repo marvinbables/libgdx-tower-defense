@@ -88,9 +88,9 @@ public class MenuInputProcessor extends GDInputProcessor{
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
 						
-					menuScreen.highlightButton(buttons.get(i));
+					buttons.get(i).setAlpha(0.8f);
 				}
-				else menuScreen.unHighlight(buttons.get(i));
+				else buttons.get(i).setAlpha(1);
 		}
 		
 		return false;

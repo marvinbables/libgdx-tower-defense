@@ -123,18 +123,6 @@ public class MainMenuScreen extends GDScreen {
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 	}
 	
-	public void unHighlight(GDSprite btn){
-		
-		btn.setAlpha(1);
-				
-	}
-	
-	public void highlightButton(GDSprite btn){
-			
-		btn.setAlpha(0.8f);
-				
-	}
-	
 	public List<GDSprite> getButtons() {
 		return buttons;
 	}
