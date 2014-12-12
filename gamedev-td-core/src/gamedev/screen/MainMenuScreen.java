@@ -28,7 +28,7 @@ public class MainMenuScreen extends GDScreen {
 
 	BitmapFont font;
 	
-	List<GDSprite> buttons;
+	List<GDSprite> buttons, highlightedButtons;
 	
 	public final static int START_GAME = 0, LEVEL_SELECT = 1, ABOUT = 2; 
 	
@@ -91,15 +91,18 @@ public class MainMenuScreen extends GDScreen {
 	private void initializeButtons() {
 		buttons = new ArrayList<GDSprite>();
 		
-		Texture startGameBtnTx = new Texture(Gdx.files.internal("assets/img/grass.png"));
-		Texture lvlSelectBtnTx = new Texture(Gdx.files.internal("assets/img/dirt_light.png"));
-		Texture aboutBtnTx = new Texture(Gdx.files.internal("assets/img/dirt_dark.png"));
+		Texture startGameBtnTx = new Texture(Gdx.files.internal("assets/img/play_button.png"));
+		Texture lvlSelectBtnTx = new Texture(Gdx.files.internal("assets/img/settings_button.png"));
+		Texture aboutBtnTx = new Texture(Gdx.files.internal("assets/img/about_button.png"));
 		
 		GDSprite startGameBtn = new GDSprite(startGameBtnTx);
 		startGameBtn.setPosition(0, 0);
+		startGameBtn.flip(false, true);
 		GDSprite lvlSelectBtn = new GDSprite(lvlSelectBtnTx);
 		lvlSelectBtn.setPosition(0, 40);
+		lvlSelectBtn.flip(false, true);
 		GDSprite aboutBtn = new GDSprite(aboutBtnTx);
+		aboutBtn.flip(false, true);
 		aboutBtn.setPosition(0, 80);
 		
 		buttons.add(startGameBtn);

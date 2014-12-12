@@ -14,5 +14,5 @@ public class GDSprite extends Sprite {
 	public Point getPosition(){
 		return new Point((int)getX(), (int)getY());
 	}
-
+	
 }
