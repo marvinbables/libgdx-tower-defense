@@ -2,13 +2,15 @@ package gamedev.entity;
 
 import gamedev.td.GDSprite;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public abstract class Entity {
 
 	protected float x, y;
 	protected GDSprite sprite;
 	protected boolean active;
 	
-	public abstract void draw();
+	public abstract void draw(SpriteBatch spriteBatch);
 	public abstract void update();
 	
 	

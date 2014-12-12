@@ -1,27 +1,29 @@
 package gamedev.entity;
 
+import gamedev.entity.enemy.Spider;
+
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Enemy {
+
+public abstract class Enemy extends Entity{
 	enum Dir {
 		LEFT, RIGHT, UP, DOWN
 	}
 	
-	private float x, y, angle;
-	private String name;
+	private float angle;
 	private int health, moneyReward;
 	private float speed;
 	private List<Point> waypoints;
-	private Dir dir = Dir.RIGHT;
-	private boolean active;
+	private Dir dir;
 	
-	public Enemy(String name, int health, int moneyReward, float speed) {
+	public Enemy(int health, int moneyReward, float speed) {
 		active = true;
 		angle = 0;
-		this.name = name;
 		this.health = health;
 		this.moneyReward = moneyReward;
 		this.speed = speed;
@@ -30,7 +32,7 @@ public class Enemy {
 		y = -50;
 	}
 	
-	public void move() {
+	public void update() {
 		if(!waypoints.isEmpty()) {
 			Point waypoint = waypoints.get(0);
 			
@@ -73,6 +75,40 @@ public class Enemy {
 			}
 		}
 	}
+	
+	
+	public void draw(SpriteBatch spriteBatch){
+		if(active){
+			sprite.setX(this.x);
+			sprite.setY(this.y);
+			sprite.setRotation(this.angle);
+			sprite.draw(spriteBatch);
+		}
+	}
+	
+	//enemy factory pattern
+	public static Enemy createEnemy(int type, Point [] waypoints){
+		Enemy enemy = null;
+		int health, moneyReward;
+		float speed;
+		List<Point> waypointList = Arrays.asList(waypoints);
+		
+		switch(type){
+		
+			case 1:		//spider
+				health = 50;
+				moneyReward = 10;
+				speed = 1.5f;
+				enemy = new Spider(health, moneyReward, speed);
+				enemy.addWaypoint(waypointList);
+				//set sprite here
+				return enemy;
+			
+			default:
+				return enemy;
+		}
+		
+	}
 
 	public int getHealth() {
 		return health;
@@ -86,32 +122,12 @@ public class Enemy {
 		return speed;
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	public List<Point> getWaypoints() {
 		return waypoints;
 	}
 	
 	public void addWaypoint(List<Point> points) {
 		waypoints = points;
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 
 	public Dir getDir() {

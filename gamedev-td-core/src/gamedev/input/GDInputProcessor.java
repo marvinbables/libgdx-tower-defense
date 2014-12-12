@@ -8,6 +8,8 @@ public abstract class GDInputProcessor implements InputProcessor{
 	
 	protected TowerDefense towerDefense; //controller
 	
-	
+	public TowerDefense getTowerDefense(){
+		return towerDefense;
+	}
 
 }
