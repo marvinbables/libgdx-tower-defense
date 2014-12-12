@@ -60,7 +60,7 @@ public class GameInputProcessor extends GDInputProcessor{
 					gameScreen.setTowerInfo(towerToPut);
 					gameScreen.setTowerToPutSprite(i);
 					gameScreen.setTowerInfoSprite(i);
-					selectedSprite = null;
+					selectedTower = null;
 					selectedSprite = null;
 					gameScreen.setSelectedSprite(null);
 					if(gameScreen.getGameState().enoughMoney(towerToPut)){
@@ -157,6 +157,7 @@ public class GameInputProcessor extends GDInputProcessor{
 			if(selectedTower == null) {
 				if(!isPlaceable(point)){
 					gameScreen.getTowerRangeRenderer().setColor(red);
+					System.out.println("null");
 				}
 				else gameScreen.getTowerRangeRenderer().setColor(white);
 			}
@@ -179,7 +180,7 @@ public class GameInputProcessor extends GDInputProcessor{
 				}
 				else {
 					gameScreen.drawTowerInfo(false, -50, -50, towerToPut);
-					if(selectedTower != null) {
+					if(selectedTower != null && selectedSprite != null) {
 						gameScreen.drawTowerInfo(false, (int)selectedSprite.getX(), (int)selectedSprite.getY(), selectedTower);
 						gameScreen.getUiInformation().setTowerSprite(selectedSprite);
 					}
@@ -193,11 +194,6 @@ public class GameInputProcessor extends GDInputProcessor{
 						
 				}
 			}
-			
-			if(!isPlaceable(point)){
-				gameScreen.getTowerRangeRenderer().setColor(1,0,0,.5f);
-			}
-			else gameScreen.getTowerRangeRenderer().setColor(1,1,1,.5f);
 			
 		return false;
 	}
