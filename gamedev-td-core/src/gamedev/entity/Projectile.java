@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class Projectile extends Entity {
 	
+	private int damage;
 	private float speed, angle;
 	
+	//TODO projectile constructor
 	public Projectile(){
 		
 	}
@@ -21,7 +23,7 @@ public abstract class Projectile extends Entity {
 	
 	
 	//TODO implement method update()
-	public void update(){
+	public void update(Enemy enemy){
 		
 	}
 	
@@ -48,6 +50,14 @@ public abstract class Projectile extends Entity {
 
 	public void setAngle(float angle) {
 		this.angle = angle;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 	
 	
