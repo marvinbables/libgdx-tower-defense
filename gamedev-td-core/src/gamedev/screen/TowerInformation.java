@@ -65,7 +65,7 @@ public class TowerInformation {
 			towerSprite.setPosition(x + 150, y + 10);
 			towerSprite.draw(spriteBatch);
 		}
-		if(towerToPutSprite != null) {
+		else if(towerToPutSprite != null) {
 			towerToPutSprite.setPosition(x + 150, y + 10);
 			towerToPutSprite.draw(spriteBatch);
 		}
