@@ -251,8 +251,8 @@ public class GameScreen extends GDScreen {
 			waveSprite.draw(spriteBatch);
 			
 			
-			for (GDSprite GDSprite : deployedTowerSprites) {
-				GDSprite.draw(spriteBatch);
+			for (GDSprite sprite : deployedTowerSprites) {
+				sprite.draw(spriteBatch);
 			}
 			
 			if(drawInfo) {
@@ -379,18 +379,18 @@ public class GameScreen extends GDScreen {
 		}
 		
 		Texture texture = new Texture(Gdx.files.internal(path));
-		GDSprite GDSprite = new GDSprite(texture);
-		GDSprite.setPosition(-50, -50);
-		return GDSprite;
+		GDSprite sprite = new GDSprite(texture);
+		sprite.setPosition(-50, -50);
+		return sprite;
 	}
 	
 	// Factory
 	private GDSprite createTile(Texture texture) {
-		GDSprite GDSprite = new GDSprite(texture);
+		GDSprite sprite = new GDSprite(texture);
 		// tile size 40x40
-		GDSprite.setBounds(-50, -50, tileSize, tileSize);
-		GDSprite.flip(false, true);
-		return GDSprite;
+		sprite.setBounds(-50, -50, tileSize, tileSize);
+		sprite.flip(false, true);
+		return sprite;
 	}
 	
 	private GDSprite getSprite(int correspondingNumber) {
