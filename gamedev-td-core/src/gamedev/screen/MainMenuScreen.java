@@ -30,6 +30,8 @@ public class MainMenuScreen extends GDScreen {
 	
 	List<GDSprite> buttons, highlightedButtons;
 	
+	GDSprite startGameBtn, lvlSelectBtn, aboutBtn;
+	
 	public final static int START_GAME = 0, LEVEL_SELECT = 1, ABOUT = 2; 
 	
 	public MainMenuScreen(TowerDefense towerDefense) {
@@ -95,19 +97,21 @@ public class MainMenuScreen extends GDScreen {
 		Texture lvlSelectBtnTx = new Texture(Gdx.files.internal("assets/img/settings_button.png"));
 		Texture aboutBtnTx = new Texture(Gdx.files.internal("assets/img/about_button.png"));
 		
-		GDSprite startGameBtn = new GDSprite(startGameBtnTx);
+		startGameBtn = new GDSprite(startGameBtnTx);
 		startGameBtn.setPosition(0, 0);
 		startGameBtn.flip(false, true);
-		GDSprite lvlSelectBtn = new GDSprite(lvlSelectBtnTx);
+		lvlSelectBtn = new GDSprite(lvlSelectBtnTx);
 		lvlSelectBtn.setPosition(0, 40);
 		lvlSelectBtn.flip(false, true);
-		GDSprite aboutBtn = new GDSprite(aboutBtnTx);
+		aboutBtn = new GDSprite(aboutBtnTx);
 		aboutBtn.flip(false, true);
 		aboutBtn.setPosition(0, 80);
+		
 		
 		buttons.add(startGameBtn);
 		buttons.add(lvlSelectBtn);
 		buttons.add(aboutBtn);
+		
 	}
 	
 	private void initializeFont() {
@@ -119,7 +123,21 @@ public class MainMenuScreen extends GDScreen {
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 	}
 	
+	public void unHighlight(GDSprite btn){
+		
+		btn.setAlpha(1);
+				
+	}
+	
+	public void highlightButton(GDSprite btn){
+			
+		btn.setAlpha(0.8f);
+				
+	}
+	
 	public List<GDSprite> getButtons() {
 		return buttons;
 	}
+	
+	
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Color;
 public class MenuInputProcessor extends GDInputProcessor{
 
 	TowerDefense towerDefense;
+	List<GDSprite> buttons;
 	private MainMenuScreen menuScreen;
 
 	Color red = new Color(1,0,0,.5f);
@@ -43,7 +44,7 @@ public class MenuInputProcessor extends GDInputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		List<GDSprite> buttons = menuScreen.getButtons();
+		buttons = menuScreen.getButtons();
 		for (int i = 0; i < buttons.size(); i++) {
 			GDSprite sprite = buttons.get(i);
 			if(Gdx.input.isButtonPressed(Buttons.LEFT))
@@ -64,6 +65,7 @@ public class MenuInputProcessor extends GDInputProcessor{
 		return false;
 	}
 	
+	
 
 
 	@Override
@@ -80,6 +82,17 @@ public class MenuInputProcessor extends GDInputProcessor{
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
+		buttons = menuScreen.getButtons();
+		for (int i = 0; i < buttons.size(); i++) {
+			GDSprite sprite = buttons.get(i);
+				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
+						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
+						
+					menuScreen.highlightButton(buttons.get(i));
+				}
+				else menuScreen.unHighlight(buttons.get(i));
+		}
+		
 		return false;
 	}
 
