@@ -1,7 +1,10 @@
 package gamedev.entity;
 
+import gamedev.entity.enemy.Spider;
+
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EnemyFactory {
@@ -10,16 +13,13 @@ public class EnemyFactory {
 		Enemy enemy = null;		
 		int health, moneyReward;
 		float speed;
-		List<Point> waypointList = new ArrayList<Point>();
+		List<Point> waypointList = new ArrayList<Point>(Arrays.asList(waypoints));
 		
 		if(enemyType == 1){
 			health = 50;
 			moneyReward = 10;
 			speed = 1.5f;
-			enemy = new Enemy("spider", health, moneyReward, speed);
-			for (int i = 0; i < waypoints.length; i++) {
-				waypointList.add(waypoints[i]);
-			}
+			enemy = new Spider(health, moneyReward, speed);
 			
 			/*
 			 * "From the API:

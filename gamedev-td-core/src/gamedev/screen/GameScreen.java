@@ -265,7 +265,7 @@ public class GameScreen extends GDScreen {
 				clonedTowerSprite.draw(spriteBatch);
 			}
 			
-			// Move enemy GDSprite
+			// Move enemy sprite
 			for (int i = 0; i < spawnedEnemySprites.size(); i++) {
 				if(gameState.getEnemies().get(i).isActive()){
 					spawnedEnemySprites.get(i).setX(gameState.getEnemies().get(i).getX());

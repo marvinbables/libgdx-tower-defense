@@ -72,7 +72,7 @@ public class GameState {
 		}
 		
 		for(Enemy enemy : enemies){
-			enemy.move();
+			enemy.update();
 		}
 		
 		for(Tower tower : deployedTowers){
