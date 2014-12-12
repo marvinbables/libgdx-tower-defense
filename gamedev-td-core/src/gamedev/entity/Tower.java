@@ -26,6 +26,10 @@ public class Tower {
 		attackTimer = 0;
 		targets = new ArrayList<Enemy>();
 		center = new Point2D.Float();
+		
+		// temp
+		upgradeCost = 50;
+		sellCost = 20;
 	}
 	
 	public void acquireTarget(List<Enemy> enemies) {

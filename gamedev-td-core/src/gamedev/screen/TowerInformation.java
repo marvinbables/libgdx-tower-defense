@@ -72,7 +72,9 @@ public class TowerInformation {
 		
 		if(selectedDeployedTower != null) {
 			upgradeBtn.draw(spriteBatch);
+			costFont.draw(spriteBatch, selectedDeployedTower.getUpgradeCost()+"", upgradeBtn.getX()+85, upgradeBtn.getY()+6);
 			sellBtn.draw(spriteBatch);
+			costFont.draw(spriteBatch, selectedDeployedTower.getSellCost()+"", sellBtn.getX()+75, sellBtn.getY()+6);
 		}
 	}
 
