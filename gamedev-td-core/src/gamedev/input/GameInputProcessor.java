@@ -4,6 +4,7 @@ import gamedev.entity.GameState;
 import gamedev.entity.Tower;
 import gamedev.screen.GameScreen;
 import gamedev.td.GDSprite;
+import gamedev.td.TowerDefense;
 
 import java.awt.Point;
 import java.util.List;
@@ -22,7 +23,7 @@ public class GameInputProcessor extends GDInputProcessor{
 	Color red = new Color(1,0,0,.5f);
 	Color white = new Color(1,1,1,.5f);
 	
-	public GameInputProcessor(GameScreen screen){
+	public GameInputProcessor(GameScreen screen, TowerDefense towerDefense){
 		this.gameScreen = screen;
 		towerToPut = null;
 		selectedSprite = null;
