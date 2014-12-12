@@ -498,5 +498,9 @@ public class GameScreen extends GDScreen {
 		selectedSprite = sprite;
 	}
 
+	public void setSelectedTower(Tower selectedTower) {
+		uiInformation.setSelectedDeployedTower(selectedTower);
+	}
+
 	
 }

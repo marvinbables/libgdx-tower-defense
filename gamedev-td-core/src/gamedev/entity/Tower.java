@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public class Tower {
-	private int damage, x, y, cost;
+	private int damage, x, y, cost, upgradeCost, sellCost;
 	private float attackRange, attackRate,
 		attackTimer;
 	private Point2D.Float center;
@@ -92,8 +92,23 @@ public class Tower {
 		this.targets = targets;
 	}
 	
-
+	public void upgrade() {
+		/*
+		 *  TODO: Increment the level of the tower
+		 *  Use the level of the tower as the index in the array of upgrade/sell costs
+		 *  Set the upgradeCost to upgradeArray[level]
+		 *  Set the sellCost to sellArray[level]
+		 */
+	}
 	
+	public int getUpgradeCost() {
+		return upgradeCost;
+	}
+
+	public int getSellCost() {
+		return sellCost;
+	}
+
 	public boolean intersects(Enemy enemy){
 		float circleDistanceX = (float) Math.abs(center.getX() - enemy.getX());
 		float circleDistanceY = (float) Math.abs(center.getY() - enemy.getY());
