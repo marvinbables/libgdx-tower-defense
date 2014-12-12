@@ -1,12 +1,21 @@
 package gamedev.entity;
 
-public abstract class Projectile {
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public abstract class Projectile extends Entity {
 	
-	private float speed;
+	private float speed, angle;
 	
+	public Projectile(){
+		
+	}
 	
 	//TODO implement method draw()
-	public void draw(){
+	public void draw(SpriteBatch spriteBatch){
+		sprite.setX(this.x);
+		sprite.setY(this.y);
+		sprite.setRotation(angle);
+		sprite.draw(spriteBatch);
 		
 	}
 	
@@ -29,6 +38,16 @@ public abstract class Projectile {
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+	}
+
+
+	public float getAngle() {
+		return angle;
+	}
+
+
+	public void setAngle(float angle) {
+		this.angle = angle;
 	}
 	
 	

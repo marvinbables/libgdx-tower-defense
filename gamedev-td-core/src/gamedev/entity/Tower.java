@@ -6,12 +6,14 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Tower {
-	private int damage, x, y, cost, upgradeCost, sellCost;
-	private float attackRange, attackRate,
+
+public abstract class Tower extends Entity{
+	protected int damage, x, y, cost, upgradeCost, sellCost;
+	protected float attackRange, attackRate,
 		attackTimer;
-	private Point2D.Float center;
+	protected Point2D.Float center;
 	
 	
 	private ArrayList<Enemy> targets = null;
@@ -30,6 +32,17 @@ public class Tower {
 		// temp
 		upgradeCost = 50;
 		sellCost = 20;
+	}
+	
+	public void draw(SpriteBatch spriteBatch){
+		sprite.setX(this.x);
+		sprite.setY(this.y);
+		sprite.draw(spriteBatch);
+		
+	}
+	
+	public void update(){
+		
 	}
 	
 	public void acquireTarget(List<Enemy> enemies) {
@@ -72,21 +85,7 @@ public class Tower {
 		return attackTimer;
 	}
 	
-	public void setX(int x) {
-		this.x = x;
-	}
-	
-	public void setY(int y) {
-		this.y = y;
-	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
 
 	public ArrayList<Enemy> getTarget() {
 		return targets;

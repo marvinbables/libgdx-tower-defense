@@ -2,6 +2,7 @@ package gamedev.input;
 
 import gamedev.entity.GameState;
 import gamedev.entity.Tower;
+import gamedev.entity.TowerFactory;
 import gamedev.screen.GameScreen;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
@@ -57,7 +58,7 @@ public class GameInputProcessor extends GDInputProcessor{
 			if(Gdx.input.isButtonPressed(Buttons.LEFT))
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
-					towerToPut = gameScreen.getGameState().newTower(i);
+					towerToPut = TowerFactory.createTower(i);
 					gameScreen.setTowerInfo(towerToPut);
 					gameScreen.setTowerToPutSprite(i);
 					gameScreen.setTowerInfoSprite(i);
