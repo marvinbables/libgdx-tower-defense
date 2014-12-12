@@ -4,6 +4,7 @@ import gamedev.entity.GameState;
 import gamedev.entity.Tower;
 import gamedev.screen.GameScreen;
 import gamedev.td.GDSprite;
+import gamedev.td.TowerDefense;
 
 import java.awt.Point;
 import java.util.List;
@@ -22,7 +23,7 @@ public class GameInputProcessor extends GDInputProcessor{
 	Color red = new Color(1,0,0,.5f);
 	Color white = new Color(1,1,1,.5f);
 	
-	public GameInputProcessor(GameScreen screen){
+	public GameInputProcessor(GameScreen screen, TowerDefense towerDefense){
 		this.gameScreen = screen;
 		towerToPut = null;
 		selectedSprite = null;
@@ -60,9 +61,10 @@ public class GameInputProcessor extends GDInputProcessor{
 					gameScreen.setTowerInfo(towerToPut);
 					gameScreen.setTowerToPutSprite(i);
 					gameScreen.setTowerInfoSprite(i);
+					selectedTower = null;
 					selectedSprite = null;
-					selectedSprite = null;
-					gameScreen.setSelectedSprite(null);
+					gameScreen.setSelectedSprite(selectedSprite);
+					gameScreen.setSelectedTower(selectedTower);
 					if(gameScreen.getGameState().enoughMoney(towerToPut)){
 						gameScreen.setDrawRadius(towerToPut.getAttackRange());
 						gameScreen.cloneSprite(i);
@@ -84,6 +86,7 @@ public class GameInputProcessor extends GDInputProcessor{
 						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
 					selectedTower = gameScreen.getGameState().getDeployedTowers().get(i);
 					gameScreen.setTowerInfo(selectedTower);
+					gameScreen.setSelectedTower(selectedTower);
 					selectedSprite = gameScreen.cloneSprite(sprite);
 					gameScreen.setSelectedSprite(deployedTowers.get(i));
 					gameScreen.setDrawRadius(selectedTower.getAttackRange());
@@ -125,6 +128,7 @@ public class GameInputProcessor extends GDInputProcessor{
 		    selectedSprite = null;
 		    selectedTower = null;
 		    gameScreen.setSelectedSprite(null);
+		    gameScreen.setSelectedTower(selectedTower);
 		}
 	
 		return false;
@@ -179,7 +183,7 @@ public class GameInputProcessor extends GDInputProcessor{
 				}
 				else {
 					gameScreen.drawTowerInfo(false, -50, -50, towerToPut);
-					if(selectedTower != null) {
+					if(selectedTower != null && selectedSprite != null) {
 						gameScreen.drawTowerInfo(false, (int)selectedSprite.getX(), (int)selectedSprite.getY(), selectedTower);
 						gameScreen.getUiInformation().setTowerSprite(selectedSprite);
 					}
@@ -193,11 +197,6 @@ public class GameInputProcessor extends GDInputProcessor{
 						
 				}
 			}
-			
-			if(!isPlaceable(point)){
-				gameScreen.getTowerRangeRenderer().setColor(1,0,0,.5f);
-			}
-			else gameScreen.getTowerRangeRenderer().setColor(1,1,1,.5f);
 			
 		return false;
 	}

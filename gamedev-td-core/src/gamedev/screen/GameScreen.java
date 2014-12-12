@@ -2,10 +2,10 @@ package gamedev.screen;
 
 import gamedev.entity.GameState;
 import gamedev.entity.Tower;
-import gamedev.input.GDInputProcessor;
 import gamedev.input.GameInputProcessor;
 import gamedev.level.Level;
 import gamedev.td.GDSprite;
+import gamedev.td.TowerDefense;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +34,8 @@ public class GameScreen extends GDScreen {
 	 * Display map
 	 */
 	
+	TowerDefense towerDefense;
+	
 	GameState gameState; // Model
 	OrthographicCamera camera;
 	
@@ -57,7 +59,8 @@ public class GameScreen extends GDScreen {
 	boolean drawInfo = false, drawRedHighlight = false;
 	private boolean spawn;
 	
-	public GameScreen() {
+	public GameScreen(TowerDefense towerDefense) {
+		this.towerDefense = towerDefense;
 		towerRangeRenderer = new ShapeRenderer();
 		towerRangeRenderer.setColor(1, 1, 1, .5f);
 		gameState = new GameState();
@@ -73,7 +76,7 @@ public class GameScreen extends GDScreen {
 		gameState.initGame();
 		gameState.prepareLevel(1);
 		initializeSprites();
-		this.inputProcessor = new GameInputProcessor(this);
+		this.inputProcessor = new GameInputProcessor(this, towerDefense);
 	}
 	
 	private void initializeFont() {
@@ -496,6 +499,10 @@ public class GameScreen extends GDScreen {
 	
 	public void setSelectedSprite(GDSprite sprite) {
 		selectedSprite = sprite;
+	}
+
+	public void setSelectedTower(Tower selectedTower) {
+		uiInformation.setSelectedDeployedTower(selectedTower);
 	}
 
 	

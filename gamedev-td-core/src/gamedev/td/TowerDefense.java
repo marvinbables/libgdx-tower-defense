@@ -15,12 +15,10 @@ public class TowerDefense extends Game {
 	
 	@Override
 	public void create () {
-		mainMenuScreen = new MainMenuScreen();
-		gameScreen = new GameScreen();
+		mainMenuScreen = new MainMenuScreen(this);
+		gameScreen = new GameScreen(this);
 		
-		setScreen(gameScreen);
-		
-		Gdx.input.setInputProcessor(gameScreen.getInputProcessor());
+		switchScreen(mainMenuScreen);
 		
 	}
 	
