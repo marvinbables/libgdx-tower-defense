@@ -9,9 +9,8 @@ public abstract class GDScreen implements Screen{
 	protected GDInputProcessor inputProcessor;
 	protected TowerDefense towerDefense;
 	
-	public GDScreen(TowerDefense towerDefense, GDInputProcessor inputProcessor) {
+	public GDScreen(TowerDefense towerDefense) {
 		this.towerDefense = towerDefense;
-		this.inputProcessor = inputProcessor;
 	}
 
 	public GDInputProcessor getInputProcessor() {

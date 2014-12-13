@@ -2,7 +2,6 @@ package gamedev.td;
 
 import gamedev.entity.Enemy.EnemyType;
 import gamedev.entity.GameState;
-import gamedev.entity.SpriteFactory;
 import gamedev.entity.TextureFactory;
 import gamedev.entity.TowerFactory.TowerType;
 

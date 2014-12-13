@@ -8,9 +8,8 @@ import com.badlogic.gdx.InputProcessor;
 public abstract class GDInputProcessor implements InputProcessor{
 	
 	protected TowerDefense towerDefense;
-	protected GDScreen screen;
 	
-	public void initialize(GDScreen screen){
-		this.screen = screen;
+	public GDInputProcessor(TowerDefense towerDefense) {
+		this.towerDefense = towerDefense;
 	}
 }

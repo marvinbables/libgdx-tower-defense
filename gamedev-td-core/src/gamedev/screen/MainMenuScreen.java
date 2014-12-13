@@ -1,6 +1,5 @@
 package gamedev.screen;
 
-import gamedev.entity.GameState;
 import gamedev.input.MenuInputProcessor;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
@@ -35,6 +34,7 @@ public class MainMenuScreen extends GDScreen {
 	public final static int START_GAME = 0, LEVEL_SELECT = 1, ABOUT = 2; 
 	
 	public MainMenuScreen(TowerDefense towerDefense) {
+		super(towerDefense);
 		this.towerDefense = towerDefense;
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
@@ -44,7 +44,7 @@ public class MainMenuScreen extends GDScreen {
 		
 		initializeFont();
 		initializeButtons();
-		this.inputProcessor = new MenuInputProcessor(this, towerDefense);
+		this.inputProcessor = new MenuInputProcessor(towerDefense, this);
 	}
 	
 	@Override

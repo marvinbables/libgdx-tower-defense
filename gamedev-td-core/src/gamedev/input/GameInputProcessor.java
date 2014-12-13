@@ -4,6 +4,7 @@ import gamedev.entity.GameState;
 import gamedev.entity.Tower;
 import gamedev.entity.TowerFactory;
 import gamedev.screen.GameScreen;
+import gamedev.td.Config;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
 
@@ -24,13 +25,13 @@ public class GameInputProcessor extends GDInputProcessor {
 	Color red = new Color(1, 0, 0, .5f);
 	Color white = new Color(1, 1, 1, .5f);
 
-	public GameInputProcessor(GameScreen screen, TowerDefense towerDefense) {
-		this.gameScreen = screen;
+	public GameInputProcessor(TowerDefense towerDefense) {
+		super(towerDefense);
 		towerToPut = null;
 		selectedSprite = null;
 		selectedTower = null;
-
 	}
+	
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -102,7 +103,7 @@ public class GameInputProcessor extends GDInputProcessor {
 				towerToPut.setX(point.x);
 				towerToPut.setY(point.y);
 				if (gameScreen.getGameState().enoughMoney(towerToPut)) {
-					towerToPut.setCenter((float) point.x + gameScreen.getTileSize() / 2, (float) point.y + gameScreen.getTileSize() / 2);
+					towerToPut.setCenter((float) point.x + Config.tileSize / 2, (float) point.y + Config.tileSize / 2);
 					gameScreen.getGameState().deployTower(towerToPut);
 					gameScreen.addDeployedTowerSprite();
 					towerToPut = null;
@@ -204,15 +205,15 @@ public class GameInputProcessor extends GDInputProcessor {
 		Point p = new Point(-50, -50);
 
 		for (int i = 0; i < GameState.GRIDX + 1; i++) {
-			if (screenX <= i * gameScreen.getTileSize()) {
-				p.x = (i - 1) * gameScreen.getTileSize();
+			if (screenX <= i * Config.tileSize) {
+				p.x = (i - 1) * Config.tileSize;
 				break;
 			}
 		}
 
 		for (int j = 0; j < GameState.GRIDY + 1; j++) {
-			if (screenY <= j * gameScreen.getTileSize()) {
-				p.y = (j - 1) * gameScreen.getTileSize();
+			if (screenY <= j * Config.tileSize) {
+				p.y = (j - 1) * Config.tileSize;
 				break;
 			}
 		}

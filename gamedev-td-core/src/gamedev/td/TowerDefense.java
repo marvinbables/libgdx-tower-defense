@@ -1,5 +1,7 @@
 package gamedev.td;
 
+import gamedev.input.GameInputProcessor;
+import gamedev.input.MenuInputProcessor;
 import gamedev.screen.GDScreen;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
@@ -16,7 +18,7 @@ public class TowerDefense extends Game {
 	@Override
 	public void create () {
 		mainMenuScreen = new MainMenuScreen(this);
-		gameScreen = new GameScreen(this);
+		gameScreen = new GameScreen(this, new GameInputProcessor(this));
 		
 		switchScreen(mainMenuScreen);
 		

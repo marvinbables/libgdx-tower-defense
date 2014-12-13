@@ -1,5 +1,6 @@
 package gamedev.input;
 
+import gamedev.screen.GDScreen;
 import gamedev.screen.MainMenuScreen;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
@@ -12,17 +13,19 @@ import com.badlogic.gdx.graphics.Color;
 
 public class MenuInputProcessor extends GDInputProcessor{
 
-	TowerDefense towerDefense;
+
+	private MainMenuScreen mainMenuScreen;
 	List<GDSprite> buttons;
-	private MainMenuScreen menuScreen;
 
 	Color red = new Color(1,0,0,.5f);
 	Color white = new Color(1,1,1,.5f);
+
 	
-	public MenuInputProcessor(MainMenuScreen screen, TowerDefense towerDefense){
-		this.menuScreen = screen;
-		this.towerDefense = towerDefense;
+	public MenuInputProcessor(TowerDefense towerDefense, MainMenuScreen screen){
+		super(towerDefense);
+		this.mainMenuScreen = screen;
 	}
+	
 		
 	@Override
 	public boolean keyDown(int keycode) {
@@ -44,7 +47,7 @@ public class MenuInputProcessor extends GDInputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		buttons = menuScreen.getButtons();
+		buttons = mainMenuScreen.getButtons();
 		for (int i = 0; i < buttons.size(); i++) {
 			GDSprite sprite = buttons.get(i);
 			
@@ -82,7 +85,7 @@ public class MenuInputProcessor extends GDInputProcessor{
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		buttons = menuScreen.getButtons();
+		buttons = mainMenuScreen.getButtons();
 		for (int i = 0; i < buttons.size(); i++) {
 			GDSprite sprite = buttons.get(i);
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
