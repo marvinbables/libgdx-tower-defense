@@ -1,5 +1,7 @@
 package gamedev.entity;
 
+import gamedev.entity.Enemy.EnemyType;
+import gamedev.entity.TowerFactory.TowerType;
 import gamedev.level.Level;
 
 import java.awt.Point;
@@ -7,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
-	public static GameState instance;
+	private static GameState instance;
 	
 	public static final int GRIDX = 17, GRIDY = 12;
 	
-	private int currentLevel, score, grid[][], money, life = 10, spawnedEnemies;
+	private Level currentLevel;
+	private int score, grid[][], money, life = 10, spawnedEnemies;
 	private float waveSpawnTime, SPAWN_TIME = 5, spawnDelay;
 	private List<Enemy> enemies;
 	private List<Integer> enemiesToBeSpawned;
@@ -47,24 +50,16 @@ public class GameState {
 	}
 	
 	private void createTowers() {
-		// Parameters: damage, attackRange, attackRate, cost
-		for(int i = 0; i < 5; i++){
-			availableTowers.add(TowerFactory.createTower(i));
-		}
-		
-		
-		/* ^same as above code
-		availableTowers.add(dirtTower);
-		availableTowers.add(arrowTower);
-		availableTowers.add(eggTower);
-		availableTowers.add(potionTower);
-		availableTowers.add(currencyTower);
-		*/
+		availableTowers.add( TowerFactory.createTower(TowerType.Dirt) );
+		availableTowers.add( TowerFactory.createTower(TowerType.Arrow) );
+		availableTowers.add( TowerFactory.createTower(TowerType.Egg) );
+		availableTowers.add( TowerFactory.createTower(TowerType.Potion) );
+		availableTowers.add( TowerFactory.createTower(TowerType.Currency) );
 	}
 	
 
-	public void initGame() {
-		currentLevel = 1;
+	public void initialize() {
+		currentLevel = Level.generateLevel(1);
 		score = 0;
 		money = 100;
 		life = 10;
@@ -74,22 +69,12 @@ public class GameState {
 	}
 	
 	public void update(float delta) {
-		for (int i = enemies.size() - 1; i >= 0; i--){
-			if(enemies.get(i).getWaypoints().size() == 0 && enemies.get(i).isActive()){
-				enemies.get(i).setActive(false);
-				life--;
-			}
-		}
+		for(Enemy enemy : enemies)
+			enemy.update(delta);
 		
-		for(Enemy enemy : enemies){
-			enemy.update();
-		}
 		
-		for(Tower tower : deployedTowers){
-			tower.acquireTarget(enemies);
-			tower.updateTargets();
-		}
-		
+		for(Tower tower : deployedTowers)
+			tower.update(delta);
 	}
 	
 	public boolean checkProjectileCollision() {
@@ -98,7 +83,7 @@ public class GameState {
 	}
 	
 	public void prepareLevel(int lvl) {
-		String level[] = Level.getLevel(lvl);
+		String level[] = Level.getInstance().getGrid();
 		
 		for (int y = 0; y < level.length; y++) {
 			for (int x = 0; x < level[y].length(); x++) {
@@ -117,7 +102,7 @@ public class GameState {
 		int instances = enemiesToBeSpawned.size();
 		spawnDelay += delta;
 		if(spawnDelay >= .5 && spawnedEnemies < instances){
-			Enemy enemy = EnemyFactory.makeEnemy(enemiesToBeSpawned.get(spawnedEnemies), Level.level_1_waypoints);
+			Enemy enemy = Enemy.createEnemy(EnemyType.Spider, Level.level_1_waypoints);
 			enemies.add(enemy);
 			spawnDelay = 0;
 			++spawnedEnemies;
@@ -161,12 +146,8 @@ public class GameState {
 	}
 	
 	// Getters & Setters
-	public int getCurrentLevel() {
+	public Level getCurrentLevel() {
 		return currentLevel;
-	}
-
-	public void setCurrentLevel(int currentLevel) {
-		this.currentLevel = currentLevel;
 	}
 
 	public int getScore() {
@@ -230,6 +211,10 @@ public class GameState {
 			this.waveSpawnTime = 30;
 		else
 			this.waveSpawnTime = waveSpawnTime;
+	}
+
+	public void getDamaged() {
+		life--;
 	}
 	
 }

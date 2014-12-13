@@ -5,22 +5,30 @@ import gamedev.entity.tower.CurrencyTower;
 import gamedev.entity.tower.DirtTower;
 import gamedev.entity.tower.EggTower;
 import gamedev.entity.tower.PotionTower;
+import gamedev.td.GDSprite;
+import gamedev.td.SpriteManager;
 
 public class TowerFactory {
-	
-	public static Tower createTower(int type){
+	public enum TowerType {
+		Dirt, Arrow, Egg, Potion, Currency
+	}
+	public static Tower createTower(TowerType type){
 		Tower tower = null;
+		
+		SpriteManager handler = SpriteManager.getInstance();
+		GDSprite towerSprite = handler.getTowerSprite(type);
+		
 		switch(type){
-			case 0:
-				return new DirtTower(0, 20); // (level, cost)
-			case 1:
-				return new ArrowTower(0, 30);
-			case 2:
-				return new EggTower(0, 40);
-			case 3:
-				return new PotionTower(0, 70);
-			case 4:
-				return new CurrencyTower(0, 100);
+			case Dirt:
+				return new DirtTower(towerSprite, 0, 20); // (level, cost)
+			case Arrow:
+				return new ArrowTower(towerSprite, 0, 30);
+			case Egg:
+				return new EggTower(towerSprite, 0, 40);
+			case Potion:
+				return new PotionTower(towerSprite, 0, 70);
+			case Currency:
+				return new CurrencyTower(towerSprite, 0, 100);
 		}
 		
 		return tower;

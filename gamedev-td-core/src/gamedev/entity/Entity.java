@@ -17,11 +17,11 @@ public abstract class Entity {
 	}
 	
 	public abstract void draw(SpriteBatch spriteBatch);
-	public abstract void update(float delta);
-	
-	public void setPosition(Vector2 position){
-		this.position = position;
+	public void update(float delta){
+		sprite.setX(this.position.x);
+		sprite.setY(this.position.y);
 	}
+	
 	
 	public GDSprite getSprite() {
 		return sprite;
@@ -37,5 +37,14 @@ public abstract class Entity {
 	
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public void setPosition(Vector2 position){
+		this.position = position;
+	}
+	
+	
+	public Vector2 getPosition() {
+		return position;
 	}
 }

@@ -1,6 +1,7 @@
 package gamedev.entity.tower;
 
 import gamedev.entity.Tower;
+import gamedev.td.GDSprite;
 
 public class PotionTower extends Tower {
 
@@ -9,8 +10,8 @@ public class PotionTower extends Tower {
 	private static int rangeLevels[] = {100};
 	private static float attackRateLevels[] = {0.9f};
 	
-	public PotionTower(int level, int cost) {
-		super(damageLevels[level], rangeLevels[level], attackRateLevels[level], cost, level, "Potion Tower");
+	public PotionTower(GDSprite sprite, int level, int cost) {
+		super(sprite, damageLevels[level], rangeLevels[level], attackRateLevels[level], cost, level, "Potion Tower");
 		
 	}
 

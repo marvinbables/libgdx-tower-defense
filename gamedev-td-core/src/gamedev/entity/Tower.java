@@ -44,8 +44,10 @@ public abstract class Tower extends Entity{
 		
 	}
 	
-	public void update(){
-		
+	public void update(float delta){
+		List<Enemy> enemies = GameState.getInstance().getEnemies();
+		acquireTarget(enemies);
+		updateTargets();
 	}
 	
 	public void acquireTarget(List<Enemy> enemies) {
@@ -123,8 +125,8 @@ public abstract class Tower extends Entity{
 	}
 
 	public boolean intersects(Enemy enemy){
-		float circleDistanceX = (float) Math.abs(center.getX() - enemy.getX());
-		float circleDistanceY = (float) Math.abs(center.getY() - enemy.getY());
+		float circleDistanceX = (float) Math.abs(center.getX() - enemy.getPosition().x);
+		float circleDistanceY = (float) Math.abs(center.getY() - enemy.getPosition().y);
 		
 		if(circleDistanceX > GameScreen.tileSize/2 + attackRange){
 			return false;

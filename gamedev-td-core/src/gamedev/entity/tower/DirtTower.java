@@ -1,6 +1,7 @@
 package gamedev.entity.tower;
 
 import gamedev.entity.Tower;
+import gamedev.td.GDSprite;
 
 public class DirtTower extends Tower {
 	
@@ -9,8 +10,8 @@ public class DirtTower extends Tower {
 	private static int rangeLevels[] = {80};
 	private static float attackRateLevels[] = {1};
 	
-	public DirtTower(int level, int cost) {
-		super(damageLevels[level], rangeLevels[level], attackRateLevels[level], cost, level, "Dirt Tower");
+	public DirtTower(GDSprite sprite, int level, int cost) {
+		super(sprite, damageLevels[level], rangeLevels[level], attackRateLevels[level], cost, level, "Dirt Tower");
 		
 	}
 

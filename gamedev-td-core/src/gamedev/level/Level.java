@@ -5,50 +5,78 @@ import java.awt.Point;
 
 public class Level {
 	
-	public static String[] grid;
-	public static Point[] waypoints;
-	public static int [][] enemies;
+	private static Level instance;
 	
-	public Level(String[] grid, Point[] waypoints, int[][] enemies){
-		Level.grid = grid;
-		Level.waypoints = waypoints;
-		Level.enemies = enemies;
+	private String[] grid;
+	private Point[] waypoints;
+	private int[][] enemies;
+
+	private Level(String[] grid, Point[] waypoints, int[][] enemies){
+		this.grid = grid;
+		this.waypoints = waypoints;
+		this.enemies = enemies;
 	}
 	
-	public static String level_1[] = {"00000000000000000",
-									  "11111110000000000",
-									  "00000010000000000",
-									  "00000010000000000",
-									  "00000010000022220",
-									  "00000010000020020",
-									  "00000010001110320",
-									  "00000010001020020",
-									  "00000010001022220",
-									  "00000011111000000",
-									  "00000000000000000",
-									  "00000000000000000",};
-	public static Point level_1_waypoints[] = {	// x, y
-												new Point(0, 40),
-												new Point(240, 40),
-												new Point(240, 360),
-												new Point(400, 360),
-												new Point(400, 240),
-												new Point(480, 240)
-												};
-	
-	
-	public static String[] getLevel(int level) {
-		switch(level) {
-			case 1: return level_1;
-			default: return level_1;
+	/**
+	 * Template pattern. This code allows you to generate various templates on a switch case.
+	 * You can improve this by saving the templates into a file and parsing it, so that your database can be edited outside your code.
+	 * @param i
+	 * @return
+	 */
+	public static Level generateLevel(int i) {
+		Level level = null;
+		
+		switch(i){
+		case 1: 
+			
+			String grid[] = {"00000000000000000",
+						  "11111110000000000",
+						  "00000010000000000",
+						  "00000010000000000",
+						  "00000010000022220",
+						  "00000010000020020",
+						  "00000010001110320",
+						  "00000010001020020",
+						  "00000010001022220",
+						  "00000011111000000",
+						  "00000000000000000",
+						  "00000000000000000",};
+			Point waypoints[] = {	// x, y
+				new Point(0, 40),
+				new Point(240, 40),
+				new Point(240, 360),
+				new Point(400, 360),
+				new Point(400, 240),
+				new Point(480, 240)
+				};
+			
+
+			int[][] enemies = {
+				// instances, enemy type
+				{10, 1}, {1,1}
+			};
+
+			level = new Level(grid, waypoints, enemies);
+			break;
 		}
+		return level;
 	}
-	
-	public static int[][] level_1_enemies = {
-		// instances, enemy type
-		{10, 1}, {1,1}
-	};
-	
-	
-	
+
+	public String[] getGrid() {
+		return grid;
+	}
+
+	public Point[] getWaypoints() {
+		return waypoints;
+	}
+
+	public int[][] getEnemies() {
+		return enemies;
+	}
+
+	public static Level getInstance() {
+		if (instance == null)
+			instance = generateLevel(1);
+		return instance;
+	}
 }

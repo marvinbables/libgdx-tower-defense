@@ -74,7 +74,7 @@ public class GameScreen extends GDScreen {
 		spriteBatch.setProjectionMatrix(camera.combined);
 		
 		initializeFont();
-		gameState.initGame();
+		gameState.initialize();
 		gameState.prepareLevel(1);
 		initializeSprites();
 		this.inputProcessor = new GameInputProcessor(this, towerDefense);
