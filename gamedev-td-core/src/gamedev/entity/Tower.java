@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
 public abstract class Tower extends Entity{
-	protected int damage, x, y, cost, upgradeCost, sellCost;
+	protected int damage, x, y, cost, upgradeCost, sellCost, level;
 	protected float attackRange, attackRate,
 		attackTimer;
 	protected Point2D.Float center;
@@ -18,21 +18,21 @@ public abstract class Tower extends Entity{
 	
 	private ArrayList<Enemy> targets = null;
 	
-	public Tower(int damage, float attackRange, float attackRate, int cost, String towerName) {
+	public Tower(int damage, float attackRange, float attackRate, int cost, int level, String towerName) {
 		this.damage = damage;
 		this.attackRange = attackRange;
 		this.attackRate = attackRate;
 		this.cost = cost;
 		this.towerName = towerName;
+		this.level = level;
 		x = -50;
 		y = -50;
 		attackTimer = 0;
 		targets = new ArrayList<Enemy>();
 		center = new Point2D.Float();
 		
-		// temp
-		upgradeCost = 50;
-		sellCost = 20;
+		upgradeCost = 0;
+		sellCost = 0;
 	}
 	
 	public void draw(SpriteBatch spriteBatch){
@@ -100,21 +100,24 @@ public abstract class Tower extends Entity{
 		this.targets = targets;
 	}
 	
-	public void upgrade() {
+	public abstract void upgrade();
 		/*
 		 *  TODO: Increment the level of the tower
 		 *  Use the level of the tower as the index in the array of upgrade/sell costs
 		 *  Set the upgradeCost to upgradeArray[level]
 		 *  Set the sellCost to sellArray[level]
 		 */
-	}
 	
 	public int getUpgradeCost() {
 		return upgradeCost;
 	}
-
+	
 	public int getSellCost() {
 		return sellCost;
+	}
+	
+	public int getLevel() {
+		return level;
 	}
 
 	public boolean intersects(Enemy enemy){

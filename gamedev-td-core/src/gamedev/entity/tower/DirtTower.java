@@ -3,10 +3,24 @@ package gamedev.entity.tower;
 import gamedev.entity.Tower;
 
 public class DirtTower extends Tower {
-
-	public DirtTower(int damage, float attackRange, float attackRate, int cost) {
-		super(damage, attackRange, attackRate, cost, "Dirt Tower");
+	
+	private int maxLevel = 5;
+	private static int damageLevels[] = {5};
+	private static int rangeLevels[] = {80};
+	private static float attackRateLevels[] = {1};
+	
+	public DirtTower(int level, int cost) {
+		super(damageLevels[level], rangeLevels[level], attackRateLevels[level], cost, level, "Dirt Tower");
 		
+	}
+
+	public void upgrade() {
+		if(level+1 <= maxLevel)
+			level++;
+		
+		damage = damageLevels[level];
+		attackRange = rangeLevels[level];
+		attackRate = attackRateLevels[level];
 	}
 
 }

@@ -12,15 +12,15 @@ public class TowerFactory {
 		Tower tower = null;
 		switch(type){
 			case 0:
-				return new DirtTower(5, 80, 1, 20);
+				return new DirtTower(0, 20); // (level, cost)
 			case 1:
-				return new ArrowTower(7, 80, 1, 30);
+				return new ArrowTower(0, 30);
 			case 2:
-				return new EggTower(7, 100, 1.3f, 40);
+				return new EggTower(0, 40);
 			case 3:
-				return new PotionTower(5, 100, 0.9f, 70);
+				return new PotionTower(0, 70);
 			case 4:
-				return new CurrencyTower(1, 0, 2f, 100);
+				return new CurrencyTower(0, 100);
 		}
 		
 		return tower;
