@@ -216,24 +216,12 @@ public class GameInputProcessor extends GDInputProcessor {
 	}
 
 	private Point getGridCoordinate(int screenX, int screenY) {
-		Point p = new Point(-50, -50);
-
-		for (int i = 0; i < GameState.GRIDX + 1; i++) {
-			if (screenX <= i * Config.tileSize) {
-				p.x = (i - 1) * Config.tileSize;
-				break;
-			}
-		}
-
-		for (int j = 0; j < GameState.GRIDY + 1; j++) {
-			if (screenY <= j * Config.tileSize) {
-				p.y = (j - 1) * Config.tileSize;
-				break;
-			}
-		}
-
-		return p;
-	}
+		if (screenX < 0 || screenY < 0)
+			return null;
+		
+		// Check if screen exceeds map, if so, return null.
+		// if (screenX > )
+		return new Point(screenX / Config.tileSize, screenY / Config.tileSize);	}
 
 	public boolean isPlaceable(Point p) {
 		if (p.x < 0 || p.y < 0 || gameScreen.getGameState().getGrid()[p.x / 40][p.y / 40] != 0)
