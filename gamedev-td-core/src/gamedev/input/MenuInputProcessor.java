@@ -47,9 +47,9 @@ public class MenuInputProcessor extends GDInputProcessor{
 		buttons = menuScreen.getButtons();
 		for (int i = 0; i < buttons.size(); i++) {
 			GDSprite sprite = buttons.get(i);
+			
 			if(Gdx.input.isButtonPressed(Buttons.LEFT))
-				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
-						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
+				if(sprite.contains(screenX, screenY)) {
 					switch(i) {
 					case MainMenuScreen.START_GAME:
 						towerDefense.switchScreen(towerDefense.getGameScreen());
