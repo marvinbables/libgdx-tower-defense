@@ -14,6 +14,7 @@ import gamedev.screen.render.TowerRangeRenderer;
 import gamedev.td.Config;
 import gamedev.td.GDSprite;
 import gamedev.td.SpriteManager;
+import gamedev.td.helper.FontHelper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -75,10 +76,11 @@ public class GameUserInterface {
 		setTowerInfo(null);
 		towerSprite = null;
 		towerToPutSprite = null;
-		
+		FontHelper.initialize();
+		towerInfoFont = FontHelper.minecraftia14px;
 
-		Texture tex = new Texture(Gdx.files.internal("assets/img/info_bg.png"));
-		background = new Sprite(tex);
+		Texture backgroundTexture = new Texture(Gdx.files.internal("assets/img/info_bg.png"));
+		background = new Sprite(backgroundTexture);
 		// background.setSize(250, 80);
 		background.setPosition(300, userInterfaceY);
 		background.flip(false, true);

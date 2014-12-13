@@ -24,7 +24,7 @@ public class Tile extends Entity {
 
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
-		
+		sprite.draw(spriteBatch);
 	}
 
 	public static TileType interpretType(int val) {

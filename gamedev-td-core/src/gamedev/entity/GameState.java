@@ -203,7 +203,12 @@ public class GameState {
 	}
 
 	public boolean isTowerPlaceable(Point point) {
-		return point.x > 0 && point.y > 0 && grid[point.x / 40][point.y / 40] != TileType.Dirt;
+		try {
+			return point.x > 0 && point.y > 0 && grid[point.x / 40][point.y / 40] != TileType.Dirt;			
+		}catch (Exception e){
+			
+		}
+		return false;
 	}
 
 	public void buildTower(Tower towerToBuild, Point point) {

@@ -42,6 +42,8 @@ public abstract class Entity {
 	
 	public void setPosition(Vector2 position){
 		this.position = position;
+		sprite.setX(position.x);
+		sprite.setY(position.y);
 	}
 	
 	
