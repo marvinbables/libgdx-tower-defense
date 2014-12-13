@@ -16,7 +16,7 @@ public class TowerFactory {
 		Tower tower = null;
 		
 		SpriteManager handler = SpriteManager.getInstance();
-		GDSprite towerSprite = handler.getTowerSprite(type);
+		GDSprite towerSprite = handler.getTower(type);
 		
 		switch(type){
 			case Dirt:

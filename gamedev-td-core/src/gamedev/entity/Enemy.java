@@ -43,7 +43,7 @@ public abstract class Enemy extends Entity {
 		List<Point> waypointList = Arrays.asList(waypoints);
 
 		SpriteManager handler = SpriteManager.getInstance();
-		GDSprite sprite = handler.getEnemySprite(type);
+		GDSprite sprite = handler.getEnemy(type);
 
 		switch (type) {
 

@@ -35,14 +35,7 @@ public class TowerInformation {
 		towerName = "";
 		towerSprite = null;
 		towerToPutSprite = null;
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/Minecraftia.ttf"));
-		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 12;
-		parameter.flip = true;
-		towerInfoFont = generator.generateFont(parameter); // font size 14 pixels
-		parameter.size = 8;
-		costFont = generator.generateFont(parameter);
-		generator.dispose(); // don't forget to dispose to avoid memory leaks!
+		
 		
 		Texture tex = new Texture(Gdx.files.internal("assets/img/info_bg.png"));
 		background = new Sprite(tex);
