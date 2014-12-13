@@ -2,7 +2,6 @@ package gamedev.screen;
 
 import gamedev.entity.GameState;
 import gamedev.entity.SpriteFactory;
-import gamedev.entity.TextureFactory;
 import gamedev.entity.Tower;
 import gamedev.input.GameInputProcessor;
 import gamedev.level.Level;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
