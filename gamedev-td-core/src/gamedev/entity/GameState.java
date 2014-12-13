@@ -191,13 +191,7 @@ public class GameState {
 	}
 	
 	public boolean enoughMoney(Tower tower){
-		boolean enough = false;
-		
-		if(money >= tower.getCost()){
-			enough = true;
-		}
-		
-		return enough;
+		return money >= tower.getCost();
 	}
 	
 
@@ -214,6 +208,10 @@ public class GameState {
 
 	public Level getCurrentLevel() {
 		return currentLevel;
+	}
+
+	public int getPlayerLife() {
+		return playerLife;
 	}
 	
 }

@@ -128,6 +128,9 @@ public class SpriteManager {
 		return sprite;
 	}
 	
+	public GDSprite getSprite(String name){
+		return createSprite(name);
+	}
 	
 	public GDSprite getTower(TowerType type) {
 		return createSprite(type.toString());

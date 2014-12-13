@@ -3,6 +3,7 @@ package gamedev.input;
 import gamedev.entity.GameState;
 import gamedev.entity.Tower;
 import gamedev.entity.TowerFactory;
+import gamedev.entity.TowerFactory.TowerType;
 import gamedev.screen.GameScreen;
 import gamedev.screen.GameUserInterface;
 import gamedev.td.Config;
@@ -85,7 +86,7 @@ public class GameInputProcessor extends GDInputProcessor {
 					gameScreen.setSelectedTower(selectedTower);
 					selectedSprite = gameScreen.cloneSprite(sprite);
 					gameScreen.setSelectedSprite(deployedTowers.get(i));
-					gameScreen.setDrawRadius(selectedTower.getAttackRange());
+					gameScreen.setAttackRange(selectedTower.getAttackRange());
 					gameScreen.setTowerInfoSprite(i);
 					gameScreen.getTowerRangeRenderer().setColor(white);
 				}
@@ -94,29 +95,14 @@ public class GameInputProcessor extends GDInputProcessor {
 	}
 
 	private void selectTowerToBuild(int x, int y, int pointer, int button) {
+		List<GDSprite> availableTowers = userInterface.getBuildTowerButtons();
 
-		List<GDSprite> availableTowers = gameScreen.getAvailableTowers();
-
-		for (int i = 0; i < availableTowers.size(); i++) {
-			GDSprite sprite = availableTowers.get(i);
+		for (int type = 0; type < availableTowers.size(); type++) {
+			GDSprite sprite = availableTowers.get(type);
 			if (sprite.contains(x, y)) {
-				towerToBuild = TowerFactory.createTower(i);
-				gameScreen.setTowerInfo(towerToBuild);
-				gameScreen.setTowerToPutSprite(i);
-				gameScreen.setTowerInfoSprite(i);
-				selectedTower = null;
-				selectedSprite = null;
-				gameScreen.setSelectedSprite(selectedSprite);
-				gameScreen.setSelectedTower(selectedTower);
-				if (gameScreen.getGameState().enoughMoney(towerToBuild)) {
-					gameScreen.setDrawRadius(towerToBuild.getAttackRange());
-					gameScreen.cloneSprite(i);
-				} else {
-					gameScreen.setDrawRedHighlight(true);
-					towerToBuild = null;
-					gameScreen.setTowerToPutSprite(-1);
-					gameScreen.nullClonedTower();
-				}
+				TowerType towerType = TowerFactory.interpretType(type);
+				towerToBuild = TowerFactory.createTower(towerType);
+				userInterface.setTowerToBuild(towerToBuild, towerType);
 			}
 		}
 	}
@@ -168,7 +154,7 @@ public class GameInputProcessor extends GDInputProcessor {
 		gameScreen.setClonedTowerSpriteLoc(point.x, point.y);
 
 		gameScreen.setDrawRedHighlight(false);
-		List<GDSprite> towerSprites = gameScreen.getAvailableTowers();
+		List<GDSprite> towerSprites = gameScreen.getBuildTowerButtons();
 
 		if (selectedTower == null) {
 			if (!isPlaceable(point)) {
@@ -186,7 +172,7 @@ public class GameInputProcessor extends GDInputProcessor {
 				Point spritePoint = sprite.getPosition();
 
 				if (towerToBuild == null)
-					gameScreen.drawTowerInfo(showTooltip, spritePoint.x, spritePoint.y, gameScreen.getGameState().getAvailableTowers().get(i));
+					gameScreen.drawTowerInfo(showTooltip, spritePoint.x, spritePoint.y, gameScreen.getGameState().getBuildTowerButtons().get(i));
 				else
 					gameScreen.drawTowerInfo(showTooltip, spritePoint.x, spritePoint.y, towerToBuild);
 				gameScreen.setTowerInfoSprite(i);

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class TowerRangeRenderer extends ShapeRenderer {
-	private float rangeRadius = 0;
+	private float attackRange = 0;
 	private Tower towerToBuild, towerClone;
 
 	public TowerRangeRenderer() {
@@ -39,6 +39,10 @@ public class TowerRangeRenderer extends ShapeRenderer {
 	
 	private float convertYforShapeRenderer(float y) {
 		return Gdx.graphics.getWidth() - y;
+	}
+
+	public void setAttackRange(float attackRange) {
+		this.attackRange = attackRange;
 	}
 
 }

@@ -1,5 +1,6 @@
 package gamedev.entity;
 
+import gamedev.entity.Tile.TileType;
 import gamedev.entity.tower.ArrowTower;
 import gamedev.entity.tower.CurrencyTower;
 import gamedev.entity.tower.DirtTower;
@@ -20,7 +21,10 @@ public class TowerFactory {
 		
 		switch(type){
 			case Dirt:
-				return new DirtTower(towerSprite, 0, 20); // (level, cost)
+				// follow the format, for readability's sake
+				int level = 0;
+				int cost = 20;
+				return new DirtTower(towerSprite, level, cost);
 			case Arrow:
 				return new ArrowTower(towerSprite, 0, 30);
 			case Egg:
@@ -33,5 +37,14 @@ public class TowerFactory {
 		
 		return tower;
 	}
-
+	public static TowerType interpretType(int val) {
+		switch(val){
+		case 0: return TowerType.Dirt;
+		case 1: return TowerType.Arrow;
+		case 2: return TowerType.Egg;
+		case 3: return TowerType.Potion;
+		case 4: return TowerType.Currency;
+		}
+		return TowerType.Dirt;
+	}
 }
