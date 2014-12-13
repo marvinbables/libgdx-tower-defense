@@ -36,7 +36,7 @@ public class GameState {
 	private int spawnedEnemies;
 
 	private TileType grid[][];
-	private float roundTime, beginRoundWaitTime = 5, spawnDelay;
+	private float roundTime, spawnDelay;
 
 	private List<Enemy> enemies;
 	private List<Integer> enemiesToBeSpawned;
@@ -212,7 +212,7 @@ public class GameState {
 	}
 
 	public void buildTower(Tower towerToBuild, Point point) {
-		grid[point.x / 40][point.y / 40] = TileType.Used;
+		// grid[point.x / 40][point.y / 40] = TileType.Used;
 
 		Vector2 position = MathHelper.PointToVector2(point);
 		towerToBuild.setPosition(position);
