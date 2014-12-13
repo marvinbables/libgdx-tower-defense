@@ -425,12 +425,14 @@ public class GameScreen extends GDScreen {
 			uiInformation.setCost(towerInfo.getCost()+"");
 			uiInformation.setRange(towerInfo.getAttackRange()+"");
 			uiInformation.setAttackRate(towerInfo.getAttackRate()+"");
+			uiInformation.setTowerName(towerInfo.getTowerName());
 		}
 		else {
 			uiInformation.setDamage("");
 			uiInformation.setCost("");
 			uiInformation.setRange("");
 			uiInformation.setAttackRate("");
+			uiInformation.setTowerName("");
 		}
 	}
 	

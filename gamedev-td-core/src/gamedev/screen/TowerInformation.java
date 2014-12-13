@@ -14,14 +14,17 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 public class TowerInformation {
 	BitmapFont towerInfoFont, costFont;
 	Sprite background, towerSprite, towerToPutSprite, upgradeBtn, sellBtn;
-	String damage, cost, range, attackRate;
+	String towerName, damage, cost, range, attackRate;
 	Tower selectedDeployedTower;
-
+	
+	private int y = 490;
+	
 	public TowerInformation() {
 		damage = "";
 		cost = "";
 		range = "";
 		attackRate = "";
+		towerName = "";
 		towerSprite = null;
 		towerToPutSprite = null;
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/Minecraftia.ttf"));
@@ -35,18 +38,18 @@ public class TowerInformation {
 		
 		Texture tex = new Texture(Gdx.files.internal("assets/img/info_bg.png"));
 		background = new Sprite(tex);
-		background.setSize(250, 80);
-		background.setPosition(300, 500);
+//		background.setSize(250, 80);
+		background.setPosition(300, y);
 		background.flip(false, true);
 		
 		Texture upgrade = new Texture(Gdx.files.internal("assets/img/upgrade_button.png"));
 		upgradeBtn = new Sprite(upgrade);
-		upgradeBtn.setPosition(300, 580);
+		upgradeBtn.setPosition(300, y+100);
 		upgradeBtn.flip(false, true);
 		
 		Texture sell = new Texture(Gdx.files.internal("assets/img/sell_button.png"));
 		sellBtn = new Sprite(sell);
-		sellBtn.setPosition(425, 580);
+		sellBtn.setPosition(425, y+100);
 		sellBtn.flip(false, true);
 		
 	}
@@ -55,11 +58,14 @@ public class TowerInformation {
 		background.draw(spriteBatch);
 		towerInfoFont.setColor(Color.WHITE);
 		
-		int x = 310, y = 510;
-		towerInfoFont.draw(spriteBatch, "Cost: " + cost, x, y);
-		towerInfoFont.draw(spriteBatch, "Damage: " + damage, x, y + 15);
-		towerInfoFont.draw(spriteBatch, "Range: " + range, x, y + 30);
-		towerInfoFont.draw(spriteBatch, "Speed: " + attackRate, x, y + 45);
+		int x = 310;
+		towerInfoFont.draw(spriteBatch, towerName, x, y + 15);
+		if(!cost.equals("")) {
+			towerInfoFont.draw(spriteBatch, "Cost: " + cost, x, y + 30);
+			towerInfoFont.draw(spriteBatch, "Damage: " + damage, x, y + 45);
+			towerInfoFont.draw(spriteBatch, "Range: " + range, x, y + 60);
+			towerInfoFont.draw(spriteBatch, "Speed: " + attackRate, x, y + 75);
+		}
 		
 		if(towerSprite != null) {
 			towerSprite.setPosition(x + 150, y + 10);
@@ -132,6 +138,14 @@ public class TowerInformation {
 
 	public void setSelectedDeployedTower(Tower selectedDeployedTower) {
 		this.selectedDeployedTower = selectedDeployedTower;
+	}
+
+	public String getTowerName() {
+		return towerName;
+	}
+
+	public void setTowerName(String towerName) {
+		this.towerName = towerName;
 	}
 	
 }

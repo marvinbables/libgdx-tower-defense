@@ -14,15 +14,16 @@ public abstract class Tower extends Entity{
 	protected float attackRange, attackRate,
 		attackTimer;
 	protected Point2D.Float center;
-	
+	protected String towerName;
 	
 	private ArrayList<Enemy> targets = null;
 	
-	public Tower(int damage, float attackRange, float attackRate, int cost) {
+	public Tower(int damage, float attackRange, float attackRate, int cost, String towerName) {
 		this.damage = damage;
 		this.attackRange = attackRange;
 		this.attackRate = attackRate;
 		this.cost = cost;
+		this.towerName = towerName;
 		x = -50;
 		y = -50;
 		attackTimer = 0;
@@ -85,7 +86,11 @@ public abstract class Tower extends Entity{
 		return attackTimer;
 	}
 	
+	
 
+	public String getTowerName() {
+		return towerName;
+	}
 
 	public ArrayList<Enemy> getTarget() {
 		return targets;
