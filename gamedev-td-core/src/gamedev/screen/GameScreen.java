@@ -64,7 +64,7 @@ public class GameScreen extends GDScreen {
 		this.towerDefense = towerDefense;
 		towerRangeRenderer = new ShapeRenderer();
 		towerRangeRenderer.setColor(1, 1, 1, .5f);
-		gameState = new GameState();
+		gameState = GameState.getInstance();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
 		
@@ -252,15 +252,7 @@ public class GameScreen extends GDScreen {
 				clonedTowerSprite.draw(spriteBatch);
 			}
 			
-			// Move enemy sprite
-			for (int i = 0; i < spawnedEnemySprites.size(); i++) {
-				if(gameState.getEnemies().get(i).isActive()){
-					spawnedEnemySprites.get(i).setX(gameState.getEnemies().get(i).getX());
-					spawnedEnemySprites.get(i).setY(gameState.getEnemies().get(i).getY());
-					spawnedEnemySprites.get(i).setRotation(gameState.getEnemies().get(i).getAngle());
-					spawnedEnemySprites.get(i).draw(spriteBatch);
-				}
-			}
+			
 			
 			uiInformation.draw(spriteBatch);
 			

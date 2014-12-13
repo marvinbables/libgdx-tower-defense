@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameState {
+	public static GameState instance;
+	
 	public static final int GRIDX = 17, GRIDY = 12;
 	
 	private int currentLevel, score, grid[][], money, life = 10, spawnedEnemies;
@@ -25,7 +27,18 @@ public class GameState {
 		}
 	}
 	
-	public GameState() {
+	public static GameState getInstance(){
+		if (instance == null)
+			instance = new GameState();
+		return instance;
+	}
+	
+	/**
+	 * Game state cannot be instantiated outside of the class. To get a reference to this object, call the
+	 * static method getInstance().
+	 */
+	private GameState() {
+		instance = this;
 		enemiesToBeSpawned = new ArrayList<Integer>();
 		enemies = new ArrayList<Enemy>();
 		deployedTowers = new ArrayList<Tower>();

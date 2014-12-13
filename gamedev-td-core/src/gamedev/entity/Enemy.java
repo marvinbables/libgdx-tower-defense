@@ -1,6 +1,7 @@
 package gamedev.entity;
 
 import gamedev.entity.enemy.Spider;
+import gamedev.td.GDSprite;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 
 public abstract class Enemy extends Entity{
@@ -16,61 +18,68 @@ public abstract class Enemy extends Entity{
 	}
 	
 	private float angle;
-	private int health, moneyReward;
+	private int health;
+	private int moneyReward;
 	private float speed;
 	private List<Point> waypoints;
 	private Dir dir;
 	
-	public Enemy(int health, int moneyReward, float speed) {
-		active = true;
-		angle = 0;
+	public Enemy(GDSprite sprite, int health, int moneyReward, float speed) {
+		super(sprite);
+		this.active = true;
+		this.angle = 0;
 		this.health = health;
 		this.moneyReward = moneyReward;
 		this.speed = speed;
-		waypoints = new ArrayList<Point>();
-		x = -50;
-		y = -50;
+		this.waypoints = new ArrayList<Point>();
+		this.position = Vector2.Zero;
 	}
 	
-	public void update() {
+	public void update(float delta) {
+		// Move enemy sprite
+		if (isActive()){
+			setPosition(position);
+			GameState
+		}
+		
 		if(!waypoints.isEmpty()) {
 			Point waypoint = waypoints.get(0);
 			
-			if(x > waypoint.x)
+			if(position.x > waypoint.x)
 				dir = Dir.LEFT;
-			else if(x < waypoint.x)
+			else if(position.x < waypoint.x)
 				dir = Dir.RIGHT;
-			else if(y > waypoint.y)
+			else if(position.y > waypoint.y)
 				dir = Dir.UP;
-			else if(y < waypoint.y)
+			else if(position.y < waypoint.y)
 				dir = Dir.DOWN;
 			
 			if(dir == Dir.LEFT) {
 				angle = 180;
-				x -= speed;
-				if(x <= waypoint.x)
-					x = waypoint.x;
+				position.x -= speed;
+				if(position.x <= waypoint.x)
+					position.x = waypoint.x;
 			}
 			else if(dir == Dir.RIGHT) {
 				angle = 0;
-				x += speed;
-				if(x >= waypoint.x)
-					x = waypoint.x;
+				position.x += speed;
+				if(position.x >= waypoint.x)
+					position.x = waypoint.x;
 			}
 			else if(dir == Dir.UP) {
 				angle = 270;
-				y -= speed;
-				if(y <= waypoint.y)
-					y = waypoint.y;
+				position.y -= speed;
+				if(position.y <= waypoint.y)
+					position.y = waypoint.y;
 			}
 			else if(dir == Dir.DOWN) {
 				angle = 90;
-				y += speed;
-				if(y >= waypoint.y)
-					y = waypoint.y;
+				position.y += speed;
+				if(position.y >= waypoint.y)
+					position.y = waypoint.y;
 			}
 			
-			if(x == waypoint.x && y == waypoint.y) {
+			if(position.x == waypoint.x && position.y == waypoint.y) {
 				waypoints.remove(0);
 			}
 		}
@@ -79,8 +88,8 @@ public abstract class Enemy extends Entity{
 	
 	public void draw(SpriteBatch spriteBatch){
 		if(active){
-			sprite.setX(this.x);
-			sprite.setY(this.y);
+			sprite.setX(this.position.x);
+			sprite.setY(this.position.y);
 			sprite.setRotation(this.angle);
 			sprite.draw(spriteBatch);
 		}
@@ -140,15 +149,5 @@ public abstract class Enemy extends Entity{
 	
 	public float getAngle(){
 		return this.angle;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
-	
+	}	
 }

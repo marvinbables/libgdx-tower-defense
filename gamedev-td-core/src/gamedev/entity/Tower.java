@@ -1,6 +1,7 @@
 package gamedev.entity;
 
 import gamedev.screen.GameScreen;
+import gamedev.td.GDSprite;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ public abstract class Tower extends Entity{
 	
 	private ArrayList<Enemy> targets = null;
 	
-	public Tower(int damage, float attackRange, float attackRate, int cost, int level, String towerName) {
+	public Tower(GDSprite sprite, int damage, float attackRange, float attackRate, int cost, int level, String towerName) {
+		super(sprite);
 		this.damage = damage;
 		this.attackRange = attackRange;
 		this.attackRate = attackRate;
