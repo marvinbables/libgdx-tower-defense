@@ -1,6 +1,9 @@
 package gamedev.screen;
 
 import gamedev.entity.Tower;
+import gamedev.entity.tower.ArrowTower;
+import gamedev.entity.tower.DirtTower;
+import gamedev.entity.tower.EggTower;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -13,7 +16,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 public class TowerInformation {
 	BitmapFont towerInfoFont, costFont;
-	Sprite background, towerSprite, towerToPutSprite, upgradeBtn, sellBtn;
+	Sprite background, towerSprite, towerToPutSprite, 
+				upgradeBtn, sellBtn,
+					upgradeToCorruptedEgg, upgradeToSlime, 
+						upgradeToWood, upgradeToSand, 
+							upgradeToFireArrow, upgradeToIceArrow;
+	
 	String towerName, damage, cost, range, attackRate;
 	Tower selectedDeployedTower;
 	
@@ -52,8 +60,42 @@ public class TowerInformation {
 		sellBtn.setPosition(425, y+100);
 		sellBtn.flip(false, true);
 		
+		initUpgradeButtonSprites();
 	}
 	
+	private void initUpgradeButtonSprites() {
+		Texture cEgg = new Texture(Gdx.files.internal("assets/img/upgrade_to_cegg.png"));
+		Texture slime = new Texture(Gdx.files.internal("assets/img/upgrade_to_slime.png"));
+		Texture wood = new Texture(Gdx.files.internal("assets/img/upgrade_to_wood.png"));
+		Texture sand = new Texture(Gdx.files.internal("assets/img/upgrade_to_sand.png"));
+		Texture fireArrow = new Texture(Gdx.files.internal("assets/img/upgrade_to_fireArrow.png"));
+		Texture iceArrow = new Texture(Gdx.files.internal("assets/img/upgrade_to_iceArrow.png"));
+		
+		upgradeToWood = new Sprite(wood);
+		upgradeToWood.setPosition(300, y+120);
+		upgradeToWood.flip(false, true);
+		
+		upgradeToSand = new Sprite(sand);
+		upgradeToSand.setPosition(425, y+120);
+		upgradeToSand.flip(false, true);
+		
+		upgradeToFireArrow = new Sprite(fireArrow);
+		upgradeToFireArrow.setPosition(300, y+120);
+		upgradeToFireArrow.flip(false, true);
+		
+		upgradeToIceArrow = new Sprite(iceArrow);
+		upgradeToIceArrow.setPosition(425, y+120);
+		upgradeToIceArrow.flip(false, true);
+		
+		upgradeToSlime = new Sprite(slime);
+		upgradeToSlime.setPosition(300, y+120);
+		upgradeToSlime.flip(false, true);
+		
+		upgradeToCorruptedEgg = new Sprite(cEgg);
+		upgradeToCorruptedEgg.setPosition(425, y+120);
+		upgradeToCorruptedEgg.flip(false, true);
+	}
+
 	public void draw(SpriteBatch spriteBatch) {
 		background.draw(spriteBatch);
 		towerInfoFont.setColor(Color.WHITE);
@@ -81,6 +123,19 @@ public class TowerInformation {
 			costFont.draw(spriteBatch, selectedDeployedTower.getUpgradeCost()+"", upgradeBtn.getX()+85, upgradeBtn.getY()+6);
 			sellBtn.draw(spriteBatch);
 			costFont.draw(spriteBatch, selectedDeployedTower.getSellCost()+"", sellBtn.getX()+75, sellBtn.getY()+6);
+			
+			if(selectedDeployedTower instanceof ArrowTower) {
+				upgradeToFireArrow.draw(spriteBatch);
+				upgradeToIceArrow.draw(spriteBatch);
+			}
+			else if(selectedDeployedTower instanceof DirtTower) {
+				upgradeToWood.draw(spriteBatch);
+				upgradeToSand.draw(spriteBatch);
+			}
+			else if(selectedDeployedTower instanceof EggTower) {
+				upgradeToSlime.draw(spriteBatch);
+				upgradeToCorruptedEgg.draw(spriteBatch);
+			}
 		}
 	}
 
