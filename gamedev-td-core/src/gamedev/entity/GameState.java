@@ -211,5 +211,9 @@ public class GameState {
 	public void getDamaged() {
 		playerLife--;
 	}
+
+	public Level getCurrentLevel() {
+		return currentLevel;
+	}
 	
 }

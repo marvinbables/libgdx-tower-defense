@@ -4,6 +4,7 @@ import gamedev.entity.GameState;
 import gamedev.entity.Tower;
 import gamedev.entity.TowerFactory;
 import gamedev.screen.GameScreen;
+import gamedev.screen.GameUserInterface;
 import gamedev.td.Config;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
@@ -18,16 +19,19 @@ import com.badlogic.gdx.graphics.Color;
 public class GameInputProcessor extends GDInputProcessor {
 
 	private GameScreen gameScreen;
-	private Tower towerToPut, selectedTower;
+	private Tower towerToBuild, selectedTower;
 
 	private GDSprite selectedSprite;
+	private GameUserInterface userInterface;
 
 	Color red = new Color(1, 0, 0, .5f);
 	Color white = new Color(1, 1, 1, .5f);
+	
 
 	public GameInputProcessor(TowerDefense towerDefense) {
 		super(towerDefense);
-		towerToPut = null;
+		userInterface = new GameUserInterface();
+		towerToBuild = null;
 		selectedSprite = null;
 		selectedTower = null;
 	}
@@ -67,38 +71,7 @@ public class GameInputProcessor extends GDInputProcessor {
 	}
 
 	private void resetInteractions() {
-		gameScreen.nullClonedTower();
-		gameScreen.setTowerInfo(null);
-		towerToPut = null;
-		gameScreen.setTowerInfoSprite(-1);
-		gameScreen.setTowerToPutSprite(-1);
-		selectedSprite = null;
-		selectedTower = null;
-		gameScreen.setSelectedSprite(null);
-		gameScreen.setSelectedTower(selectedTower);
-	}
-
-	private void buildSelectedTower(int x, int y, int pointer, int button) {
-		Point point = getGridCoordinate(x, y);
-		if (point.x != -50 && point.y != -50 && towerToPut != null && isPlaceable(point)) {
-			gameScreen.getGameState().getGrid()[point.x / 40][point.y / 40] = -1;
-			towerToPut.setX(point.x);
-			towerToPut.setY(point.y);
-			if (gameScreen.getGameState().enoughMoney(towerToPut)) {
-				towerToPut.setCenter((float) point.x + Config.tileSize / 2, (float) point.y + Config.tileSize / 2);
-				gameScreen.getGameState().deployTower(towerToPut);
-				gameScreen.addDeployedTowerSprite();
-				towerToPut = null;
-				gameScreen.setTowerInfoSprite(-1);
-				gameScreen.setTowerToPutSprite(-1);
-				gameScreen.setTowerInfo(null);
-			} else {
-				towerToPut = null;
-				gameScreen.setTowerInfoSprite(-1);
-				gameScreen.setTowerToPutSprite(-1);
-			}
-
-		}
+		
 	}
 
 	private void upgradeTowers(int x, int y, int pointer, int button) {
@@ -127,24 +100,51 @@ public class GameInputProcessor extends GDInputProcessor {
 		for (int i = 0; i < availableTowers.size(); i++) {
 			GDSprite sprite = availableTowers.get(i);
 			if (sprite.contains(x, y)) {
-				towerToPut = TowerFactory.createTower(i);
-				gameScreen.setTowerInfo(towerToPut);
+				towerToBuild = TowerFactory.createTower(i);
+				gameScreen.setTowerInfo(towerToBuild);
 				gameScreen.setTowerToPutSprite(i);
 				gameScreen.setTowerInfoSprite(i);
 				selectedTower = null;
 				selectedSprite = null;
 				gameScreen.setSelectedSprite(selectedSprite);
 				gameScreen.setSelectedTower(selectedTower);
-				if (gameScreen.getGameState().enoughMoney(towerToPut)) {
-					gameScreen.setDrawRadius(towerToPut.getAttackRange());
+				if (gameScreen.getGameState().enoughMoney(towerToBuild)) {
+					gameScreen.setDrawRadius(towerToBuild.getAttackRange());
 					gameScreen.cloneSprite(i);
 				} else {
 					gameScreen.setDrawRedHighlight(true);
-					towerToPut = null;
+					towerToBuild = null;
 					gameScreen.setTowerToPutSprite(-1);
 					gameScreen.nullClonedTower();
 				}
 			}
+		}
+	}
+	
+
+
+	private void buildSelectedTower(int x, int y, int pointer, int button) {
+		if (towerToBuild == null) return; // Do nothing if there is no tower to build yet.
+		
+		Point point = getGridCoordinate(x, y);
+		if (point != null && towerToBuild != null && isPlaceable(point)) {
+			gameScreen.getGameState().getGrid()[point.x / 40][point.y / 40] = -1;
+			towerToBuild.setX(point.x);
+			towerToBuild.setY(point.y);
+			if (gameScreen.getGameState().enoughMoney(towerToBuild)) {
+				towerToBuild.setCenter((float) point.x + Config.tileSize / 2, (float) point.y + Config.tileSize / 2);
+				gameScreen.getGameState().deployTower(towerToBuild);
+				gameScreen.addDeployedTowerSprite();
+				towerToBuild = null;
+				gameScreen.setTowerInfoSprite(-1);
+				gameScreen.setTowerToPutSprite(-1);
+				gameScreen.setTowerInfo(null);
+			} else {
+				towerToBuild = null;
+				gameScreen.setTowerInfoSprite(-1);
+				gameScreen.setTowerToPutSprite(-1);
+			}
+
 		}
 	}
 
@@ -185,19 +185,19 @@ public class GameInputProcessor extends GDInputProcessor {
 				boolean showTooltip = true;
 				Point spritePoint = sprite.getPosition();
 
-				if (towerToPut == null)
+				if (towerToBuild == null)
 					gameScreen.drawTowerInfo(showTooltip, spritePoint.x, spritePoint.y, gameScreen.getGameState().getAvailableTowers().get(i));
 				else
-					gameScreen.drawTowerInfo(showTooltip, spritePoint.x, spritePoint.y, towerToPut);
+					gameScreen.drawTowerInfo(showTooltip, spritePoint.x, spritePoint.y, towerToBuild);
 				gameScreen.setTowerInfoSprite(i);
 				break;
 			} else {
-				gameScreen.drawTowerInfo(false, -50, -50, towerToPut);
+				gameScreen.drawTowerInfo(false, -50, -50, towerToBuild);
 				if (selectedTower != null && selectedSprite != null) {
 					gameScreen.drawTowerInfo(false, (int) selectedSprite.getX(), (int) selectedSprite.getY(), selectedTower);
 					gameScreen.getUiInformation().setTowerSprite(selectedSprite);
 				} else {
-					if (towerToPut == null)
+					if (towerToBuild == null)
 						gameScreen.setTowerInfoSprite(-1);
 				}
 				// if(towerToPut != null)
@@ -228,5 +228,9 @@ public class GameInputProcessor extends GDInputProcessor {
 			return false;
 		else
 			return true;
+	}
+
+	public GameUserInterface getUserInterface() {
+		return userInterface;
 	}
 }
