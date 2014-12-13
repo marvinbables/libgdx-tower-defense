@@ -87,6 +87,7 @@ public class GameInputProcessor extends GDInputProcessor {
 			if (sprite.contains(x, y)) {
 				selectedTower = tower;
 				userInterface.setTowerToUpgrade(tower);
+				System.out.println("[Input] User selected a tower, " + selectedTower.getTowerName() + " found at " + selectedTower.getPosition());
 			}
 		}
 	}
@@ -98,6 +99,7 @@ public class GameInputProcessor extends GDInputProcessor {
 			GDSprite sprite = availableTowers.get(type);
 			if (sprite.contains(x, y)) {
 				TowerType towerType = TowerFactory.interpretType(type);
+				System.out.println("[Input] User is trying to build a " + towerType);
 				towerToBuild = TowerFactory.createTower(towerType);
 				userInterface.setTowerToBuild(towerToBuild, towerType);
 			}
@@ -113,8 +115,10 @@ public class GameInputProcessor extends GDInputProcessor {
 		
 		if (point != null && state.isTowerPlaceable(point)) {
 			if (state.canBuyTower(towerToBuild)){
+				System.out.println("[Input] User built a " + towerToBuild.getTowerName() + " on " + point);
 				state.buildTower(towerToBuild, point);				
 			}else{
+				System.out.println("[Input] User cannot build a " + towerToBuild.getTowerName() + " because he/she does not have money.");
 				towerToBuild = null;
 			}
 			userInterface.reset();
@@ -137,9 +141,6 @@ public class GameInputProcessor extends GDInputProcessor {
 	public boolean mouseMoved(int x, int y) {
 
 		Point point = getGridCoordinate(x, y);
-		
-		GameState state = GameState.getInstance();
-		
 		userInterface.setHighlightedCell(point);
 		if (towerToBuild != null){
 			userInterface.setGhostTowerToBeBuilt(point);
