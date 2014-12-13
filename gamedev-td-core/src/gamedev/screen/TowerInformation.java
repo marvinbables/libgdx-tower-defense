@@ -202,5 +202,29 @@ public class TowerInformation {
 	public void setTowerName(String towerName) {
 		this.towerName = towerName;
 	}
+
+	public Sprite getUpgradeToCorruptedEgg() {
+		return upgradeToCorruptedEgg;
+	}
+
+	public Sprite getUpgradeToSlime() {
+		return upgradeToSlime;
+	}
+
+	public Sprite getUpgradeToWood() {
+		return upgradeToWood;
+	}
+
+	public Sprite getUpgradeToSand() {
+		return upgradeToSand;
+	}
+
+	public Sprite getUpgradeToFireArrow() {
+		return upgradeToFireArrow;
+	}
+
+	public Sprite getUpgradeToIceArrow() {
+		return upgradeToIceArrow;
+	}
 	
 }

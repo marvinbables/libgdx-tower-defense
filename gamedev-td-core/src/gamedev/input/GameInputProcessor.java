@@ -3,7 +3,10 @@ package gamedev.input;
 import gamedev.entity.GameState;
 import gamedev.entity.Tower;
 import gamedev.entity.TowerFactory;
+import gamedev.entity.tower.ArrowTower;
+import gamedev.entity.tower.DirtTower;
 import gamedev.screen.GameScreen;
+import gamedev.screen.TowerInformation;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
 
@@ -135,7 +138,18 @@ public class GameInputProcessor extends GDInputProcessor{
 		return false;
 	}
 	
-
+	private void upgradeButtonIntesersect(int screenX, int screenY) {
+		if(selectedTower != null) {
+			TowerInformation towerInfo = gameScreen.getUiInformation();
+			if(selectedTower instanceof ArrowTower) {
+				// TODO: Check if mouse intersects with upgradeToFireArrow or upgradeToIceArrow sprite in TowerInformation
+			}
+			else if(selectedTower instanceof DirtTower) {
+				
+			}
+		}
+		
+	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
