@@ -62,10 +62,7 @@ public class SpriteManager {
 		uiSprite = createSprite("ui");
 		uiSprite.setPosition(0, GameState.GRIDY * Config.tileSize);
 
-		for (int i = 0; i < heartSprite.length; i++) {
-			heartSprite[i] = createSprite("heart");
-			heartSprite[i].setPosition(i * 20 + i * 2 + 10, 12 * Config.tileSize + 10);
-		}
+		
 
 		towerLabel = createSprite("tower_label");
 		towerLabel.setPosition(0, 13 * Config.tileSize);

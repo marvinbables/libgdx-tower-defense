@@ -1,6 +1,8 @@
 package gamedev.level;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Level {
@@ -78,5 +80,18 @@ public class Level {
 		if (instance == null)
 			instance = generateLevel(1);
 		return instance;
+	}
+
+	/**
+	 * TODO: This can be made more readable.
+	 * @return
+	 */
+	public List<Integer> getEnemiesToBeSpawned() {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < enemies.length; i++) {
+			for (int j = 0; j < enemies[i][0]; j++)
+				list.add(enemies[i][1]);
+		}
+		return list;
 	}
 }

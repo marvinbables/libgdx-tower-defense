@@ -1,5 +1,6 @@
 package gamedev.screen;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class GameUserInterface {
 	private int userInterfaceY = 490;
 
 	private ArrayList<GDSprite> btnsBuildTower;
-	private List<GDSprite> buildTowerButtons;
 	
 	// Tower information when building
 	String towerName;
@@ -51,11 +51,11 @@ public class GameUserInterface {
 		btnsBuildTower = new ArrayList<GDSprite>();
 		SpriteManager spriteManager = SpriteManager.getInstance();
 
-		GDSprite dirtTower = spriteManager.getTower(TowerType.Dirt);
-		GDSprite arrowTower = spriteManager.getTower(TowerType.Arrow);
-		GDSprite eggTower = spriteManager.getTower(TowerType.Egg);
-		GDSprite potionTower = spriteManager.getTower(TowerType.Potion);
-		GDSprite currencyTower = spriteManager.getTower(TowerType.Currency);
+		GDSprite dirtTower = spriteManager.getTower(TowerType.Dirt_Tower);
+		GDSprite arrowTower = spriteManager.getTower(TowerType.Arrow_Tower);
+		GDSprite eggTower = spriteManager.getTower(TowerType.Egg_Tower);
+		GDSprite potionTower = spriteManager.getTower(TowerType.Potion_Tower);
+		GDSprite currencyTower = spriteManager.getTower(TowerType.Currency_Tower);
 
 		int offset = 3, y = 13;
 		dirtTower.setPosition(Config.tileSize, y * Config.tileSize);
@@ -103,8 +103,10 @@ public class GameUserInterface {
 	private void initializeHeartSprites() {
 		SpriteManager spriteManager = SpriteManager.getInstance();
 		heartSprite = new GDSprite[10];
+		
 		for (int i = 0; i < 10; i ++){
 			heartSprite[i] = spriteManager.getSprite("heart");
+			heartSprite[i].setPosition(i * 20 + i * 2 + 10, 12 * Config.tileSize + 10);
 		}
 	}
 
@@ -179,9 +181,10 @@ public class GameUserInterface {
 		}
 
 		towerRangeRenderer.render();
+
+		drawHealthBars(spriteBatch);
 		spriteBatch.end();
 		
-		drawHealthBars(spriteBatch);
 	}
 
 	private void drawTowerInfo(SpriteBatch spriteBatch) {
@@ -234,7 +237,7 @@ public class GameUserInterface {
 	}
 
 	public List<GDSprite> getBuildTowerButtons() {
-		return buildTowerButtons;
+		return btnsBuildTower;
 	}
 
 	public void setTowerToBuild(Tower towerToBuild, TowerType towerType) {
@@ -245,10 +248,41 @@ public class GameUserInterface {
 		
 		GameState state = GameState.getInstance();
 		
-		if (state.enoughMoney(towerToBuild)) {
+		if (state.canBuyTower(towerToBuild)) {
 			towerRangeRenderer.setAttackRange(towerToBuild.getAttackRange());
 		} else {
 			towerToPutSprite = null;
 		}
+	}
+
+	public void setTowerToUpgrade(Tower tower) {
+		
+	}
+
+	/**
+	 * Reset; Deselect all towers to be built or upgraded.
+	 */
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * Change color of the highlighted cell
+	 * @param point
+	 */
+	public void setHighlightedCell(Point point) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * Place a ghost tower on the highlighted cell
+	 * Note that the attack range should be drawn as well
+	 * @param point
+	 */
+	public void setGhostTowerToBeBuilt(Point point) {
+		// TODO Auto-generated method stub
+		
 	}
 }

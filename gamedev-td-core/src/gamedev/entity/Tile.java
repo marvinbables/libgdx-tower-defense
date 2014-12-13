@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Tile extends Entity {
 	
 	public enum TileType {
-		Null, Grass, Dirt, Dirt_Dark, Steve
+		Used, Grass, Dirt, Dirt_Dark, Steve
 	}
 
 	public static Tile create(TileType type){
@@ -29,13 +29,13 @@ public class Tile extends Entity {
 
 	public static TileType interpretType(int val) {
 		switch(val){
-		case -1: return TileType.Null;
+		case -1: return TileType.Used;
 		case  0: return TileType.Grass;
 		case  1: return TileType.Dirt;
 		case  2: return TileType.Dirt_Dark;
 		case  3: return TileType.Steve;
 		}
-		return TileType.Null;
+		return TileType.Used;
 	}
 
 }

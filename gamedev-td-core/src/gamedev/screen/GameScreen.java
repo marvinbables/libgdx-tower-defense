@@ -30,7 +30,8 @@ public class GameScreen extends GDScreen {
 
 		gameState.initialize();
 		gameState.prepareLevel(1);
-
+		
+		this.inputProcessor = inputProcessor;
 	}
 
 	@Override
