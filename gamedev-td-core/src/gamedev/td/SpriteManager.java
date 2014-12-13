@@ -3,6 +3,7 @@ package gamedev.td;
 import gamedev.entity.Enemy.EnemyType;
 import gamedev.entity.GameState;
 import gamedev.entity.TextureFactory;
+import gamedev.entity.Tile.TileType;
 import gamedev.entity.TowerFactory.TowerType;
 
 import java.util.HashMap;
@@ -12,9 +13,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class SpriteManager {
 	private static SpriteManager instance;
-	
-	private static HashMap<String, Texture> sprites;
-	
 	private static HashMap<String, Texture> tiles, towers, enemies;
 
 	GDSprite highlightTile, uiSprite, towerLabel, heartSprite[], emeraldSprite,
@@ -28,7 +26,6 @@ public class SpriteManager {
 	}
 
 	private SpriteManager() {
-		sprites = new HashMap<String, Texture>();
 		tiles = new HashMap<String, Texture>();
 		towers = new HashMap<String, Texture>();
 		initialize();
@@ -115,24 +112,15 @@ public class SpriteManager {
 	}
 	
 	/**
-	 * Factory pattern to create sprites.
+	 * Factory pattern to create sprites. Note that the name is turned into lower case.
 	 * @param name
 	 * @return
 	 */
-	public static GDSprite createSprite(String name){
+	private static GDSprite createSprite(String name){
 		GDSprite sprite = null;
-		Texture texture = null;
-
-		// If sprite is already registered, fetch the texture.
-		if (sprites.containsKey(name))
-			texture = sprites.get(name);
+		name = name.toLowerCase();
+		Texture texture = TextureFactory.createTexture(name);
 		
-		// Create and register the texture
-		else{
-			texture = TextureFactory.createTexture(name);
-			sprites.put(name, texture);
-		}
-
 		sprite = new GDSprite(texture);
 		sprite.setPosition(-50, -50);
 		
@@ -140,27 +128,16 @@ public class SpriteManager {
 		return sprite;
 	}
 	
-	/**
-	 * Private static method for when creating instances from the texture cache of towers, enemies, etc.
-	 * @param texture
-	 * @return
-	 */
-	private static GDSprite createSprite(Texture texture){
-		GDSprite sprite = new GDSprite(texture);
-		sprite.setPosition(-50, -50);
-		
-		sprite.setFlip(false, true);
-		return sprite;
-				
-	}
 	
 	public GDSprite getTower(TowerType type) {
-		Texture towerTexture = towers.get(type.toString());
-		return createSprite(towerTexture);
+		return createSprite(type.toString());
 	}
 	
 	public GDSprite getEnemy(EnemyType type) {
-		Texture enemyTexture = enemies.get(type.toString());
-		return createSprite(enemyTexture);
+		return createSprite(type.toString());
+	}
+
+	public GDSprite getTile(TileType type) {
+		return createSpriteTile(type.toString());
 	}
 }

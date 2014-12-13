@@ -1,12 +1,19 @@
 package gamedev.entity;
 
 import gamedev.entity.Enemy.EnemyType;
+import gamedev.entity.Tile.TileType;
 import gamedev.entity.TowerFactory.TowerType;
 import gamedev.level.Level;
+import gamedev.td.Config;
+import gamedev.td.GDSprite;
+import gamedev.td.SpriteManager;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameState {
 	private static GameState instance;
@@ -14,21 +21,15 @@ public class GameState {
 	public static final int GRIDX = 17, GRIDY = 12;
 	
 	private Level currentLevel;
-	private int score, grid[][], money, life = 10, spawnedEnemies;
+	private int score, money, life = 10, spawnedEnemies;
+	private TileType grid[][];
 	private float waveSpawnTime, SPAWN_TIME = 5, spawnDelay;
 	private List<Enemy> enemies;
 	private List<Integer> enemiesToBeSpawned;
 	private List<Tower> deployedTowers, availableTowers;
 	private List<Point> currentWaypoints;
 	
-	{
-		grid = new int[GRIDX][GRIDY];
-		for (int i = 0; i < GRIDX; i++) {
-			for (int j = 0; j < GRIDY; j++) {
-				grid[i][j] = -1;
-			}
-		}
-	}
+	
 	
 	public static GameState getInstance(){
 		if (instance == null)
@@ -47,6 +48,16 @@ public class GameState {
 		deployedTowers = new ArrayList<Tower>();
 		availableTowers = new ArrayList<Tower>();
 		createTowers();
+		createMap();
+	}
+	
+	private void createMap(){
+		grid = new TileType[GRIDX][GRIDY];
+		for (int i = 0; i < GRIDX; i++) {
+			for (int j = 0; j < GRIDY; j++) {
+				grid[i][j] = TileType.Null;
+			}
+		}
 	}
 	
 	private void createTowers() {
@@ -77,6 +88,38 @@ public class GameState {
 			tower.update(delta);
 	}
 	
+	public void render(SpriteBatch spriteBatch){
+		displayMap(spriteBatch);
+	}
+
+	private void displayMap(SpriteBatch spriteBatch) {
+		spriteBatch.begin();
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				TileType type = grid[i][j];
+				
+				Tile newTile = Tile.create(type);
+				Vector2 position = new Vector2(i * Config.tileSize, j * Config.tileSize);
+				newTile.setPosition(position);
+				newTile.draw(spriteBatch);
+			}
+		}
+		spriteBatch.end();
+	}
+	
+	private GDSprite getSprite(int correspondingNumber) {
+		if(correspondingNumber >= tiles.size())
+			return tiles.get(0);
+		
+		switch(correspondingNumber) {
+			case 0: return tiles.get(0);
+			case 1: return tiles.get(1);
+			case 2: return tiles.get(2);
+			case 3: return tiles.get(3);
+			default: return tiles.get(0);
+		}
+	}
+	
 	public boolean checkProjectileCollision() {
 	
 		return false;
@@ -102,7 +145,7 @@ public class GameState {
 		int instances = enemiesToBeSpawned.size();
 		spawnDelay += delta;
 		if(spawnDelay >= .5 && spawnedEnemies < instances){
-			Enemy enemy = Enemy.createEnemy(EnemyType.Spider, Level.level_1_waypoints);
+			Enemy enemy = Enemy.createEnemy(EnemyType.Spider);
 			enemies.add(enemy);
 			spawnDelay = 0;
 			++spawnedEnemies;
@@ -182,9 +225,6 @@ public class GameState {
 		this.currentWaypoints = currentWaypoints;
 	}
 
-	public int[][] getGrid() {
-		return grid;
-	}
 
 	public int getMoney() {
 		return money;

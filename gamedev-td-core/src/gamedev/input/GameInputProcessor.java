@@ -31,59 +31,82 @@ public class GameInputProcessor extends GDInputProcessor {
 		selectedSprite = null;
 		selectedTower = null;
 	}
-	
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		List<GDSprite> availableTowers = gameScreen.getAvailableTowers();
+	public boolean touchDown(int x, int y, int pointer, int button) {
 
-		if (Gdx.input.isButtonPressed(Buttons.LEFT))
-			for (int i = 0; i < availableTowers.size(); i++) {
-				GDSprite sprite = availableTowers.get(i);
-				if (sprite.contains(screenX, screenY)) {
-					towerToPut = TowerFactory.createTower(i);
-					gameScreen.setTowerInfo(towerToPut);
-					gameScreen.setTowerToPutSprite(i);
-					gameScreen.setTowerInfoSprite(i);
-					selectedTower = null;
-					selectedSprite = null;
-					gameScreen.setSelectedSprite(selectedSprite);
-					gameScreen.setSelectedTower(selectedTower);
-					if (gameScreen.getGameState().enoughMoney(towerToPut)) {
-						gameScreen.setDrawRadius(towerToPut.getAttackRange());
-						gameScreen.cloneSprite(i);
-					} else {
-						gameScreen.setDrawRedHighlight(true);
-						towerToPut = null;
-						gameScreen.setTowerToPutSprite(-1);
-						gameScreen.nullClonedTower();
-					}
-				}
+		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			// Step 1
+			selectTowerToBuild(x, y, pointer, button);
+
+			// Step 2
+			buildSelectedTower(x, y, pointer, button);
+
+			upgradeTowers(x, y, pointer, button);
+		}else if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
+			resetInteractions();
+			
+		}
+
+		return false;
+	}
+
+	private void resetInteractions() {
+		gameScreen.nullClonedTower();
+		gameScreen.setTowerInfo(null);
+		towerToPut = null;
+		gameScreen.setTowerInfoSprite(-1);
+		gameScreen.setTowerToPutSprite(-1);
+		selectedSprite = null;
+		selectedTower = null;
+		gameScreen.setSelectedSprite(null);
+		gameScreen.setSelectedTower(selectedTower);
+	}
+
+	private void buildSelectedTower(int x, int y, int pointer, int button) {
+		Point point = getGridCoordinate(x, y);
+		if (point.x != -50 && point.y != -50 && towerToPut != null && isPlaceable(point)) {
+			gameScreen.getGameState().getGrid()[point.x / 40][point.y / 40] = -1;
+			towerToPut.setX(point.x);
+			towerToPut.setY(point.y);
+			if (gameScreen.getGameState().enoughMoney(towerToPut)) {
+				towerToPut.setCenter((float) point.x + Config.tileSize / 2, (float) point.y + Config.tileSize / 2);
+				gameScreen.getGameState().deployTower(towerToPut);
+				gameScreen.addDeployedTowerSprite();
+				towerToPut = null;
+				gameScreen.setTowerInfoSprite(-1);
+				gameScreen.setTowerToPutSprite(-1);
+				gameScreen.setTowerInfo(null);
+			} else {
+				towerToPut = null;
+				gameScreen.setTowerInfoSprite(-1);
+				gameScreen.setTowerToPutSprite(-1);
 			}
 
+		}
+	}
+
+	private void upgradeTowers(int x, int y, int pointer, int button) {
 		List<GDSprite> deployedTowers = gameScreen.getDeployedTowerSprites();
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
 			for (int i = 0; i < deployedTowers.size(); i++) {
 				GDSprite sprite = deployedTowers.get(i);
-				if (sprite.contains(screenX, screenY)) {
+				if (sprite.contains(x, y)) {
 					selectedTower = gameScreen.getGameState().getDeployedTowers().get(i);
 					gameScreen.setTowerInfo(selectedTower);
 					gameScreen.setSelectedTower(selectedTower);
@@ -95,53 +118,45 @@ public class GameInputProcessor extends GDInputProcessor {
 				}
 			}
 		}
+	}
 
-		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
-			Point point = getGridCoordinate(screenX, screenY);
-			if (point.x != -50 && point.y != -50 && towerToPut != null && isPlaceable(point)) {
-				gameScreen.getGameState().getGrid()[point.x / 40][point.y / 40] = -1;
-				towerToPut.setX(point.x);
-				towerToPut.setY(point.y);
+	private void selectTowerToBuild(int x, int y, int pointer, int button) {
+
+		List<GDSprite> availableTowers = gameScreen.getAvailableTowers();
+
+		for (int i = 0; i < availableTowers.size(); i++) {
+			GDSprite sprite = availableTowers.get(i);
+			if (sprite.contains(x, y)) {
+				towerToPut = TowerFactory.createTower(i);
+				gameScreen.setTowerInfo(towerToPut);
+				gameScreen.setTowerToPutSprite(i);
+				gameScreen.setTowerInfoSprite(i);
+				selectedTower = null;
+				selectedSprite = null;
+				gameScreen.setSelectedSprite(selectedSprite);
+				gameScreen.setSelectedTower(selectedTower);
 				if (gameScreen.getGameState().enoughMoney(towerToPut)) {
-					towerToPut.setCenter((float) point.x + Config.tileSize / 2, (float) point.y + Config.tileSize / 2);
-					gameScreen.getGameState().deployTower(towerToPut);
-					gameScreen.addDeployedTowerSprite();
-					towerToPut = null;
-					gameScreen.setTowerInfoSprite(-1);
-					gameScreen.setTowerToPutSprite(-1);
-					gameScreen.setTowerInfo(null);
+					gameScreen.setDrawRadius(towerToPut.getAttackRange());
+					gameScreen.cloneSprite(i);
 				} else {
+					gameScreen.setDrawRedHighlight(true);
 					towerToPut = null;
-					gameScreen.setTowerInfoSprite(-1);
 					gameScreen.setTowerToPutSprite(-1);
+					gameScreen.nullClonedTower();
 				}
-
 			}
 		}
-		if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
-			gameScreen.nullClonedTower();
-			gameScreen.setTowerInfo(null);
-			towerToPut = null;
-			gameScreen.setTowerInfoSprite(-1);
-			gameScreen.setTowerToPutSprite(-1);
-			selectedSprite = null;
-			selectedTower = null;
-			gameScreen.setSelectedSprite(null);
-			gameScreen.setSelectedTower(selectedTower);
-		}
-
-		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
@@ -197,7 +212,6 @@ public class GameInputProcessor extends GDInputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -17,6 +17,7 @@ public abstract class Entity {
 	}
 	
 	public abstract void draw(SpriteBatch spriteBatch);
+	
 	public void update(float delta){
 		sprite.setX(this.position.x);
 		sprite.setY(this.position.y);

@@ -1,234 +1,57 @@
 package gamedev.screen;
 
 import gamedev.entity.GameState;
-import gamedev.entity.SpriteFactory;
-import gamedev.entity.Tower;
-import gamedev.entity.TowerFactory.TowerType;
 import gamedev.input.GDInputProcessor;
-import gamedev.level.Level;
-import gamedev.screen.render.TowerRangeRenderer;
-import gamedev.td.Config;
-import gamedev.td.GDSprite;
-import gamedev.td.SpriteManager;
 import gamedev.td.TowerDefense;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class GameScreen extends GDScreen {
 	TowerDefense towerDefense;
 	OrthographicCamera camera;
 
 	SpriteBatch spriteBatch;
-	TowerRangeRenderer towerRangeRenderer;
-	TowerInformation uiInformation;
+	
+	GameUserInterface userInterface;
 
-	boolean drawInfo = false, drawRedHighlight = false;
-	private boolean spawn;
 	private GameState gameState;
 	
-	
-	/**
-	 * This is the elapsed time in milliseconds.
-	 */
-	float elapsedTime = 0;
-
-	
-
 	public GameScreen(TowerDefense towerDefense, GDInputProcessor inputProcessor) {
-		super(towerDefense, inputProcessor);
+		super(towerDefense);
 
-		towerRangeRenderer = new TowerRangeRenderer();
 		gameState = GameState.getInstance();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
 
-		uiInformation = new TowerInformation();
+		userInterface = new GameUserInterface();
 
 		spriteBatch = new SpriteBatch();
 		spriteBatch.setProjectionMatrix(camera.combined);
 
 		gameState.initialize();
 		gameState.prepareLevel(1);
-		initializeSprites();
 
-		inputProcessor.initialize(this);
-	}
-
-
-	private void initializeSprites() {
-		
-
-		initializeTowerSprites();
-		initializeEnemySprites();
-	}
-
-	private void initializeTowerSprites() {
-		availableTowers = new ArrayList<GDSprite>();
-		SpriteManager spriteManager = SpriteManager.getInstance();
-		
-		GDSprite dirtTower = spriteManager.getTower(TowerType.Dirt);
-		GDSprite arrowTower = spriteManager.getTower(TowerType.Arrow);
-		GDSprite eggTower = spriteManager.getTower(TowerType.Egg);
-		GDSprite potionTower = spriteManager.getTower(TowerType.Potion);
-		GDSprite currencyTower = spriteManager.getTower(TowerType.Currency);
-
-		int offset = 3, y = 13;
-		dirtTower.setPosition(Config.tileSize, y * Config.tileSize);
-		arrowTower.setPosition(Config.tileSize * 2 + offset, y * Config.tileSize);
-		eggTower.setPosition(Config.tileSize * 3 + offset * 2, y * Config.tileSize);
-		potionTower.setPosition(Config.tileSize * 4 + offset * 3, y * Config.tileSize);
-		currencyTower.setPosition(Config.tileSize * 5 + offset * 4, y * Config.tileSize);
-
-		availableTowers.add(dirtTower);
-		availableTowers.add(arrowTower);
-		availableTowers.add(eggTower);
-		availableTowers.add(potionTower);
-		availableTowers.add(currencyTower);
-	}
-
-	public void cloneSprite(int index) {
-		clonedTowerSprite = createTile(availableTowers.get(index).getTexture());
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
+		
 		update(delta);
-
-		spriteBatch.begin();
-		int grid[][] = gameState.getGrid();
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				getSprite(grid[i][j]).setPosition(i * Config.tileSize, j * Config.tileSize);
-				getSprite(grid[i][j]).draw(spriteBatch);
-			}
-		}
-		spriteBatch.end();
-
-		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-
-		towerRangeRenderer.begin(ShapeType.Filled);
-		if (selectedSprite != null) {
-			towerRangeRenderer.circle(selectedSprite.getX() + Config.tileSize / 2, convertYforShapeRenderer(selectedSprite.getY() + Config.tileSize * 3 / 2), rangeRadius);
-		} else if (clonedTowerSprite != null) {
-			if (clonedTowerSprite.getX() != -50 && clonedTowerSprite.getY() != -50) {
-				towerRangeRenderer.circle(clonedTowerSprite.getX() + Config.tileSize / 2, convertYforShapeRenderer(clonedTowerSprite.getY() + Config.tileSize * 3 / 2), rangeRadius);
-			}
-		}
-
-		towerRangeRenderer.end();
-		// System.out.println(clonedTowerSprite.getX() + " " + clonedTowerSprite.getY());
-
-		spriteBatch.begin();
-		if (clonedTowerSprite == null)
-			highlightTile.draw(spriteBatch);
-
-		uiSprite.draw(spriteBatch);
-
-		for (GDSprite tower : availableTowers) {
-			tower.draw(spriteBatch);
-		}
-
-		towerLabel.draw(spriteBatch);
-		emeraldSprite.draw(spriteBatch);
-
-		// View accesses the model (GameState). Tinamad na sa MVC
-		font.setColor(new Color(65 / 255f, 243 / 255f, 132 / 255f, 1));
-		font.draw(spriteBatch, "" + gameState.getMoney(), emeraldSprite.getX() + Config.tileSize + 3, emeraldSprite.getY() + 15);
-		font.setColor(Color.BLACK);
-		font.draw(spriteBatch, convertSecToMinSec(gameState.getWaveSpawnTime()), waveSprite.getX() + Config.tileSize + 3, waveSprite.getY() + 15);
-
-		waveSprite.draw(spriteBatch);
-
-		for (GDSprite sprite : deployedTowerSprites) {
-			sprite.draw(spriteBatch);
-		}
-
-		if (drawInfo) {
-			uiTowerHighlight.draw(spriteBatch);
-			// TODO: Draw tooltip showing information of the tower
-		}
-
-		for (int i = 0; i < gameState.getLife(); i++) {
-			heartSprite[i].draw(spriteBatch);
-		}
-
-		if (clonedTowerSprite != null) {
-			clonedTowerSprite.draw(spriteBatch);
-		}
-
-		uiInformation.draw(spriteBatch);
-
-		if (drawRedHighlight)
-			redHighlight.draw(spriteBatch);
-
-		spriteBatch.end();
-
+		gameState.render(spriteBatch);		
+		userInterface.draw(spriteBatch);
 	}
+
 
 	private void update(float delta) {
-
-		elapsedTime += delta;
-		if (elapsedTime >= 1) {
-			gameState.setWaveSpawnTime(gameState.getWaveSpawnTime() - 1);
-			elapsedTime -= 1;
-		}
-
-		if (gameState.getWaveSpawnTime() == 0) {
-			spawn = true;
-			gameState.prepareEnemies();
-		}
-		if (spawn) {
-			if (gameState.spawnEnemy(delta))
-				spawnedEnemySprites.add(newEnemySprite(Level.level_1_enemies[0][1]));
-		}
-
 		gameState.update(delta);
-
 	}
 
-	private float convertYforShapeRenderer(float y) {
-		return Gdx.graphics.getWidth() - y;
-
-	}
-
-	private String convertSecToMinSec(float timeInSec) {
-		String time = "";
-		float minute = timeInSec / 60;
-		float sec = timeInSec % 60;
-		if (minute < 10)
-			time += "0" + (int) minute;
-		else
-			time += (int) minute;
-
-		time += ":";
-
-		if (sec < 10)
-			time += "0" + (int) sec;
-		else
-			time += (int) sec;
-
-		return time;
-	}
-
-	public void setHighlightCoord(int x, int y) {
-		highlightTile.setPosition(x, y);
-	}
+	
 
 	@Override
 	public void resize(int width, int height) {
@@ -247,7 +70,7 @@ public class GameScreen extends GDScreen {
 
 	@Override
 	public void pause() {
-
+		// TODO: Probably save the game state.
 	}
 
 	@Override
@@ -258,136 +81,6 @@ public class GameScreen extends GDScreen {
 	@Override
 	public void dispose() {
 
-	}
-
-	private GDSprite newEnemySprite(int enemyType) {
-		String path = "";
-
-		switch (enemyType) {
-		case 1:
-			path = "assets/img/spider.png";
-		default:
-			path = "assets/img/spider.png";
-		}
-
-		Texture texture = new Texture(Gdx.files.internal(path));
-		GDSprite sprite = new GDSprite(texture);
-		sprite.setPosition(-50, -50);
-		return sprite;
-	}
-
-	private GDSprite getSprite(int correspondingNumber) {
-		if (correspondingNumber >= tiles.size())
-			return tiles.get(0);
-
-		switch (correspondingNumber) {
-		case 0:
-			return tiles.get(0);
-		case 1:
-			return tiles.get(1);
-		case 2:
-			return tiles.get(2);
-		case 3:
-			return tiles.get(3);
-		default:
-			return tiles.get(0);
-		}
-	}
-
-	public GameState getGameState() {
-		return gameState;
-	}
-
-	public List<GDSprite> getDeployedTowerSprites() {
-		return deployedTowerSprites;
-	}
-
-	public List<GDSprite> getAvailableTowers() {
-		return availableTowers;
-	}
-
-	public TowerInformation getUiInformation() {
-		return uiInformation;
-	}
-
-	public void drawTowerInfo(boolean b, int x, int y, Tower towerInfo) {
-		uiTowerHighlight.setPosition(x, y);
-		redHighlight.setPosition(x, y);
-		drawInfo = b;
-		setTowerInfo(towerInfo);
-	}
-
-	public void setTowerInfo(Tower towerInfo) {
-		if (towerInfo != null) {
-			uiInformation.setDamage(towerInfo.getDamage() + "");
-			uiInformation.setCost(towerInfo.getCost() + "");
-			uiInformation.setRange(towerInfo.getAttackRange() + "");
-			uiInformation.setAttackRate(towerInfo.getAttackRate() + "");
-			uiInformation.setTowerName(towerInfo.getTowerName());
-		} else {
-			uiInformation.setDamage("");
-			uiInformation.setCost("");
-			uiInformation.setRange("");
-			uiInformation.setAttackRate("");
-			uiInformation.setTowerName("");
-		}
-	}
-
-	public void setTowerInfoSprite(int i) {
-		uiInformation.setTowerSprite(cloneSprite2(i));
-	}
-
-	public GDSprite cloneSprite(GDSprite sprite) {
-		GDSprite newSprite = new GDSprite(sprite.getTexture());
-		newSprite.setPosition(sprite.getX(), sprite.getY());
-		newSprite.setFlip(false, true);
-		return newSprite;
-	}
-
-	public void setTowerToPutSprite(int i) {
-		uiInformation.setTowerToPutSprite(cloneSprite2(i));
-	}
-
-	private GDSprite cloneSprite2(int index) {
-		if (index < 0)
-			return null;
-		return createTile(availableTowers.get(index).getTexture());
-	}
-
-	public void setClonedTowerSpriteLoc(int x, int y) {
-		if (clonedTowerSprite != null)
-			clonedTowerSprite.setPosition(x, y);
-	}
-
-	public void nullClonedTower() {
-		clonedTowerSprite = null;
-	}
-
-	public void addDeployedTowerSprite() {
-		if (clonedTowerSprite != null) {
-			deployedTowerSprites.add(clonedTowerSprite);
-			clonedTowerSprite = null;
-		}
-	}
-
-	public void setDrawRadius(float attackRange) {
-		rangeRadius = attackRange;
-	}
-
-	public ShapeRenderer getTowerRangeRenderer() {
-		return towerRangeRenderer;
-	}
-
-	public void setDrawRedHighlight(boolean drawRedHighlight) {
-		this.drawRedHighlight = drawRedHighlight;
-	}
-
-	public void setSelectedSprite(GDSprite sprite) {
-		selectedSprite = sprite;
-	}
-
-	public void setSelectedTower(Tower selectedTower) {
-		uiInformation.setSelectedDeployedTower(selectedTower);
 	}
 
 }

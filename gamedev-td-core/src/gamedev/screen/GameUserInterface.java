@@ -1,20 +1,26 @@
 package gamedev.screen;
 
+import java.util.ArrayList;
+
 import gamedev.entity.Tower;
+import gamedev.entity.TowerFactory.TowerType;
 import gamedev.entity.tower.ArrowTower;
 import gamedev.entity.tower.DirtTower;
 import gamedev.entity.tower.EggTower;
+import gamedev.screen.render.TowerRangeRenderer;
+import gamedev.td.Config;
+import gamedev.td.GDSprite;
+import gamedev.td.SpriteManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
-public class TowerInformation {
+public class GameUserInterface {
 	BitmapFont towerInfoFont, costFont;
 	Sprite background, towerSprite, towerToPutSprite, 
 				upgradeBtn, sellBtn,
@@ -25,9 +31,37 @@ public class TowerInformation {
 	String towerName, damage, cost, range, attackRate;
 	Tower selectedDeployedTower;
 	
+	TowerRangeRenderer towerRangeRenderer;
+	
 	private int y = 490;
 	
-	public TowerInformation() {
+	private ArrayList<GDSprite> btnsBuildTower;
+
+	private void initializeBuildTowerButtons() {
+		btnsBuildTower = new ArrayList<GDSprite>();
+		SpriteManager spriteManager = SpriteManager.getInstance();
+		
+		GDSprite dirtTower = spriteManager.getTower(TowerType.Dirt);
+		GDSprite arrowTower = spriteManager.getTower(TowerType.Arrow);
+		GDSprite eggTower = spriteManager.getTower(TowerType.Egg);
+		GDSprite potionTower = spriteManager.getTower(TowerType.Potion);
+		GDSprite currencyTower = spriteManager.getTower(TowerType.Currency);
+
+		int offset = 3, y = 13;
+		dirtTower.setPosition(Config.tileSize, y * Config.tileSize);
+		arrowTower.setPosition(Config.tileSize * 2 + offset, y * Config.tileSize);
+		eggTower.setPosition(Config.tileSize * 3 + offset * 2, y * Config.tileSize);
+		potionTower.setPosition(Config.tileSize * 4 + offset * 3, y * Config.tileSize);
+		currencyTower.setPosition(Config.tileSize * 5 + offset * 4, y * Config.tileSize);
+
+		btnsBuildTower.add(dirtTower);
+		btnsBuildTower.add(arrowTower);
+		btnsBuildTower.add(eggTower);
+		btnsBuildTower.add(potionTower);
+		btnsBuildTower.add(currencyTower);
+	}
+	
+	public GameUserInterface() {
 		damage = "";
 		cost = "";
 		range = "";
@@ -52,11 +86,22 @@ public class TowerInformation {
 		sellBtn = new Sprite(sell);
 		sellBtn.setPosition(425, y+100);
 		sellBtn.flip(false, true);
+
+		towerRangeRenderer = new TowerRangeRenderer();
 		
-		initUpgradeButtonSprites();
+		initializeUpgradeButtons();
+		initializeBuildTowerButtons();
 	}
 	
-	private void initUpgradeButtonSprites() {
+	public void render(SpriteBatch spriteBatch){
+		
+	}
+	
+	public void update(float delta){
+		
+	}
+	
+	private void initializeUpgradeButtons() {
 		Texture cEgg = new Texture(Gdx.files.internal("assets/img/upgrade_to_cegg.png"));
 		Texture slime = new Texture(Gdx.files.internal("assets/img/upgrade_to_slime.png"));
 		Texture wood = new Texture(Gdx.files.internal("assets/img/upgrade_to_wood.png"));
@@ -90,7 +135,15 @@ public class TowerInformation {
 	}
 
 	public void draw(SpriteBatch spriteBatch) {
+		spriteBatch.begin();
+		
 		background.draw(spriteBatch);
+		
+		// Draw build tower buttons
+		for (GDSprite tower : btnsBuildTower)
+			tower.draw(spriteBatch);
+		
+
 		towerInfoFont.setColor(Color.WHITE);
 		
 		int x = 310;
@@ -130,70 +183,58 @@ public class TowerInformation {
 				upgradeToCorruptedEgg.draw(spriteBatch);
 			}
 		}
-	}
+		
 
-	public String getDamage() {
-		return damage;
-	}
+		if (drawInfo) {
+			uiTowerHighlight.draw(spriteBatch);
+			// TODO: Draw tooltip showing information of the tower
+		}
 
-	public void setDamage(String damage) {
-		this.damage = damage;
-	}
+		for (int i = 0; i < gameState.getLife(); i++) {
+			heartSprite[i].draw(spriteBatch);
+		}
 
-	public String getCost() {
-		return cost;
-	}
+		if (clonedTowerSprite != null) {
+			clonedTowerSprite.draw(spriteBatch);
+		}
 
-	public void setCost(String cost) {
-		this.cost = cost;
-	}
+		userInterface.draw(spriteBatch);
 
-	public String getRange() {
-		return range;
-	}
+		if (drawRedHighlight)
+			redHighlight.draw(spriteBatch);
 
-	public void setRange(String range) {
-		this.range = range;
-	}
-
-	public String getAttackRate() {
-		return attackRate;
-	}
-
-	public void setAttackRate(String attackRate) {
-		this.attackRate = attackRate;
-	}
-
-	public Sprite getTowerSprite() {
-		return towerSprite;
-	}
-
-	public void setTowerSprite(Sprite towerSprite) {
-		this.towerSprite = towerSprite;
-	}
-
-	public Sprite getTowerToPutSprite() {
-		return towerToPutSprite;
-	}
-
-	public void setTowerToPutSprite(Sprite towerToPutSprite) {
-		this.towerToPutSprite = towerToPutSprite;
-	}
-
-	public Tower getSelectedDeployedTower() {
-		return selectedDeployedTower;
-	}
-
-	public void setSelectedDeployedTower(Tower selectedDeployedTower) {
-		this.selectedDeployedTower = selectedDeployedTower;
-	}
-
-	public String getTowerName() {
-		return towerName;
-	}
-
-	public void setTowerName(String towerName) {
-		this.towerName = towerName;
+		
+		towerRangeRenderer.render();
+		spriteBatch.end();
 	}
 	
+
+	public void drawTowerInfo(boolean b, int x, int y, Tower towerInfo) {
+		uiTowerHighlight.setPosition(x, y);
+		redHighlight.setPosition(x, y);
+		drawInfo = b;
+		setTowerInfo(towerInfo);
+	}
+
+	public void setTowerInfo(Tower towerInfo) {
+		if (towerInfo != null) {
+			userInterface.setDamage(towerInfo.getDamage() + "");
+			userInterface.setCost(towerInfo.getCost() + "");
+			userInterface.setRange(towerInfo.getAttackRange() + "");
+			userInterface.setAttackRate(towerInfo.getAttackRate() + "");
+			userInterface.setTowerName(towerInfo.getTowerName());
+		} else {
+			userInterface.setDamage("");
+			userInterface.setCost("");
+			userInterface.setRange("");
+			userInterface.setAttackRate("");
+			userInterface.setTowerName("");
+		}
+	}
+
+
+
+	public void setTowerInfoSprite(int i) {
+		userInterface.setTowerSprite(cloneSprite2(i));
+	}
 }
