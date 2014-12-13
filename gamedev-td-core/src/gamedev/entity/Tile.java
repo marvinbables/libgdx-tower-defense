@@ -27,4 +27,15 @@ public class Tile extends Entity {
 		
 	}
 
+	public static TileType interpretType(int val) {
+		switch(val){
+		case -1: return TileType.Null;
+		case  0: return TileType.Grass;
+		case  1: return TileType.Dirt;
+		case  2: return TileType.Dirt_Dark;
+		case  3: return TileType.Steve;
+		}
+		return TileType.Null;
+	}
+
 }

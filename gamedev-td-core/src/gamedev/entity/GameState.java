@@ -19,15 +19,30 @@ public class GameState {
 	private static GameState instance;
 	
 	public static final int GRIDX = 17, GRIDY = 12;
+
+	/**
+	 * One full round lasts thirty (30) seconds.
+	 */
+	private static final float ROUND_DURATION = 30;
 	
 	private Level currentLevel;
-	private int score, money, life = 10, spawnedEnemies;
+	
+	private int score = 0;
+	private int money = 0;
+	private int playerLife = 10;
+	private int spawnedEnemies;
+	
 	private TileType grid[][];
-	private float waveSpawnTime, SPAWN_TIME = 5, spawnDelay;
+	private float waveSpawnTime, beginRoundWaitTime = 5, spawnDelay;
+
+
+	private boolean hasSpawned;
+	
 	private List<Enemy> enemies;
 	private List<Integer> enemiesToBeSpawned;
 	private List<Tower> deployedTowers, availableTowers;
 	private List<Point> currentWaypoints;
+
 	
 	
 	
@@ -73,13 +88,16 @@ public class GameState {
 		currentLevel = Level.generateLevel(1);
 		score = 0;
 		money = 100;
-		life = 10;
+		playerLife = 10;
 		spawnDelay = 0;
 		spawnedEnemies = 0;
-		waveSpawnTime = SPAWN_TIME;
+		waveSpawnTime = beginRoundWaitTime;
 	}
 	
 	public void update(float delta) {
+		if (hasSpawned == false)
+			spawnEnemiesUpdate(delta);
+		
 		for(Enemy enemy : enemies)
 			enemy.update(delta);
 		
@@ -88,6 +106,13 @@ public class GameState {
 			tower.update(delta);
 	}
 	
+	private void spawnEnemiesUpdate(float delta) {
+		if (waveSpawnTime > 0)
+			waveSpawnTime -= delta;
+		else
+			waveSpawnTime = ROUND_DURATION;
+	}
+
 	public void render(SpriteBatch spriteBatch){
 		displayMap(spriteBatch);
 	}
@@ -107,19 +132,6 @@ public class GameState {
 		spriteBatch.end();
 	}
 	
-	private GDSprite getSprite(int correspondingNumber) {
-		if(correspondingNumber >= tiles.size())
-			return tiles.get(0);
-		
-		switch(correspondingNumber) {
-			case 0: return tiles.get(0);
-			case 1: return tiles.get(1);
-			case 2: return tiles.get(2);
-			case 3: return tiles.get(3);
-			default: return tiles.get(0);
-		}
-	}
-	
 	public boolean checkProjectileCollision() {
 	
 		return false;
@@ -130,7 +142,7 @@ public class GameState {
 		
 		for (int y = 0; y < level.length; y++) {
 			for (int x = 0; x < level[y].length(); x++) {
-				grid[x][y] = Character.getNumericValue(level[y].charAt(x));
+				grid[x][y] = Tile.interpretType(Character.getNumericValue(level[y].charAt(x)));
 			}
 		}
 		
@@ -188,63 +200,6 @@ public class GameState {
 		return enough;
 	}
 	
-	// Getters & Setters
-	public Level getCurrentLevel() {
-		return currentLevel;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
-	public List<Enemy> getEnemies() {
-		return enemies;
-	}
-
-	public void setEnemies(List<Enemy> enemies) {
-		this.enemies = enemies;
-	}
-
-	public List<Tower> getAvailableTowers() {
-		return availableTowers;
-	}
-
-	public List<Tower> getDeployedTowers() {
-		return deployedTowers;
-	}
-
-	public List<Point> getCurrentWaypoints() {
-		return currentWaypoints;
-	}
-
-	public void setCurrentWaypoints(List<Point> currentWaypoints) {
-		this.currentWaypoints = currentWaypoints;
-	}
-
-
-	public int getMoney() {
-		return money;
-	}
-	
-	public int getLife() {
-		return life;
-	}
-
-	public void setLife(int life) {
-		this.life = life;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
-	}
-
-	public float getWaveSpawnTime() {
-		return waveSpawnTime;
-	}
 
 	public void setWaveSpawnTime(float waveSpawnTime) {
 		if(waveSpawnTime < 0)
@@ -254,7 +209,7 @@ public class GameState {
 	}
 
 	public void getDamaged() {
-		life--;
+		playerLife--;
 	}
 	
 }
