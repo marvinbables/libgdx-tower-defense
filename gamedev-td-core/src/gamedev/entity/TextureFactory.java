@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class TextureFactory {
 	
 	private static HashMap<String, Texture> textures = new HashMap<String, Texture>();
+	private static HashMap<String, Texture> projectiles = new HashMap<String, Texture>();
 	
 	public static Texture createTexture(String key){
 		String path = "";
@@ -105,6 +106,45 @@ public class TextureFactory {
 			texture = new Texture(Gdx.files.internal(path));
 			textures.put(key, texture);
 		}
+		
+		return texture;
+	}
+	
+	public static Texture createProjectile(String key){
+		String path = "";
+		key.toLowerCase();
+		Texture texture = (Texture) projectiles.get(key);
+		if(texture == null){
+			if(key.equals("arrow")){
+				path = "assets/img/projectile_arrow.png";
+			}
+			else if(key.equals("cegg")){
+				path = "assets/img/projectile_cegg.png";
+			}
+			else if(key.equals("dirt")){
+				path = "assets/img/projectile_dirt.png";
+			}
+			else if(key.equals("egg")){
+				path = "assets/img/projectile_egg.png";
+			}
+			else if(key.equals("fire_arrow")){
+				path = "assets/img/projectile_fire_arrow.png";
+			}
+			else if(key.equals("ice_arrow")){
+				path = "assets/img/projectile_ice_arrow.png";
+			}
+			else if(key.equals("potion")){
+				path = "assets/img/projectile_potion.png";
+			}
+			else{
+				return null;
+			}
+			
+			texture = new Texture(Gdx.files.internal(path));
+			projectiles.put(key, texture);
+			}
+		
+		
 		
 		return texture;
 	}
