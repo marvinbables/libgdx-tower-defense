@@ -98,6 +98,21 @@ public class TextureFactory {
 			else if(key.equals("upgrade_to_icearrow")) {
 				path = "assets/img/upgrade_to_iceArrow.png";
 			}
+			else if(key.equals("main_background")) {
+				path = "assets/img/main_background.png";
+			}
+			else if(key.equals("play_button")) {
+				path = "assets/img/play_button.png";
+			}
+			else if(key.equals("settings_button")) {
+				path = "assets/img/settings_button.png";
+			}
+			else if(key.equals("about_button")) {
+				path = "assets/img/about_button.png";
+			}
+			else if(key.equals("title")) {
+				path = "assets/img/title.png";
+			}
 			else{
 				return null;
 			}

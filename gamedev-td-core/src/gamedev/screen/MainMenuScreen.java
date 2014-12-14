@@ -2,6 +2,7 @@ package gamedev.screen;
 
 import gamedev.input.MenuInputProcessor;
 import gamedev.td.GDSprite;
+import gamedev.td.SpriteManager;
 import gamedev.td.TowerDefense;
 import gamedev.td.helper.FontHelper;
 
@@ -28,7 +29,7 @@ public class MainMenuScreen extends GDScreen {
 	
 	List<GDSprite> buttons;
 	
-	GDSprite startGameBtn, lvlSelectBtn, aboutBtn;
+	GDSprite startGameBtn, settingsBtn, aboutBtn, background, title;
 	
 	public final static int START_GAME = 0, LEVEL_SELECT = 1, ABOUT = 2; 
 	
@@ -53,6 +54,8 @@ public class MainMenuScreen extends GDScreen {
 				(Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 
 		spriteBatch.begin();
+			background.draw(spriteBatch);
+			title.draw(spriteBatch);
 			for(GDSprite button : buttons) {
 				button.draw(spriteBatch);
 			}
@@ -92,26 +95,26 @@ public class MainMenuScreen extends GDScreen {
 	private void initializeButtons() {
 		buttons = new ArrayList<GDSprite>();
 		
-		Texture startGameBtnTx = new Texture(Gdx.files.internal("assets/img/play_button.png"));
-		Texture lvlSelectBtnTx = new Texture(Gdx.files.internal("assets/img/settings_button.png"));
-		Texture aboutBtnTx = new Texture(Gdx.files.internal("assets/img/about_button.png"));
+		SpriteManager spriteManager = SpriteManager.getInstance();
 		
-		startGameBtn = new GDSprite(startGameBtnTx);
+		startGameBtn = spriteManager.getSprite("play_button");
 		startGameBtn.setPosition(150, 380);
-		startGameBtn.flip(false, true);
-		lvlSelectBtn = new GDSprite(lvlSelectBtnTx);
-		lvlSelectBtn.setPosition(150, 420);
-		lvlSelectBtn.flip(false, true);
-		aboutBtn = new GDSprite(aboutBtnTx);
-		aboutBtn.flip(false, true);
+		
+		settingsBtn = spriteManager.getSprite("settings_button");
+		settingsBtn.setPosition(150, 420);
+		
+		aboutBtn = spriteManager.getSprite("about_button");
 		aboutBtn.setPosition(150, 460);
 		
-		
-		
 		buttons.add(startGameBtn);
-		buttons.add(lvlSelectBtn);
+		buttons.add(settingsBtn);
 		buttons.add(aboutBtn);
 		
+		background = spriteManager.getSprite("main_background");
+		background.setPosition(0, 100);
+		
+		title = spriteManager.getSprite("title");
+		title.setPosition(0, 100);
 	}
 		
 	public List<GDSprite> getButtons() {
