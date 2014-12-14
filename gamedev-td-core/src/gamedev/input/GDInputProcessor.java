@@ -1,6 +1,5 @@
 package gamedev.input;
 
-import gamedev.screen.GDScreen;
 import gamedev.td.TowerDefense;
 
 import com.badlogic.gdx.InputProcessor;

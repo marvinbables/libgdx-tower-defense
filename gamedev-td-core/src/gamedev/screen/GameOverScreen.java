@@ -1,12 +1,11 @@
 package gamedev.screen;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gamedev.input.GameOverInputProcessor;
-import gamedev.input.MenuInputProcessor;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,17 +18,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 public class GameOverScreen extends GDScreen{
 
-	TowerDefense towerDefense;
 	OrthographicCamera camera;
-	SpriteBatch spriteBatch;;
+	SpriteBatch spriteBatch;
 	BitmapFont font;
-	List<GDSprite> buttons;
+	private List<GDSprite> buttons;
 	public final static int RESTART = 0, MAIN_MENU = 1, EXIT = 2; 
 	GDSprite restartBtn, menuBtn, exitBtn;
 	
 	public GameOverScreen(TowerDefense towerDefense) {
-		super(towerDefense);
-		this.towerDefense = towerDefense;
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
 		
