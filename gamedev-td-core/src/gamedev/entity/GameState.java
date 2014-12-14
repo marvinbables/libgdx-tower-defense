@@ -104,7 +104,7 @@ public class GameState {
 	public void render(SpriteBatch spriteBatch) {
 		displayMap(spriteBatch);
 		displayEnemies(spriteBatch);
-		displayTowers(spriteBatch);
+		displayTowers(spriteBatch); 
 	}
 	
 	private void displayTowers(SpriteBatch spriteBatch) {

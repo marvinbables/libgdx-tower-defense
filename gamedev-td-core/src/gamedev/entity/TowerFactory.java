@@ -67,6 +67,6 @@ public class TowerFactory {
 			return TowerType.Potion_Tower;
 		else if(name.equals("Currency Tower"))
 			return TowerType.Currency_Tower;
-		return null;
+		return null; 
 	}
 }
