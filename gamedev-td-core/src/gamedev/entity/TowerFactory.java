@@ -8,13 +8,15 @@ import gamedev.entity.tower.EggTower;
 import gamedev.entity.tower.FireArrowTower;
 import gamedev.entity.tower.IceArrowTower;
 import gamedev.entity.tower.PotionTower;
+import gamedev.entity.tower.SandTower;
+import gamedev.entity.tower.WoodTower;
 import gamedev.td.GDSprite;
 import gamedev.td.SpriteManager;
 
 public class TowerFactory {
 	public enum TowerType {
 		Dirt_Tower, Arrow_Tower, Egg_Tower, Potion_Tower, Currency_Tower, Corrupted_Egg_Tower,
-		Ice_Arrow_Tower, Fire_Arrow_Tower
+		Ice_Arrow_Tower, Fire_Arrow_Tower, Sand_Tower, Wood_Tower
 	}
 	public static Tower createTower(TowerType type){
 		Tower tower = null;
@@ -50,6 +52,12 @@ public class TowerFactory {
 			case Ice_Arrow_Tower:
 				cost = 250;
 				return new FireArrowTower(towerSprite, 0, 100);
+			case Sand_Tower:
+				cost = 120;
+				return new SandTower(towerSprite, 0, 100);
+			case Wood_Tower:
+				cost = 150;
+				return new WoodTower(towerSprite, 0, 100);
 				
 		}
 		
