@@ -26,8 +26,10 @@ public abstract class Enemy extends Entity {
 	private int health;
 	private int moneyReward;
 	private float speed;
+	private float slowedSpeed;
 	private List<Point> waypoints;
 	private Dir dir;
+	private float slowAilmentTimer = 0;
 
 	// enemy factory pattern
 	/**
@@ -54,7 +56,7 @@ public abstract class Enemy extends Entity {
 			float speed = 1.5f;
 
 			enemy = new Spider(sprite, health, moneyReward, speed, waypointList);
-
+			enemy.slowAilmentTimer = 4;
 			return enemy;
 
 		default:
@@ -70,14 +72,17 @@ public abstract class Enemy extends Entity {
 		this.health = health;
 		this.moneyReward = moneyReward;
 		this.speed = speed;
+		this.slowedSpeed = speed * .6f;
 		this.position = Vector2.Zero;
 		this.waypoints = waypointList;
 		setPosition(MathHelper.PointToVector2(waypointList.get(0)));
+		
 	}
 
 	public void update(float delta) {
 		super.update(delta);
 		checkIfReachedThePlayer(delta);
+		float actualSpeed = getSpeed(delta);
 
 		if (!waypoints.isEmpty()) {
 			Point waypoint = waypoints.get(0);
@@ -93,22 +98,22 @@ public abstract class Enemy extends Entity {
 
 			if (dir == Dir.LEFT) {
 				angle = 180;
-				position.x -= speed;
+				position.x -= actualSpeed;
 				if (position.x <= waypoint.x)
 					position.x = waypoint.x;
 			} else if (dir == Dir.RIGHT) {
 				angle = 0;
-				position.x += speed;
+				position.x += actualSpeed;
 				if (position.x >= waypoint.x)
 					position.x = waypoint.x;
 			} else if (dir == Dir.UP) {
 				angle = 270;
-				position.y -= speed;
+				position.y -= actualSpeed;
 				if (position.y <= waypoint.y)
 					position.y = waypoint.y;
 			} else if (dir == Dir.DOWN) {
 				angle = 90;
-				position.y += speed;
+				position.y += actualSpeed;
 				if (position.y >= waypoint.y)
 					position.y = waypoint.y;
 			}
@@ -136,21 +141,41 @@ public abstract class Enemy extends Entity {
 			sprite.setX(this.position.x);
 			sprite.setY(this.position.y);
 			sprite.setRotation(this.angle);
+			if(slowAilmentTimer > 0){
+				sprite.setColor(.5f, 1f, .5f, 1f);
+			}
+			else{
+				sprite.setColor(1f,1f,1f,1f);
+			}
 			sprite.draw(spriteBatch);
 		}
 	}
-
-	public int getHealth() {
-		return health;
+	
+	private float getSpeed(float delta){
+		if(slowAilmentTimer > 0){
+			slowAilmentTimer -= delta;
+			return slowedSpeed;
+		}
+		else
+			return speed;
 	}
+	
+	public void slowedBySource(float time){
+		slowAilmentTimer = time;
+	}
+
+	public void damagedBySource(int damage){
+		health -= damage;
+		if(health <= 0){
+			this.active = false;
+		}
+	}
+	
 
 	public int getMoneyReward() {
 		return moneyReward;
 	}
 
-	public float getSpeed() {
-		return speed;
-	}
 
 	public List<Point> getWaypoints() {
 		return waypoints;
