@@ -2,6 +2,9 @@ package gamedev.screen.render;
 
 import gamedev.entity.Tower;
 import gamedev.td.Config;
+import gamedev.td.helper.MathHelper;
+
+import java.awt.Point;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -28,9 +31,11 @@ public class TowerRangeRenderer extends ShapeRenderer {
 		begin(ShapeType.Filled);
 		// TODO: Fix this code; it's ugly. What are you trying to do?
 		
-		if(towerToBuild != null)
-			circle(towerToBuild.getX() + Config.tileSize / 2, convertYforShapeRenderer(towerToBuild.getY() + Config.tileSize * 3 / 2), attackRange);
+		if(towerToBuild != null){
+			Point convertedCoordinates = MathHelper.convertToGrid(towerToBuild.getX(), towerToBuild.getY());
+			circle(convertedCoordinates.x + Config.tileSize / 2, convertYforShapeRenderer(convertedCoordinates.y + Config.tileSize * 3 / 2), attackRange);
 		
+		}
 		// if (towerToBuild != null) {
 		// circle(towerToBuild.getX() + Config.tileSize / 2, convertYforShapeRenderer(towerToBuild.getY() + Config.tileSize * 3 / 2), rangeRadius);
 		// } else if (towerClone != null) {
