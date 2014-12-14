@@ -6,6 +6,7 @@ import gamedev.entity.TowerFactory;
 import gamedev.entity.TowerFactory.TowerType;
 import gamedev.entity.tower.ArrowTower;
 import gamedev.entity.tower.DirtTower;
+import gamedev.screen.GameOverScreen;
 import gamedev.screen.GameScreen;
 import gamedev.screen.GameUserInterface;
 import gamedev.td.Config;
@@ -26,7 +27,6 @@ public class GameInputProcessor extends GDInputProcessor {
 
 	private GDSprite selectedSprite;
 	private GameUserInterface userInterface;
-
 
 	public GameInputProcessor(TowerDefense towerDefense) {
 		super(towerDefense);
