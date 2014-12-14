@@ -132,6 +132,8 @@ public class GameInputProcessor extends GDInputProcessor {
 			}else{
 				System.out.println("[Input] User cannot build a " + towerToBuild.getTowerName() + " because he/she does not have money.");
 				towerToBuild = null;
+				userInterface.setTowerRange(null);
+				userInterface.setGhostTower(null);
 			}
 			userInterface.reset();
 		}

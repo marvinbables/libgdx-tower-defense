@@ -10,4 +10,5 @@ public class Config {
 	public static Color red = new Color(1,0,0,.5f);
 	public static Color normal = new Color(1f,1f,1f, 1f);
 	public static Color clear = new Color(0,0,0,1f);
+	public static Color clearer = new Color(0,0,0,0f);
 }
