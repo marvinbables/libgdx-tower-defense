@@ -2,6 +2,7 @@ package gamedev.td;
 
 import gamedev.entity.Enemy.EnemyType;
 import gamedev.entity.GameState;
+import gamedev.entity.Projectile.ProjectileType;
 import gamedev.entity.TextureFactory;
 import gamedev.entity.Tile.TileType;
 import gamedev.entity.TowerFactory.TowerType;
@@ -124,6 +125,17 @@ public class SpriteManager {
 		sprite.setFlip(false, true);
 		return sprite;
 	}
+	private GDSprite createSpriteProjectile(String name) {
+		GDSprite sprite = null;
+		name = name.toLowerCase();
+		Texture texture = TextureFactory.createProjectile(name);
+		
+		sprite = new GDSprite(texture);
+		sprite.setPosition(-50, -50);
+		
+		sprite.setFlip(false, true);
+		return sprite;
+	}
 	
 	public GDSprite getSprite(String name){
 		return createSprite(name);
@@ -140,4 +152,10 @@ public class SpriteManager {
 	public GDSprite getTile(TileType type) {
 		return createSpriteTile(type.toString());
 	}
+	
+	public GDSprite getProjectile(ProjectileType type){
+		return createSpriteProjectile(type.toString());
+	}
+
+	
 }

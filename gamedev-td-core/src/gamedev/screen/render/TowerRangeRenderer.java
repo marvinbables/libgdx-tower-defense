@@ -32,7 +32,7 @@ public class TowerRangeRenderer extends ShapeRenderer {
 		// TODO: Fix this code; it's ugly. What are you trying to do?
 		
 		if(towerToBuild != null){
-			Point convertedCoordinates = MathHelper.convertToGrid(towerToBuild.getX(), towerToBuild.getY());
+			Point convertedCoordinates = MathHelper.convertToGrid(towerToBuild.getPosition().x, towerToBuild.getPosition().y);
 			circle(convertedCoordinates.x + Config.tileSize / 2, convertYforShapeRenderer(convertedCoordinates.y + Config.tileSize * 3 / 2), attackRange);
 		
 		}

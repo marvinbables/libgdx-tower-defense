@@ -241,8 +241,7 @@ public class GameState {
 		towerToBuild.setPosition(position);
 
 		towerToBuild.setCenter((float) point.x + Config.tileSize / 2, (float) point.y + Config.tileSize / 2);
-		towerToBuild.setX(point.x);
-		towerToBuild.setY(point.y);
+		towerToBuild.getPosition().set(MathHelper.PointToVector2(point));
 		deployTower(towerToBuild);
 	}
 }

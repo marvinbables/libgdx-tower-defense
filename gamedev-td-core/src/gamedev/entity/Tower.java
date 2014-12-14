@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public abstract class Tower extends Entity {
-	protected int damage, x, y, cost, upgradeCost, sellCost, level;
+	protected int damage, cost, upgradeCost, sellCost, level;
 	protected float attackRange, attackRate, attackTimer;
 	protected Point2D.Float center;
 	protected String towerName;
@@ -26,8 +27,7 @@ public abstract class Tower extends Entity {
 		this.cost = cost;
 		this.towerName = towerName;
 		this.level = level;
-		x = -500;
-		y = -500;
+		this.position = Vector2.Zero;
 		attackTimer = 0;
 		targets = new ArrayList<Enemy>();
 		center = new Point2D.Float();
@@ -37,13 +37,14 @@ public abstract class Tower extends Entity {
 	}
 
 	public void draw(SpriteBatch spriteBatch) {
-		sprite.setX(this.x);
-		sprite.setY(this.y);
+		sprite.setX(position.x);
+		sprite.setY(position.y);
 		sprite.draw(spriteBatch);
 
 	}
 
 	public void update(float delta) {
+		super.update(delta);
 		List<Enemy> enemies = GameState.getInstance().getEnemies();
 		acquireTarget(enemies);
 		updateTargets();
@@ -161,20 +162,5 @@ public abstract class Tower extends Entity {
 		center.setLocation(x, y);
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
 	
 }
