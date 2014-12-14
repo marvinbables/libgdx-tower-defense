@@ -14,13 +14,14 @@ public class TowerDefense extends Game {
 	private MainMenuScreen mainMenuScreen;
 	private GameOverScreen gameOverScreen;
 	private GameScreen gameScreen;
-	
+	private PauseScreen pauseScreen;
 	
 	@Override
 	public void create () {
 		mainMenuScreen = new MainMenuScreen(this);
 		gameScreen = new GameScreen(this);
 		gameOverScreen = new GameOverScreen(this);
+		setPauseScreen(new PauseScreen(this));
 		
 		switchScreen(mainMenuScreen);
 		
@@ -81,5 +82,13 @@ public class TowerDefense extends Game {
 
 	public void setGameOverScreen(GameOverScreen gameOverScreen) {
 		this.gameOverScreen = gameOverScreen;
+	}
+
+	public PauseScreen getPauseScreen() {
+		return pauseScreen;
+	}
+
+	public void setPauseScreen(PauseScreen pauseScreen) {
+		this.pauseScreen = pauseScreen;
 	}
 }

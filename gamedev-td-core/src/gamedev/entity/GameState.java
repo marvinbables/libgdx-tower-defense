@@ -76,7 +76,7 @@ public class GameState {
 		roundTime = PRE_ROUND_WAIT_DURATION;
 		roundHasStarted = false;
 	}
-
+	
 	public void update(float delta) {
 		updateRoundTimer(delta);
 

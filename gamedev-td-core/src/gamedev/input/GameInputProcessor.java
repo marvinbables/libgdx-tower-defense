@@ -14,6 +14,7 @@ import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
 
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -38,6 +39,11 @@ public class GameInputProcessor extends GDInputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
+		
+		if(keycode == 27){
+			System.out.println("d");
+			towerDefense.switchScreen(towerDefense.getPauseScreen());
+		}
 		return false;
 	}
 
@@ -48,6 +54,9 @@ public class GameInputProcessor extends GDInputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
+		if(character == 'p'){
+			towerDefense.switchScreen(towerDefense.getPauseScreen());
+		}
 		return false;
 	}
 
