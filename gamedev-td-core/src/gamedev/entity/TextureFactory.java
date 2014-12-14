@@ -71,6 +71,33 @@ public class TextureFactory {
 			else if(key.equals("tower_highlight")){
 				path = "assets/img/ui_tower_highlight.png";
 			}
+			else if(key.equals("info_bg")) {
+				path = "assets/img/info_bg.png";
+			}
+			else if(key.equals("upgrade_button")) {
+				path = "assets/img/upgrade_button.png";
+			}
+			else if(key.equals("sell_button")) {
+				path = "assets/img/sell_button.png";
+			}
+			else if(key.equals("upgrade_to_cegg")) {
+				path = "assets/img/upgrade_to_cegg.png";
+			}
+			else if(key.equals("upgrade_to_slime")) {
+				path = "assets/img/upgrade_to_slime.png";
+			}
+			else if(key.equals("upgrade_to_wood")) {
+				path = "assets/img/upgrade_to_wood.png";
+			}
+			else if(key.equals("upgrade_to_sand")) {
+				path = "assets/img/upgrade_to_sand.png";
+			}
+			else if(key.equals("upgrade_to_firearrow")) {
+				path = "assets/img/upgrade_to_firearrow.png";
+			}
+			else if(key.equals("upgrade_to_icearrow")) {
+				path = "assets/img/upgrade_to_iceArrow.png";
+			}
 			else{
 				return null;
 			}

@@ -26,7 +26,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameUserInterface {
 	BitmapFont towerInfoFont, costFont;
-	Sprite background, towerSprite, towerToPutSprite, upgradeBtn, sellBtn,
+	GDSprite uiBackground, infoBackground, towerSprite, towerToPutSprite, upgradeBtn, sellBtn,
 			upgradeToCorruptedEgg, upgradeToSlime, upgradeToWood,
 			upgradeToSand, upgradeToFireArrow, upgradeToIceArrow;
 
@@ -79,21 +79,14 @@ public class GameUserInterface {
 		FontHelper.initialize();
 		towerInfoFont = FontHelper.minecraftia14px;
 
-		Texture backgroundTexture = new Texture(Gdx.files.internal("assets/img/info_bg.png"));
-		background = new Sprite(backgroundTexture);
-		// background.setSize(250, 80);
-		background.setPosition(300, userInterfaceY);
-		background.flip(false, true);
+		infoBackground = SpriteManager.getInstance().getSprite("info_bg");
+		infoBackground.setPosition(300, userInterfaceY);
 
-		Texture upgrade = new Texture(Gdx.files.internal("assets/img/upgrade_button.png"));
-		upgradeBtn = new Sprite(upgrade);
+		upgradeBtn = SpriteManager.getInstance().getSprite("upgrade_button");
 		upgradeBtn.setPosition(300, userInterfaceY + 100);
-		upgradeBtn.flip(false, true);
 
-		Texture sell = new Texture(Gdx.files.internal("assets/img/sell_button.png"));
-		sellBtn = new Sprite(sell);
+		sellBtn = SpriteManager.getInstance().getSprite("sell_button");
 		sellBtn.setPosition(425, userInterfaceY + 100);
-		sellBtn.flip(false, true);
 
 		towerRangeRenderer = new TowerRangeRenderer();
 		
@@ -121,41 +114,30 @@ public class GameUserInterface {
 	}
 
 	private void initializeUpgradeButtons() {
-		Texture cEgg = new Texture(Gdx.files.internal("assets/img/upgrade_to_cegg.png"));
-		Texture slime = new Texture(Gdx.files.internal("assets/img/upgrade_to_slime.png"));
-		Texture wood = new Texture(Gdx.files.internal("assets/img/upgrade_to_wood.png"));
-		Texture sand = new Texture(Gdx.files.internal("assets/img/upgrade_to_sand.png"));
-		Texture fireArrow = new Texture(Gdx.files.internal("assets/img/upgrade_to_fireArrow.png"));
-		Texture iceArrow = new Texture(Gdx.files.internal("assets/img/upgrade_to_iceArrow.png"));
-
-		upgradeToWood = new Sprite(wood);
+		SpriteManager spriteManager = SpriteManager.getInstance();
+		
+		upgradeToWood = spriteManager.getSprite("upgrade_to_wood");
 		upgradeToWood.setPosition(300, userInterfaceY + 120);
-		upgradeToWood.flip(false, true);
 
-		upgradeToSand = new Sprite(sand);
+		upgradeToSand = spriteManager.getSprite("upgrade_to_sand");
 		upgradeToSand.setPosition(425, userInterfaceY + 120);
-		upgradeToSand.flip(false, true);
 
-		upgradeToFireArrow = new Sprite(fireArrow);
+		upgradeToFireArrow = spriteManager.getSprite("upgrade_to_fireArrow");
 		upgradeToFireArrow.setPosition(300, userInterfaceY + 120);
-		upgradeToFireArrow.flip(false, true);
 
-		upgradeToIceArrow = new Sprite(iceArrow);
+		upgradeToIceArrow = spriteManager.getSprite("upgrade_to_iceArrow");
 		upgradeToIceArrow.setPosition(425, userInterfaceY + 120);
-		upgradeToIceArrow.flip(false, true);
 
-		upgradeToSlime = new Sprite(slime);
+		upgradeToSlime = spriteManager.getSprite("upgrade_to_slime");
 		upgradeToSlime.setPosition(300, userInterfaceY + 120);
-		upgradeToSlime.flip(false, true);
 
-		upgradeToCorruptedEgg = new Sprite(cEgg);
+		upgradeToCorruptedEgg = spriteManager.getSprite("upgrade_to_cegg");
 		upgradeToCorruptedEgg.setPosition(425, userInterfaceY + 120);
-		upgradeToCorruptedEgg.flip(false, true);
 	}
 
 	public void draw(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
-		background.draw(spriteBatch);
+		infoBackground.draw(spriteBatch);
 
 		if (towerToBuild != null){
 			// Draw 'build tower' buttons
@@ -204,10 +186,10 @@ public class GameUserInterface {
 		
 		// Image icon
 		if (towerSprite != null) {
-			towerSprite.setPosition(x + 150, userInterfaceY + 10);
+			towerSprite.setPosition(x + 150, userInterfaceY + 25);
 			towerSprite.draw(spriteBatch);
 		} else if (towerToPutSprite != null) {
-			towerToPutSprite.setPosition(x + 150, userInterfaceY + 10);
+			towerToPutSprite.setPosition(x + 150, userInterfaceY + 25);
 			towerToPutSprite.draw(spriteBatch);
 		}
 
