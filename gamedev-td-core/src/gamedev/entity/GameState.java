@@ -22,13 +22,14 @@ public class GameState {
 	/**
 	 * One full round lasts thirty (30) seconds.
 	 */
-	private static final float ROUND_DURATION = 30;
+	private static final float ROUND_DURATION = 20;
 
 	private static final float PRE_ROUND_WAIT_DURATION = 5;
 
 	private Level currentLevel;
 	private int mapType;
 
+	private int level;
 	private int money = 0;
 	private int playerLife = 10;
 	private int spawnedEnemies;
@@ -72,7 +73,8 @@ public class GameState {
 	}
 
 	public void initialize() {
-		currentLevel = Level.generateLevel(1);
+		level = 1;
+		currentLevel = Level.generateLevel(level);
 		money = 100;
 		playerLife = 10;
 		spawnDelay = 0;
@@ -106,7 +108,8 @@ public class GameState {
 		else {
 			roundHasStarted = true;
 			roundTime = ROUND_DURATION;
-			prepareEnemies();
+			prepareLevel(level++);
+			spawnedEnemies = 0;
 		}
 	}
 
@@ -164,10 +167,6 @@ public class GameState {
 		return false;
 	}
 
-	public void prepareLevel(int lvl) {
-		currentLevel = Level.generateLevel(lvl);
-		enemiesToBeSpawned = currentLevel.getEnemiesToBeSpawned();
-	}
 
 	/*
 	 * TODO prepare enemies gets the list of enemies, instances e.g. { {1,2} , {2,1} , {1,2} } 2 spiders, 1 skeleton, 2 spiders in order
@@ -188,9 +187,11 @@ public class GameState {
 	/**
 	 * This should be called after every round.
 	 */
-	public void prepareEnemies() {
-		enemiesToBeSpawned = Level.getInstance().getEnemiesToBeSpawned();
+	public void prepareLevel(int lvl) {
+		currentLevel = Level.generateLevel(lvl);
+		enemiesToBeSpawned = currentLevel.getEnemiesToBeSpawned();
 	}
+
 
 	public void deployTower(Tower tower) {
 		if (canBuyTower(tower)) {
@@ -205,7 +206,7 @@ public class GameState {
 
 	public void setWaveSpawnTime(float waveSpawnTime) {
 		if (waveSpawnTime < 0)
-			this.roundTime = 30;
+			this.roundTime = 10;
 		else
 			this.roundTime = waveSpawnTime;
 	}
@@ -236,6 +237,10 @@ public class GameState {
 	
 	public int getMoney() {
 		return money;
+	}
+	
+	public void addMoney(int bounty){
+		this.money += bounty;
 	}
 
 	public List<Tower> getDeployedTowers() {

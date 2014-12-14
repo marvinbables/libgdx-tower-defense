@@ -11,7 +11,7 @@ public class EggProjectile extends Projectile{
 	public EggProjectile(GDSprite sprite, Vector2 position, int damage,
 			float speed, Enemy target) {
 		super(sprite, position, damage, speed, target);
-		// TODO Auto-generated constructor stub
+		slowDuration = 1;
 	}
 
 

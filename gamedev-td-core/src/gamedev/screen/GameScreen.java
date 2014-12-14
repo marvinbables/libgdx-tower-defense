@@ -31,7 +31,6 @@ public class GameScreen extends GDScreen {
 
 		gameState.initialize();
 		gameState.setMap(1);
-		gameState.prepareLevel(1);
 		
 		inputProcessor = new GameInputProcessor(towerDefense);
 	}

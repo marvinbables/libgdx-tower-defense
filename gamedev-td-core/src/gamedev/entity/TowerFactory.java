@@ -1,9 +1,12 @@
 package gamedev.entity;
 
 import gamedev.entity.tower.ArrowTower;
+import gamedev.entity.tower.CorruptedEggTower;
 import gamedev.entity.tower.CurrencyTower;
 import gamedev.entity.tower.DirtTower;
 import gamedev.entity.tower.EggTower;
+import gamedev.entity.tower.FireArrowTower;
+import gamedev.entity.tower.IceArrowTower;
 import gamedev.entity.tower.PotionTower;
 import gamedev.td.GDSprite;
 import gamedev.td.SpriteManager;
@@ -40,13 +43,13 @@ public class TowerFactory {
 				return new CurrencyTower(towerSprite, 0, 100);
 			case Corrupted_Egg_Tower:
 				cost = 150;
-				return new CurrencyTower(towerSprite, 0, 100);
+				return new CorruptedEggTower(towerSprite, 0, 100);
 			case Fire_Arrow_Tower:
-				cost = 250;
-				return new CurrencyTower(towerSprite, 0, 100);
-			case Ice_Arrow_Tower:
 				cost = 200;
-				return new CurrencyTower(towerSprite, 0, 100);
+				return new IceArrowTower(towerSprite, 0, 100);
+			case Ice_Arrow_Tower:
+				cost = 250;
+				return new FireArrowTower(towerSprite, 0, 100);
 				
 		}
 		

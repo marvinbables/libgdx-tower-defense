@@ -21,7 +21,7 @@ public abstract class Projectile extends Entity {
 	}
 	
 	private int damage;
-	protected float speed, angle;
+	protected float speed, angle, slowDuration;
 	protected Enemy target;
 	
 	public Projectile(GDSprite sprite, Vector2 position, int damage, float speed, Enemy target){
@@ -31,10 +31,10 @@ public abstract class Projectile extends Entity {
 		this.speed = speed;
 		this.target = target;
 		this.angle = getAngle();
+		slowDuration = 0;
 		active = true;
 	}
 	
-	//TODO implement method draw()
 	public void draw(SpriteBatch spriteBatch){
 		if(active){
 			sprite.setRotation(angle);
@@ -43,7 +43,6 @@ public abstract class Projectile extends Entity {
 	}
 	
 	
-	//TODO implement method update()
 	public void update(float delta){
 		if(active){
 			super.update(delta);
@@ -56,6 +55,7 @@ public abstract class Projectile extends Entity {
 					collided = checkCollision(enemy);
 					if(collided && active){
 						enemy.damagedBySource(this.damage);
+						enemy.slowedBySource(this.slowDuration);
 						this.active = false;
 					}
 				}
@@ -83,7 +83,6 @@ public abstract class Projectile extends Entity {
 		}
 	}
 
-	//TODO check enemy collision
 	private boolean checkCollision(Enemy target) {
 		Rectangle minRect = sprite.getBoundingRectangle();
 		return minRect.overlaps(target.getSprite().getBoundingRectangle());

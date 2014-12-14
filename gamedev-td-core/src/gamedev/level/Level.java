@@ -1,6 +1,5 @@
 package gamedev.level;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +26,6 @@ public class Level {
 		
 		switch(i){
 		case 1: 
-			
-			
 
 			int[][] enemies = {
 				// instances, enemy type

@@ -167,6 +167,8 @@ public abstract class Enemy extends Entity {
 		health -= damage;
 		if(health <= 0){
 			this.active = false;
+			GameState state = GameState.getInstance();
+			state.addMoney(this.moneyReward);
 		}
 	}
 	
