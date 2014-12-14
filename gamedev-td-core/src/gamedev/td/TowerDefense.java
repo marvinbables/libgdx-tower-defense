@@ -4,6 +4,7 @@ import gamedev.screen.GDScreen;
 import gamedev.screen.GameOverScreen;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
+import gamedev.screen.PauseScreen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
