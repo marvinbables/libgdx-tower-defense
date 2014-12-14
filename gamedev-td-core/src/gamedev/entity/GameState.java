@@ -194,6 +194,10 @@ public class GameState {
 	public List<Enemy> getEnemies() {
 		return enemies;
 	}
+	
+	public float getRoundTime() {
+		return roundTime;
+	}
 
 	public List<Tower> getDeployedTowers() {
 		return deployedTowers;

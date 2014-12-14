@@ -1,9 +1,5 @@
 package gamedev.screen;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-
 import gamedev.entity.GameState;
 import gamedev.entity.Tower;
 import gamedev.entity.TowerFactory.TowerType;
@@ -16,12 +12,12 @@ import gamedev.td.GDSprite;
 import gamedev.td.SpriteManager;
 import gamedev.td.helper.FontHelper;
 
-import com.badlogic.gdx.Gdx;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameUserInterface {
@@ -79,6 +75,8 @@ public class GameUserInterface {
 		ghostTower = null;
 		FontHelper.initialize();
 		towerInfoFont = FontHelper.minecraftia14px;
+		costFont = FontHelper.minecraftia8px;
+		
 
 		uiBackground = SpriteManager.getInstance().getSprite("ui");
 		uiBackground.setPosition(0, userInterfaceY);
@@ -143,7 +141,7 @@ public class GameUserInterface {
 	}
 
 	public void draw(SpriteBatch spriteBatch) {
-		towerRangeRenderer.render();
+		towerRangeRenderer.render(); // put towerRangeRenderer outside spriteBatch begin and end (issue in drawing)
 		spriteBatch.begin();
 		
 		tileHighlight.draw(spriteBatch);
@@ -181,7 +179,8 @@ public class GameUserInterface {
 		}
 		
 		drawHealthBars(spriteBatch);
-		
+		int y = 15;
+		towerInfoFont.draw(spriteBatch, GameState.getInstance().getRoundTime() + "", Config.tileSize, y * Config.tileSize);
 		
 		spriteBatch.end();
 		
@@ -260,7 +259,6 @@ public class GameUserInterface {
 		
 		if (state.canBuyTower(towerToBuild)) {
 			towerRangeRenderer.setTowerToBuild(towerToBuild);
-			towerRangeRenderer.setAttackRange(towerToBuild.getAttackRange());
 		} else {
 			towerToPutSprite = null;
 			towerToBuild = null;
@@ -301,6 +299,10 @@ public class GameUserInterface {
 	
 	public void setGhostTower(TowerType towerType) {
 		ghostTower = SpriteManager.getInstance().getTower(towerType);
+	}
+	
+	public void setTowerRange(Tower towerToBuild) {
+		towerRangeRenderer.setAttackRange(towerToBuild.getAttackRange());
 	}
 }
 

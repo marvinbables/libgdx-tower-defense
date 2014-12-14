@@ -104,6 +104,7 @@ public class GameInputProcessor extends GDInputProcessor {
 				towerToBuild = TowerFactory.createTower(towerType);
 				userInterface.setTowerToBuild(towerToBuild, towerType);
 				userInterface.setGhostTower(towerType);
+				userInterface.setTowerRange(towerToBuild);
 			}
 		}
 	}
