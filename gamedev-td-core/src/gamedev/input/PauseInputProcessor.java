@@ -1,24 +1,26 @@
 package gamedev.input;
 
+import gamedev.screen.PauseScreen;
+import gamedev.td.GDSprite;
+import gamedev.td.TowerDefense;
+
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Color;
 
-import gamedev.screen.GameOverScreen;
-import gamedev.screen.MainMenuScreen;
-import gamedev.td.GDSprite;
-import gamedev.td.TowerDefense;
-
-public class GameOverInputProcessor extends GDInputProcessor{
+public class PauseInputProcessor extends GDInputProcessor{
 
 	List<GDSprite> buttons;
-	private GameOverScreen gameOverScreen;
+	private PauseScreen pauseScreen;
 
-	public GameOverInputProcessor(TowerDefense towerDefense, GameOverScreen screen){
+	Color red = new Color(1,0,0,.5f);
+	Color white = new Color(1,1,1,.5f);
+
+	public PauseInputProcessor(TowerDefense towerDefense, PauseScreen screen){
 		super(towerDefense);
-		this.gameOverScreen = screen;
+		this.pauseScreen = screen;
 	}
 	
 	@Override
@@ -43,20 +45,23 @@ public class GameOverInputProcessor extends GDInputProcessor{
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
 		
-		buttons = gameOverScreen.getButtons();
+		buttons = pauseScreen.getButtons();
 		for (int i = 0; i < buttons.size(); i++) {
 			GDSprite sprite = buttons.get(i);
 			
 			if(Gdx.input.isButtonPressed(Buttons.LEFT))
 				if(sprite.contains(screenX, screenY)) {
 					switch(i) {
-					case GameOverScreen.RESTART:
+					case PauseScreen.RESUME:
 						towerDefense.switchScreen(towerDefense.getGameScreen());
 						break;
-					case GameOverScreen.MAIN_MENU:
+					case PauseScreen.RESTART:
+						towerDefense.switchScreen(towerDefense.getGameScreen());
+						break;
+					case PauseScreen.MAIN_MENU:
 						towerDefense.switchScreen(towerDefense.getMainMenuScreen());
 						break;
-					case GameOverScreen.EXIT:
+					case PauseScreen.EXIT:
 						// close
 						break;
 					}
@@ -80,7 +85,7 @@ public class GameOverInputProcessor extends GDInputProcessor{
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		buttons = gameOverScreen.getButtons();
+		buttons = pauseScreen.getButtons();
 		for (int i = 0; i < buttons.size(); i++) {
 			GDSprite sprite = buttons.get(i);
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
@@ -101,3 +106,4 @@ public class GameOverInputProcessor extends GDInputProcessor{
 	}
 
 }
+

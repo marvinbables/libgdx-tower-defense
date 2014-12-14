@@ -27,8 +27,6 @@ public class GameInputProcessor extends GDInputProcessor {
 	private GDSprite selectedSprite;
 	private GameUserInterface userInterface;
 
-	Color red = new Color(1, 0, 0, .5f);
-	Color white = new Color(1, 1, 1, .5f);
 
 	public GameInputProcessor(TowerDefense towerDefense) {
 		super(towerDefense);
@@ -123,7 +121,7 @@ public class GameInputProcessor extends GDInputProcessor {
 		if (point != null && state.isTowerPlaceable(point)) {
 			if (state.canBuyTower(towerToBuild)){
 				System.out.println("[Input] User built a " + towerToBuild.getTowerName() + " on " + point);
-				state.buildTower(towerToBuild, point);				
+				state.buildTower(towerToBuild.clone(), point);			
 			}else{
 				System.out.println("[Input] User cannot build a " + towerToBuild.getTowerName() + " because he/she does not have money.");
 				towerToBuild = null;

@@ -104,8 +104,18 @@ public class GameState {
 	public void render(SpriteBatch spriteBatch) {
 		displayMap(spriteBatch);
 		displayEnemies(spriteBatch);
+		displayTowers(spriteBatch); 
 	}
 	
+	private void displayTowers(SpriteBatch spriteBatch) {
+		spriteBatch.begin();
+		for(Tower tower : deployedTowers) {
+			tower.draw(spriteBatch);
+		}
+		
+		spriteBatch.end();
+	}
+
 	private void displayEnemies(SpriteBatch spriteBatch){
 		spriteBatch.begin();
 		for(Enemy enemy : enemies){
@@ -231,6 +241,8 @@ public class GameState {
 		towerToBuild.setPosition(position);
 
 		towerToBuild.setCenter((float) point.x + Config.tileSize / 2, (float) point.y + Config.tileSize / 2);
+		towerToBuild.setX(point.x);
+		towerToBuild.setY(point.y);
 		deployTower(towerToBuild);
 	}
 }
