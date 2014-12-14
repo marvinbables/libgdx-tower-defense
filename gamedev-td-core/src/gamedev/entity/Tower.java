@@ -75,9 +75,9 @@ public abstract class Tower extends Entity {
 	}
 
 	private void shoot(float delta) {
+		attackTimer += delta;
 		if(targets.size() > 0){
 			List<Projectile> projectiles = GameState.getInstance().getProjectiles();
-			attackTimer += delta;
 			if(attackTimer >= attackCooldown){
 				attackTimer = 0;
 				ProjectileType type = Projectile.interpretTypeFromTowerName(towerName);

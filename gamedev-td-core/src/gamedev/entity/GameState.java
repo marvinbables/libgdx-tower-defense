@@ -3,6 +3,7 @@ package gamedev.entity;
 import gamedev.entity.Enemy.EnemyType;
 import gamedev.entity.Tile.TileType;
 import gamedev.level.Level;
+import gamedev.level.Map;
 import gamedev.td.Config;
 import gamedev.td.helper.MathHelper;
 
@@ -26,6 +27,7 @@ public class GameState {
 	private static final float PRE_ROUND_WAIT_DURATION = 5;
 
 	private Level currentLevel;
+	private int mapType;
 
 	private int money = 0;
 	private int playerLife = 10;
@@ -90,7 +92,9 @@ public class GameState {
 
 			for (Tower tower : deployedTowers)
 				tower.update(delta);
+			
 		}
+		
 	}
 
 	private void updateRoundTimer(float delta) {
@@ -158,14 +162,8 @@ public class GameState {
 	}
 
 	public void prepareLevel(int lvl) {
-		String level[] = Level.getInstance().getGrid();
-
-		for (int y = 0; y < level.length; y++) {
-			for (int x = 0; x < level[y].length(); x++) {
-				grid[x][y] = Tile.interpretType(Character.getNumericValue(level[y].charAt(x)));
-			}
-		}
-
+		currentLevel = Level.generateLevel(lvl);
+		enemiesToBeSpawned = currentLevel.getEnemiesToBeSpawned();
 	}
 
 	/*
@@ -240,6 +238,17 @@ public class GameState {
 	public List<Tower> getDeployedTowers() {
 		return deployedTowers;
 	}
+	
+	public List<Point> getWaypoints(){
+		return Map.getInstance().getWaypoints(mapType);
+	}
+	
+	public void setMap(int type){
+		mapType = type;
+		this.grid = Map.generateMap(type);
+		
+	}
+	
 
 	public boolean isTowerPlaceable(Point point) {
 		try {

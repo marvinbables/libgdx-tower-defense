@@ -8,14 +8,11 @@ import java.util.List;
 public class Level {
 	
 	private static Level instance;
-	
-	private String[] grid;
-	private Point[] waypoints;
+
 	private int[][] enemies;
 
-	private Level(String[] grid, Point[] waypoints, int[][] enemies){
-		this.grid = grid;
-		this.waypoints = waypoints;
+	private Level(int[][] enemies){
+
 		this.enemies = enemies;
 	}
 	
@@ -31,26 +28,6 @@ public class Level {
 		switch(i){
 		case 1: 
 			
-			String grid[] = {"00000000000000000",
-							 "11111110000000000",
-							 "00000010000000000",
-							 "00000010000000000",
-							 "00000010000022220",
-							 "00000010000020020",
-							 "00000010001110320",
-							 "00000010001020020",
-							 "00000010001022220",
-							 "00000011111000000",
-							 "00000000000000000",
-							 "00000000000000000",};
-			Point waypoints[] = {	// x, y
-				new Point(0, 40),
-				new Point(240, 40),
-				new Point(240, 360),
-				new Point(400, 360),
-				new Point(400, 240),
-				new Point(480, 240)
-				};
 			
 
 			int[][] enemies = {
@@ -58,51 +35,19 @@ public class Level {
 				{10, 1}, {1,1}
 			};
 
-			level = new Level(grid, waypoints, enemies);
+			level = new Level(enemies);
 			break;
 			
-		case 2: 
-			
-			String grid2[] = {"00000000002222200",
-							  "11100000002030200",
-							  "00100000002212200",
-							  "00100000000010000",
-							  "00100111111110000",
-							  "00100100000000000",
-							  "00100100000000000",
-							  "00100111111111000",
-							  "00100000000001000",
-							  "00100000000001000",
-							  "00111111111111000",
-							  "00000000000000000",};
-			
-			Point waypoints2[] = {	// x, y
-				new Point(0, 40),
-				new Point(240, 40),
-				new Point(240, 360),
-				new Point(400, 360),
-				new Point(400, 240),
-				new Point(480, 240)
-				};
-			
-
+		case 2:
 			int[][] enemies2 = {
 				// instances, enemy type
 				{10, 1}, {1,1}
 			};
 
-			level = new Level(grid2, waypoints2, enemies2);
+			level = new Level(enemies2);
 			break;
 		}
 		return level;
-	}
-
-	public String[] getGrid() {
-		return grid;
-	}
-
-	public Point[] getWaypoints() {
-		return waypoints;
 	}
 
 	public int[][] getEnemies() {

@@ -43,8 +43,7 @@ public abstract class Enemy extends Entity {
 		Enemy enemy = null;
 		
 		GameState state = GameState.getInstance();
-		Point[] waypoints = state.getCurrentLevel().getWaypoints();
-		List<Point> waypointList = new ArrayList<Point>(Arrays.asList(waypoints));
+		List<Point> waypointList = state.getWaypoints();
 
 		SpriteManager handler = SpriteManager.getInstance();
 		GDSprite sprite = handler.getEnemy(type);
@@ -57,7 +56,6 @@ public abstract class Enemy extends Entity {
 			float speed = 1.5f;
 
 			enemy = new Spider(sprite, health, moneyReward, speed, waypointList);
-			enemy.slowAilmentTimer = 4;
 			return enemy;
 
 		default:
