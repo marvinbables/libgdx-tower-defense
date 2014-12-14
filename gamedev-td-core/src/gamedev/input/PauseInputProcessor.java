@@ -62,7 +62,7 @@ public class PauseInputProcessor extends GDInputProcessor{
 						towerDefense.switchScreen(towerDefense.getMainMenuScreen());
 						break;
 					case PauseScreen.EXIT:
-						// close
+						System.exit(1);
 						break;
 					}
 				}

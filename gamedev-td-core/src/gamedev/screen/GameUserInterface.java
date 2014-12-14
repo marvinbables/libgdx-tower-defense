@@ -315,11 +315,15 @@ public class GameUserInterface {
 	}
 	
 	public void setGhostTower(TowerType towerType) {
-		ghostTower = SpriteManager.getInstance().getTower(towerType);
+		if(towerType != null)
+			ghostTower = SpriteManager.getInstance().getTower(towerType);
+		else ghostTower.setColor(Config.clearer);
 	}
 	
 	public void setTowerRange(Tower towerToBuild) {
-		towerRangeRenderer.setAttackRange(towerToBuild.getAttackRange());
+		if(towerToBuild != null)
+			towerRangeRenderer.setAttackRange(towerToBuild.getAttackRange());
+		else towerRangeRenderer.setAttackRange(0);
 	}
 }
 

@@ -120,6 +120,9 @@ public class TextureFactory {
 			else if(key.equals("quit2menu_button")) {
 				path = "assets/img/quit2menu_button.png";
 			}
+			else if(key.equals("resume_button")) {
+				path = "assets/img/resume_button.png";
+			}
 			else if(key.equals("title")) {
 				path = "assets/img/title.png";
 			}
