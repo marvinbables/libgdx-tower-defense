@@ -111,6 +111,15 @@ public class TextureFactory {
 			else if(key.equals("about_button")) {
 				path = "assets/img/about_button.png";
 			}
+			else if(key.equals("exit_button")) {
+				path = "assets/img/exit_button.png";
+			}
+			else if(key.equals("restart_button")) {
+				path = "assets/img/restart_button.png";
+			}
+			else if(key.equals("quit2menu_button")) {
+				path = "assets/img/quit2menu_button.png";
+			}
 			else if(key.equals("title")) {
 				path = "assets/img/title.png";
 			}

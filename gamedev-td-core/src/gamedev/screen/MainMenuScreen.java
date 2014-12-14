@@ -29,9 +29,9 @@ public class MainMenuScreen extends GDScreen {
 	
 	List<GDSprite> buttons;
 	
-	GDSprite startGameBtn, settingsBtn, aboutBtn, background, title;
+	GDSprite startGameBtn, settingsBtn, aboutBtn, background, title, exitBtn;
 	
-	public final static int START_GAME = 0, LEVEL_SELECT = 1, ABOUT = 2; 
+	public final static int START_GAME = 0, LEVEL_SELECT = 1, ABOUT = 2, EXIT = 3; 
 	
 	public MainMenuScreen(TowerDefense towerDefense) {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -106,9 +106,13 @@ public class MainMenuScreen extends GDScreen {
 		aboutBtn = spriteManager.getSprite("about_button");
 		aboutBtn.setPosition(150, 460);
 		
+		exitBtn = spriteManager.getSprite("exit_button");
+		exitBtn.setPosition(150, 500);
+		
 		buttons.add(startGameBtn);
 		buttons.add(settingsBtn);
 		buttons.add(aboutBtn);
+		buttons.add(exitBtn);
 		
 		background = spriteManager.getSprite("main_background");
 		background.setPosition(0, 100);

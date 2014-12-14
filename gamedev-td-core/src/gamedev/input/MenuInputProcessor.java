@@ -61,6 +61,9 @@ public class MenuInputProcessor extends GDInputProcessor{
 						break;
 					case MainMenuScreen.ABOUT:
 						break;
+					case MainMenuScreen.EXIT:
+						System.exit(1);
+						break;
 					}
 				}
 		}

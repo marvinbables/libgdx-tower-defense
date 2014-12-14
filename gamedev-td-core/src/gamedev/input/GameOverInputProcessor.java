@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Color;
 
+import gamedev.entity.GameState;
 import gamedev.screen.GameOverScreen;
 import gamedev.screen.MainMenuScreen;
 import gamedev.td.GDSprite;
@@ -51,13 +52,14 @@ public class GameOverInputProcessor extends GDInputProcessor{
 				if(sprite.contains(screenX, screenY)) {
 					switch(i) {
 					case GameOverScreen.RESTART:
+						GameState.getInstance().initialize();
 						towerDefense.switchScreen(towerDefense.getGameScreen());
 						break;
 					case GameOverScreen.MAIN_MENU:
 						towerDefense.switchScreen(towerDefense.getMainMenuScreen());
 						break;
 					case GameOverScreen.EXIT:
-						// close
+						System.exit(1);
 						break;
 					}
 				}
