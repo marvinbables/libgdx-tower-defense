@@ -136,7 +136,9 @@ public abstract class Tower extends Entity {
 	}
 	
 	public Tower clone() {
-		return TowerFactory.createTower(TowerFactory.interpretType(towerName)); 
+		Tower t = TowerFactory.createTower(TowerFactory.interpretType(towerName));
+		t.active = true;
+		return t; 
 	}
 
 	public boolean intersects(Enemy enemy) {
