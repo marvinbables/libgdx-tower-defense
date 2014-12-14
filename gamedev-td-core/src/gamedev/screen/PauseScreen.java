@@ -2,6 +2,7 @@ package gamedev.screen;
 
 import gamedev.input.PauseInputProcessor;
 import gamedev.td.GDSprite;
+import gamedev.td.SpriteManager;
 import gamedev.td.TowerDefense;
 
 import java.util.ArrayList;
@@ -39,23 +40,18 @@ public class PauseScreen extends GDScreen{
 	
 	private void initializeButtons() {
 		buttons = new ArrayList<GDSprite>();
+		SpriteManager spriteManager = SpriteManager.getInstance();
 		
-		Texture resumeBtnTx = new Texture(Gdx.files.internal("assets/img/resume_button.png"));
-		Texture restartBtnTx = new Texture(Gdx.files.internal("assets/img/restart_button.png"));
-		Texture menuBtnTx = new Texture(Gdx.files.internal("assets/img/quit2menu_button.png"));
-		Texture exitBtnTx = new Texture(Gdx.files.internal("assets/img/exit_button.png"));
-		
-		resumeBtn = new GDSprite(resumeBtnTx);
+		resumeBtn = spriteManager.getSprite("resume_button");
 		resumeBtn.setPosition(150, 380);
-		resumeBtn.flip(false, true);
-		restartBtn = new GDSprite(restartBtnTx);
+		
+		restartBtn = spriteManager.getSprite("restart_button");
 		restartBtn.setPosition(150, 420);
-		restartBtn.flip(false, true);
-		menuBtn = new GDSprite(menuBtnTx);
+		
+		menuBtn = spriteManager.getSprite("quit2menu_button");
 		menuBtn.setPosition(150, 460);
-		menuBtn.flip(false, true);
-		exitBtn = new GDSprite(exitBtnTx);
-		exitBtn.flip(false, true);
+		
+		exitBtn = spriteManager.getSprite("exit_button");
 		exitBtn.setPosition(150, 500);
 		
 		buttons.add(resumeBtn);
