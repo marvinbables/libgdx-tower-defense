@@ -40,17 +40,17 @@ public class GameOverScreen extends GDScreen{
 	private void initializeButtons() {
 		buttons = new ArrayList<GDSprite>();
 		
-		Texture startGameBtnTx = new Texture(Gdx.files.internal("assets/img/play_button.png"));
-		Texture lvlSelectBtnTx = new Texture(Gdx.files.internal("assets/img/play_button.png"));
-		Texture aboutBtnTx = new Texture(Gdx.files.internal("assets/img/play_button.png"));
+		Texture restartBtnTx = new Texture(Gdx.files.internal("assets/img/restart_button.png"));
+		Texture menuBtnTx = new Texture(Gdx.files.internal("assets/img/quit2menu_button.png"));
+		Texture exitBtnTx = new Texture(Gdx.files.internal("assets/img/exit_button.png"));
 		
-		restartBtn = new GDSprite(startGameBtnTx);
+		restartBtn = new GDSprite(restartBtnTx);
 		restartBtn.setPosition(150, 380);
 		restartBtn.flip(false, true);
-		menuBtn = new GDSprite(lvlSelectBtnTx);
+		menuBtn = new GDSprite(menuBtnTx);
 		menuBtn.setPosition(150, 420);
 		menuBtn.flip(false, true);
-		exitBtn = new GDSprite(aboutBtnTx);
+		exitBtn = new GDSprite(exitBtnTx);
 		exitBtn.flip(false, true);
 		exitBtn.setPosition(150, 460);
 		
