@@ -34,7 +34,7 @@ public class GameUserInterface {
 
 	TowerRangeRenderer towerRangeRenderer;
 	
-	private int userInterfaceY = 490;
+	private int userInterfaceY = 480;
 
 	private ArrayList<GDSprite> btnsBuildTower;
 	
@@ -79,14 +79,17 @@ public class GameUserInterface {
 		FontHelper.initialize();
 		towerInfoFont = FontHelper.minecraftia14px;
 
+		uiBackground = SpriteManager.getInstance().getSprite("ui");
+		uiBackground.setPosition(0, userInterfaceY);
+		
 		infoBackground = SpriteManager.getInstance().getSprite("info_bg");
-		infoBackground.setPosition(300, userInterfaceY);
+		infoBackground.setPosition(300, userInterfaceY + 10);
 
 		upgradeBtn = SpriteManager.getInstance().getSprite("upgrade_button");
-		upgradeBtn.setPosition(300, userInterfaceY + 100);
+		upgradeBtn.setPosition(300, userInterfaceY + 120);
 
 		sellBtn = SpriteManager.getInstance().getSprite("sell_button");
-		sellBtn.setPosition(425, userInterfaceY + 100);
+		sellBtn.setPosition(425, userInterfaceY + 120);
 
 		towerRangeRenderer = new TowerRangeRenderer();
 		
@@ -137,6 +140,7 @@ public class GameUserInterface {
 
 	public void draw(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
+		uiBackground.draw(spriteBatch);
 		infoBackground.draw(spriteBatch);
 
 		if (towerToBuild != null){
