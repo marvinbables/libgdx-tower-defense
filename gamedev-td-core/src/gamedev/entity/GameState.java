@@ -206,6 +206,10 @@ public class GameState {
 	public float getRoundTime() {
 		return roundTime;
 	}
+	
+	public int getMoney() {
+		return money;
+	}
 
 	public List<Tower> getDeployedTowers() {
 		return deployedTowers;

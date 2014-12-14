@@ -11,6 +11,7 @@ import gamedev.td.Config;
 import gamedev.td.GDSprite;
 import gamedev.td.SpriteManager;
 import gamedev.td.helper.FontHelper;
+import gamedev.td.helper.TimeHelper;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ public class GameUserInterface {
 	GDSprite uiBackground, infoBackground, towerToPutSprite, upgradeBtn, sellBtn,
 			upgradeToCorruptedEgg, upgradeToSlime, upgradeToWood,
 			upgradeToSand, upgradeToFireArrow, upgradeToIceArrow,
-				tileHighlight, towerBtnHighlight, ghostTower;
+				tileHighlight, towerBtnHighlight, ghostTower, 
+				waveLabel, towerLabel, moneyLabel;
 
 	Tower selectedDeployedTower;
 
@@ -77,21 +79,31 @@ public class GameUserInterface {
 		towerInfoFont = FontHelper.minecraftia14px;
 		costFont = FontHelper.minecraftia8px;
 		
+		SpriteManager spriteManager = SpriteManager.getInstance();
+		
+		towerLabel = spriteManager.getSprite("tower_label");
+		towerLabel.setPosition(0, 13 * Config.tileSize);
+		
+		moneyLabel = spriteManager.getSprite("emerald");
+		moneyLabel.setPosition(0, 14 * Config.tileSize);
+		
+		waveLabel = spriteManager.getSprite("wave");
+		waveLabel.setPosition(5, 15 * Config.tileSize);
 
-		uiBackground = SpriteManager.getInstance().getSprite("ui");
+		uiBackground = spriteManager.getSprite("ui");
 		uiBackground.setPosition(0, userInterfaceY);
 		
-		infoBackground = SpriteManager.getInstance().getSprite("info_bg");
+		infoBackground = spriteManager.getSprite("info_bg");
 		infoBackground.setPosition(300, userInterfaceY + 10);
 
-		upgradeBtn = SpriteManager.getInstance().getSprite("upgrade_button");
+		upgradeBtn = spriteManager.getSprite("upgrade_button");
 		upgradeBtn.setPosition(300, userInterfaceY + 120);
 
-		sellBtn = SpriteManager.getInstance().getSprite("sell_button");
+		sellBtn = spriteManager.getSprite("sell_button");
 		sellBtn.setPosition(425, userInterfaceY + 120);
 
-		tileHighlight = SpriteManager.getInstance().getSprite("highlight");
-		towerBtnHighlight = SpriteManager.getInstance().getSprite("tower_highlight");
+		tileHighlight = spriteManager.getSprite("highlight");
+		towerBtnHighlight = spriteManager.getSprite("tower_highlight");
 		
 		towerRangeRenderer = new TowerRangeRenderer();
 		
@@ -148,6 +160,11 @@ public class GameUserInterface {
 		
 		uiBackground.draw(spriteBatch);
 		infoBackground.draw(spriteBatch);
+		
+		towerLabel.draw(spriteBatch);
+		moneyLabel.draw(spriteBatch);
+		waveLabel.draw(spriteBatch);
+		
 		// Draw 'build tower' buttons
 		for (GDSprite tower : btnsBuildTower)
 			tower.draw(spriteBatch);
@@ -179,8 +196,8 @@ public class GameUserInterface {
 		}
 		
 		drawHealthBars(spriteBatch);
-		int y = 15;
-		towerInfoFont.draw(spriteBatch, GameState.getInstance().getRoundTime() + "", Config.tileSize, y * Config.tileSize);
+		towerInfoFont.draw(spriteBatch, GameState.getInstance().getMoney()+"", Config.tileSize + 5, 14 * Config.tileSize + 14);
+		towerInfoFont.draw(spriteBatch, TimeHelper.formatSeconds(GameState.getInstance().getRoundTime()), Config.tileSize + 5, 15 * Config.tileSize + 12);
 		
 		spriteBatch.end();
 		
