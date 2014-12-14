@@ -1,6 +1,5 @@
 package gamedev.entity;
 
-import gamedev.entity.Projectile.ProjectileType;
 import gamedev.entity.tower.ArrowTower;
 import gamedev.entity.tower.CurrencyTower;
 import gamedev.entity.tower.DirtTower;

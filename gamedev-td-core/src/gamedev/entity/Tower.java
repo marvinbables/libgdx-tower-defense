@@ -67,7 +67,7 @@ public abstract class Tower extends Entity {
 	private void updateTargets() {
 
 		for (int i = targets.size() - 1; i >= 0; i--) {
-			if (!intersects(targets.get(i))) {
+			if (!intersects(targets.get(i)) || !targets.get(i).active) {
 				targets.remove(i);
 			}
 

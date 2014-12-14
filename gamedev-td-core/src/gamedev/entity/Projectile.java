@@ -6,6 +6,7 @@ import gamedev.entity.projectile.DirtProjectile;
 import gamedev.entity.projectile.EggProjectile;
 import gamedev.entity.projectile.FireArrowProjectile;
 import gamedev.entity.projectile.IceArrowProjectile;
+import gamedev.entity.projectile.PotionProjectile;
 import gamedev.td.GDSprite;
 import gamedev.td.SpriteManager;
 import gamedev.td.helper.MathHelper;
@@ -20,8 +21,8 @@ public abstract class Projectile extends Entity {
 	}
 	
 	private int damage;
-	private float speed, angle;
-	private Enemy target;
+	protected float speed, angle;
+	protected Enemy target;
 	
 	public Projectile(GDSprite sprite, Vector2 position, int damage, float speed, Enemy target){
 		super(sprite);
@@ -36,7 +37,7 @@ public abstract class Projectile extends Entity {
 	//TODO implement method draw()
 	public void draw(SpriteBatch spriteBatch){
 		if(active){
-			//sprite.setRotation(angle);
+			sprite.setRotation(angle);
 			sprite.draw(spriteBatch);
 		}
 	}
@@ -46,22 +47,42 @@ public abstract class Projectile extends Entity {
 	public void update(float delta){
 		if(active){
 			super.update(delta);
+			if(!target.active)
+				active = false;
 			boolean collided = false;
 			GameState state = GameState.getInstance();
-			for(Enemy enemy : state.getEnemies())
-				collided = checkCollision(enemy);
-			if(collided){
-				target.damagedBySource(this.damage);
-				this.active = false;
+			for(Enemy enemy : state.getEnemies()){
+				if(enemy.active){
+					collided = checkCollision(enemy);
+					if(collided && active){
+						enemy.damagedBySource(this.damage);
+						this.active = false;
+					}
+				}
 			}
-			else{
-				position.x += Math.cos(angle) * speed;
-				position.y += Math.sin(angle) * speed;
+			if(!collided){
+				moveProjectile(target);
 				
 			}
 		}
 	}
 	
+	private void moveProjectile(Enemy target) {
+		Vector2 enemyPosition = MathHelper.getCenterOfTile(target.position);
+		if(enemyPosition.x > position.x){
+			position.x += speed;
+		}
+		else{
+			position.x -= speed;
+		}
+		if(enemyPosition.y > position.y){
+			position.y += speed;
+		}
+		else{
+			position.y -= speed;
+		}
+	}
+
 	//TODO check enemy collision
 	private boolean checkCollision(Enemy target) {
 		Rectangle minRect = sprite.getBoundingRectangle();
@@ -73,22 +94,22 @@ public abstract class Projectile extends Entity {
 		Projectile projectile = null;
 		SpriteManager handler = SpriteManager.getInstance();
 		GDSprite projectileSprite = handler.getProjectile(type);
-		Vector2 position = MathHelper.getCenterOfTile(tower.getPosition());
+		Vector2 position = new Vector2(tower.getPosition());
 		int damage = tower.getDamage();
 		float speed;
 		
 		switch(type){
 			case Dirt:
-				speed = 16f;
+				speed = 3f;
 				return new DirtProjectile(projectileSprite, position, damage, speed, target);
 			case Arrow:
-				speed = 24f;
+				speed = 5f;
 				return new ArrowProjectile(projectileSprite, position, damage, speed, target);
 			case Egg:
-				speed = 16f;
+				speed = 3f;
 				return new EggProjectile(projectileSprite, position, damage, speed, target);
 			case Potion:
-				speed = 24f;
+				speed = 3f;
 				return new PotionProjectile(projectileSprite, position, damage, speed, target);
 			case Cegg:
 				speed = 4f;
@@ -123,11 +144,11 @@ public abstract class Projectile extends Entity {
 		return null; 
 	}
 	
-	private float getAngle(){
+	protected float getAngle(){
 		Vector2 targetCenter = MathHelper.getCenterOfTile(target.getPosition());
 		
-		float deltaX = (float)Math.abs(this.position.x - targetCenter.x);
-		float deltaY = (float)Math.abs(this.position.y - targetCenter.y);
+		float deltaX = (float)(this.position.x - targetCenter.x);
+		float deltaY = (float)(this.position.y - targetCenter.y);
 		float angleInDegrees = (float) (Math.atan2(deltaY, deltaX) * 180 / Math.PI);
 		
 		return angleInDegrees;

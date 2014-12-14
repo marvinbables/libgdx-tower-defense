@@ -8,7 +8,7 @@ public class DirtTower extends Tower {
 	private int maxLevel = 5;
 	private static int damageLevels[] = {5};
 	private static int rangeLevels[] = {80};
-	private static float attackRateLevels[] = {3};
+	private static float attackRateLevels[] = {1.7f};
 	
 	public DirtTower(GDSprite sprite, int level, int cost) {
 		super(sprite, damageLevels[level], rangeLevels[level], attackRateLevels[level], cost, level, "Dirt Tower");

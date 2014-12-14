@@ -1,5 +1,7 @@
-package gamedev.entity;
+package gamedev.entity.projectile;
 
+import gamedev.entity.Enemy;
+import gamedev.entity.Projectile;
 import gamedev.td.GDSprite;
 
 import com.badlogic.gdx.math.Vector2;
