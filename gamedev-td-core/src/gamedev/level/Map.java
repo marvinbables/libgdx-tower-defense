@@ -66,6 +66,32 @@ public class Map {
 		new Point(480, 80),
 		};
 	
+	static String map_3[] = {"00011111111111000",
+			  "00010000000001000",
+			  "00010111111101000",
+			  "00010100000101000",
+			  "00010102220101000",
+			  "00010102320101000",
+			  "00010102120101000",
+			  "00010100100101000",
+			  "00010100111101000",
+			  "00010100000001000",
+			  "00010111111111000",
+			  "00010000000000000",};
+
+	Point waypoints_3[] = {	// x, y
+		new Point(120, 440),
+		new Point(120, 0),
+		new Point(520, 0),
+		new Point(520, 400),
+		new Point(200, 400),
+		new Point(200, 80),
+		new Point(440, 80),
+		new Point(440, 320),
+		new Point(320, 320),
+		new Point(320, 240)
+	};
+	
 	public static HashMap<Integer, TileType[][]> maps = new HashMap<Integer, TileType[][]>();
 	
 	public static TileType[][] generateMap(int i){
@@ -77,6 +103,9 @@ public class Map {
 					break;
 				case 2:
 					map = convertStringToGrid(map_2);
+					break;
+				case 3:
+					map = convertStringToGrid(map_3);
 					break;
 				default:
 					return null;
@@ -107,6 +136,8 @@ public class Map {
 				return new ArrayList<Point>(Arrays.asList(waypoints_1));
 			case 2:
 				return new ArrayList<Point>(Arrays.asList(waypoints_2));
+			case 3:
+				return new ArrayList<Point>(Arrays.asList(waypoints_3));
 		}
 		
 		return null;
