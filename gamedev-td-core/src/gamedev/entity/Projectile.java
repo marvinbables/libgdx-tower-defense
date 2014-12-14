@@ -1,6 +1,5 @@
 package gamedev.entity;
 
-import gamedev.entity.TowerFactory.TowerType;
 import gamedev.entity.projectile.ArrowProjectile;
 import gamedev.entity.projectile.CorruptedEggProjectile;
 import gamedev.entity.projectile.DirtProjectile;
@@ -24,7 +23,6 @@ public abstract class Projectile extends Entity {
 	private float speed, angle;
 	private Enemy target;
 	
-	//TODO projectile constructor
 	public Projectile(GDSprite sprite, Vector2 position, int damage, float speed, Enemy target){
 		super(sprite);
 		this.position = position;
@@ -32,34 +30,42 @@ public abstract class Projectile extends Entity {
 		this.speed = speed;
 		this.target = target;
 		this.angle = getAngle();
+		active = true;
 	}
 	
 	//TODO implement method draw()
 	public void draw(SpriteBatch spriteBatch){
-		sprite.setRotation(angle);
-		sprite.draw(spriteBatch);
+		if(active){
+			//sprite.setRotation(angle);
+			sprite.draw(spriteBatch);
+		}
 	}
 	
 	
 	//TODO implement method update()
 	public void update(float delta){
-		super.update(delta);
-		boolean collided = checkCollision(target);
-		if(collided){
-			target.damagedBySource(this.damage);
-			this.active = false;
-		}
-		else{
-			position.x += Math.cos(angle);
-			position.y += Math.sin(angle);
-			
+		if(active){
+			super.update(delta);
+			boolean collided = false;
+			GameState state = GameState.getInstance();
+			for(Enemy enemy : state.getEnemies())
+				collided = checkCollision(enemy);
+			if(collided){
+				target.damagedBySource(this.damage);
+				this.active = false;
+			}
+			else{
+				position.x += Math.cos(angle) * speed;
+				position.y += Math.sin(angle) * speed;
+				
+			}
 		}
 	}
 	
 	//TODO check enemy collision
 	private boolean checkCollision(Enemy target) {
 		Rectangle minRect = sprite.getBoundingRectangle();
-		return minRect.contains(target.getSprite().getBoundingRectangle());
+		return minRect.overlaps(target.getSprite().getBoundingRectangle());
 		
 	}
 
@@ -73,16 +79,16 @@ public abstract class Projectile extends Entity {
 		
 		switch(type){
 			case Dirt:
-				speed = 4f;
+				speed = 16f;
 				return new DirtProjectile(projectileSprite, position, damage, speed, target);
 			case Arrow:
-				speed = 6f;
+				speed = 24f;
 				return new ArrowProjectile(projectileSprite, position, damage, speed, target);
 			case Egg:
-				speed = 4f;
+				speed = 16f;
 				return new EggProjectile(projectileSprite, position, damage, speed, target);
 			case Potion:
-				speed = 4f;
+				speed = 24f;
 				return new PotionProjectile(projectileSprite, position, damage, speed, target);
 			case Cegg:
 				speed = 4f;

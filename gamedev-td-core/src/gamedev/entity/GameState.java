@@ -93,6 +93,9 @@ public class GameState {
 			for (Tower tower : deployedTowers)
 				tower.update(delta);
 			
+			for(Projectile projectile : projectiles)
+				projectile.update(delta);
+			
 		}
 		
 	}

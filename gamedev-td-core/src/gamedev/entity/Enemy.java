@@ -51,7 +51,7 @@ public abstract class Enemy extends Entity {
 		switch (type) {
 
 		case Spider:
-			int health = 50;
+			int health = 10;
 			int moneyReward = 10;
 			float speed = 1.5f;
 
