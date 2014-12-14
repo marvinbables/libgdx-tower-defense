@@ -26,9 +26,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameUserInterface {
 	BitmapFont towerInfoFont, costFont;
-	GDSprite uiBackground, infoBackground, towerSprite, towerToPutSprite, upgradeBtn, sellBtn,
+	GDSprite uiBackground, infoBackground, towerToPutSprite, upgradeBtn, sellBtn,
 			upgradeToCorruptedEgg, upgradeToSlime, upgradeToWood,
-			upgradeToSand, upgradeToFireArrow, upgradeToIceArrow;
+			upgradeToSand, upgradeToFireArrow, upgradeToIceArrow,
+				tileHighlight, towerBtnHighlight, ghostTower;
 
 	Tower selectedDeployedTower;
 
@@ -74,8 +75,8 @@ public class GameUserInterface {
 
 	public GameUserInterface() {
 		setTowerInfo(null);
-		towerSprite = null;
 		towerToPutSprite = null;
+		ghostTower = null;
 		FontHelper.initialize();
 		towerInfoFont = FontHelper.minecraftia14px;
 
@@ -91,6 +92,9 @@ public class GameUserInterface {
 		sellBtn = SpriteManager.getInstance().getSprite("sell_button");
 		sellBtn.setPosition(425, userInterfaceY + 120);
 
+		tileHighlight = SpriteManager.getInstance().getSprite("highlight");
+		towerBtnHighlight = SpriteManager.getInstance().getSprite("tower_highlight");
+		
 		towerRangeRenderer = new TowerRangeRenderer();
 		
 		initializeHeartSprites();
@@ -140,14 +144,16 @@ public class GameUserInterface {
 
 	public void draw(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
+		
+		tileHighlight.draw(spriteBatch);
+		
 		uiBackground.draw(spriteBatch);
 		infoBackground.draw(spriteBatch);
+		// Draw 'build tower' buttons
+		for (GDSprite tower : btnsBuildTower)
+			tower.draw(spriteBatch);
 
 		if (towerToBuild != null){
-			// Draw 'build tower' buttons
-			for (GDSprite tower : btnsBuildTower)
-				tower.draw(spriteBatch);
-			
 			// Draw tower descriptions
 			drawTowerInfo(spriteBatch);
 		}else if (towerToUpgrade != null){
@@ -167,11 +173,17 @@ public class GameUserInterface {
 				upgradeToCorruptedEgg.draw(spriteBatch);
 			}
 		}
-
-		towerRangeRenderer.render();
-
+		
+		towerBtnHighlight.draw(spriteBatch);
+		if(ghostTower != null) {
+			ghostTower.draw(spriteBatch);
+		}
+		
 		drawHealthBars(spriteBatch);
+		
+		
 		spriteBatch.end();
+		towerRangeRenderer.render();
 		
 	}
 
@@ -182,17 +194,18 @@ public class GameUserInterface {
 		int x = 310;
 		if (towerToBuild != null) {
 			towerInfoFont.draw(spriteBatch, towerName, x, userInterfaceY + 15);
-			towerInfoFont.draw(spriteBatch, "Cost: " + cost, x, userInterfaceY + 30);
-			towerInfoFont.draw(spriteBatch, "Damage: " + damage, x, userInterfaceY + 45);
-			towerInfoFont.draw(spriteBatch, "Range: " + range, x, userInterfaceY + 60);
-			towerInfoFont.draw(spriteBatch, "Speed: " + attackRate, x, userInterfaceY + 75);
+			towerInfoFont.draw(spriteBatch, "Cost: " + cost, x, userInterfaceY + 32);
+			towerInfoFont.draw(spriteBatch, "Damage: " + damage, x, userInterfaceY + 49);
+			towerInfoFont.draw(spriteBatch, "Range: " + range, x, userInterfaceY + 66);
+			towerInfoFont.draw(spriteBatch, "Speed: " + attackRate, x, userInterfaceY + 83);
 		}
 		
 		// Image icon
-		if (towerSprite != null) {
-			towerSprite.setPosition(x + 150, userInterfaceY + 25);
-			towerSprite.draw(spriteBatch);
-		} else if (towerToPutSprite != null) {
+//		if (towerSprite != null) {
+//			towerSprite.setPosition(x + 150, userInterfaceY + 25);
+//			towerSprite.draw(spriteBatch);
+//		} 
+		if (towerToPutSprite != null) {
 			towerToPutSprite.setPosition(x + 150, userInterfaceY + 25);
 			towerToPutSprite.draw(spriteBatch);
 		}
@@ -223,9 +236,17 @@ public class GameUserInterface {
 			towerName = "";
 		}
 	}
-
+	
 	public List<GDSprite> getBuildTowerButtons() {
 		return btnsBuildTower;
+	}
+
+	public GDSprite getTileHighlight() {
+		return tileHighlight;
+	}
+
+	public GDSprite getTowerBtnHighlight() {
+		return towerBtnHighlight;
 	}
 
 	public void setTowerToBuild(Tower towerToBuild, TowerType towerType) {
@@ -237,6 +258,7 @@ public class GameUserInterface {
 		GameState state = GameState.getInstance();
 		
 		if (state.canBuyTower(towerToBuild)) {
+			towerRangeRenderer.setTowerToBuild(towerToBuild);
 			towerRangeRenderer.setAttackRange(towerToBuild.getAttackRange());
 		} else {
 			towerToPutSprite = null;
@@ -260,7 +282,7 @@ public class GameUserInterface {
 	 * @param point
 	 */
 	public void setHighlightedCell(Point point) {
-		// TODO Auto-generated method stub
+		tileHighlight.setPosition(point.x, point.y);
 		
 	}
 
@@ -269,8 +291,13 @@ public class GameUserInterface {
 	 * Note that the attack range should be drawn as well
 	 * @param point
 	 */
-	public void setGhostTowerToBeBuilt(Point point) {
-		// TODO Auto-generated method stub
+	public void setGhostTowerLocation(Point point) {
+		if(ghostTower != null)
+			ghostTower.setPosition(point.x, point.y);
 		
+	}
+	
+	public void setGhostTower(TowerType towerType) {
+		ghostTower = SpriteManager.getInstance().getTower(towerType);
 	}
 }

@@ -26,8 +26,8 @@ public abstract class Tower extends Entity {
 		this.cost = cost;
 		this.towerName = towerName;
 		this.level = level;
-		x = -50;
-		y = -50;
+		x = -500;
+		y = -500;
 		attackTimer = 0;
 		targets = new ArrayList<Enemy>();
 		center = new Point2D.Float();
@@ -157,4 +157,20 @@ public abstract class Tower extends Entity {
 		center.setLocation(x, y);
 	}
 
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 }
