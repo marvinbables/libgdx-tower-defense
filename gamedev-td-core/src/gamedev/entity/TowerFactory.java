@@ -56,4 +56,17 @@ public class TowerFactory {
 		}
 		return TowerType.Dirt_Tower;
 	}
+	public static TowerType interpretType(String name) {
+		if(name.equals("Dirt Tower"))
+			return TowerType.Dirt_Tower;
+		else if(name.equals("Arrow Tower"))
+			return TowerType.Arrow_Tower;
+		else if(name.equals("Egg Tower"))
+			return TowerType.Egg_Tower;
+		else if(name.equals("Potion Tower"))
+			return TowerType.Potion_Tower;
+		else if(name.equals("Currency Tower"))
+			return TowerType.Currency_Tower;
+		return null;
+	}
 }

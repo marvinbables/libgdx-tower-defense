@@ -119,6 +119,10 @@ public abstract class Tower extends Entity {
 	public int getLevel() {
 		return level;
 	}
+	
+	public Tower clone() {
+		return TowerFactory.createTower(TowerFactory.interpretType(towerName));
+	}
 
 	public boolean intersects(Enemy enemy) {
 		float circleDistanceX = (float) Math.abs(center.getX() - enemy.getPosition().x);
