@@ -26,7 +26,7 @@ public abstract class Enemy extends Entity {
 	private int health;
 	private int moneyReward;
 	private float speed;
-	private ArrayList<Point> waypoints;
+	private List<Point> waypoints;
 	private Dir dir;
 
 	// enemy factory pattern
@@ -41,7 +41,7 @@ public abstract class Enemy extends Entity {
 		
 		GameState state = GameState.getInstance();
 		Point[] waypoints = state.getCurrentLevel().getWaypoints();
-		ArrayList<Point> waypointList = new ArrayList<Point>(Arrays.asList(waypoints));
+		List<Point> waypointList = new ArrayList<Point>(Arrays.asList(waypoints));
 
 		SpriteManager handler = SpriteManager.getInstance();
 		GDSprite sprite = handler.getEnemy(type);
@@ -53,9 +53,7 @@ public abstract class Enemy extends Entity {
 			int moneyReward = 10;
 			float speed = 1.5f;
 
-			enemy = new Spider(sprite, health, moneyReward, speed);
-			enemy.addPath(waypointList);
-			enemy.setPosition(MathHelper.PointToVector2(waypointList.get(0)));
+			enemy = new Spider(sprite, health, moneyReward, speed, waypointList);
 
 			return enemy;
 
@@ -65,15 +63,16 @@ public abstract class Enemy extends Entity {
 
 	}
 
-	protected Enemy(GDSprite sprite, int health, int moneyReward, float speed) {
+	protected Enemy(GDSprite sprite, int health, int moneyReward, float speed, List<Point> waypointList) {
 		super(sprite);
 		this.active = true;
 		this.angle = 0;
 		this.health = health;
 		this.moneyReward = moneyReward;
 		this.speed = speed;
-		this.waypoints = new ArrayList<Point>();
 		this.position = Vector2.Zero;
+		this.waypoints = waypointList;
+		setPosition(MathHelper.PointToVector2(waypointList.get(0)));
 	}
 
 	public void update(float delta) {
@@ -157,7 +156,7 @@ public abstract class Enemy extends Entity {
 		return waypoints;
 	}
 
-	public void addPath(ArrayList<Point> points) {
+	public void addPath(List<Point> points) {
 		waypoints = points;
 	}
 
