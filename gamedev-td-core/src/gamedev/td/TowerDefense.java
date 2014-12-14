@@ -3,6 +3,7 @@ package gamedev.td;
 import gamedev.input.GameInputProcessor;
 import gamedev.input.MenuInputProcessor;
 import gamedev.screen.GDScreen;
+import gamedev.screen.GameOverScreen;
 import gamedev.screen.GameScreen;
 import gamedev.screen.MainMenuScreen;
 
@@ -12,6 +13,7 @@ import com.badlogic.gdx.Gdx;
 public class TowerDefense extends Game {
 
 	private MainMenuScreen mainMenuScreen;
+	private GameOverScreen gameOverScreen;
 	private GameScreen gameScreen;
 	
 	
@@ -19,6 +21,7 @@ public class TowerDefense extends Game {
 	public void create () {
 		mainMenuScreen = new MainMenuScreen(this);
 		gameScreen = new GameScreen(this, new GameInputProcessor(this));
+		gameOverScreen = new GameOverScreen(this);
 		
 		switchScreen(mainMenuScreen);
 		
@@ -71,5 +74,13 @@ public class TowerDefense extends Game {
 
 	public void setGameScreen(GameScreen gameScreen) {
 		this.gameScreen = gameScreen;
+	}
+
+	public GameOverScreen getGameOverScreen() {
+		return gameOverScreen;
+	}
+
+	public void setGameOverScreen(GameOverScreen gameOverScreen) {
+		this.gameOverScreen = gameOverScreen;
 	}
 }

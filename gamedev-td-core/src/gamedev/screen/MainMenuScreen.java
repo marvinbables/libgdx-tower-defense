@@ -28,7 +28,7 @@ public class MainMenuScreen extends GDScreen {
 
 	BitmapFont font;
 	
-	List<GDSprite> buttons, highlightedButtons;
+	List<GDSprite> buttons;
 	
 	GDSprite startGameBtn, lvlSelectBtn, aboutBtn;
 	
@@ -101,14 +101,15 @@ public class MainMenuScreen extends GDScreen {
 		Texture aboutBtnTx = new Texture(Gdx.files.internal("assets/img/about_button.png"));
 		
 		startGameBtn = new GDSprite(startGameBtnTx);
-		startGameBtn.setPosition(0, 0);
+		startGameBtn.setPosition(150, 380);
 		startGameBtn.flip(false, true);
 		lvlSelectBtn = new GDSprite(lvlSelectBtnTx);
-		lvlSelectBtn.setPosition(0, 40);
+		lvlSelectBtn.setPosition(150, 420);
 		lvlSelectBtn.flip(false, true);
 		aboutBtn = new GDSprite(aboutBtnTx);
 		aboutBtn.flip(false, true);
-		aboutBtn.setPosition(0, 80);
+		aboutBtn.setPosition(150, 460);
+		
 		
 		
 		buttons.add(startGameBtn);
