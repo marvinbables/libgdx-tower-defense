@@ -1,6 +1,7 @@
 package gamedev.entity.tower;
 
 import gamedev.entity.Tower;
+import gamedev.td.GDSprite;
 
 public class CurrencyTower extends Tower {
 	
@@ -9,8 +10,8 @@ public class CurrencyTower extends Tower {
 	private static int rangeLevels[] = {0};
 	private static float attackRateLevels[] = {2f};
 
-	public CurrencyTower(int level, int cost) {
-		super(damageLevels[level], rangeLevels[level], attackRateLevels[level], cost, level, "Currency Tower");
+	public CurrencyTower(GDSprite sprite, int level, int cost) {
+		super(sprite, damageLevels[level], rangeLevels[level], attackRateLevels[level], cost, level, "Currency Tower");
 		
 	}
 

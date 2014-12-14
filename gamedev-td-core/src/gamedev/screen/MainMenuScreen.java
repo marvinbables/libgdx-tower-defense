@@ -1,9 +1,9 @@
 package gamedev.screen;
 
-import gamedev.entity.GameState;
 import gamedev.input.MenuInputProcessor;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
+import gamedev.td.helper.FontHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,7 @@ public class MainMenuScreen extends GDScreen {
 	public final static int START_GAME = 0, LEVEL_SELECT = 1, ABOUT = 2; 
 	
 	public MainMenuScreen(TowerDefense towerDefense) {
+		super(towerDefense);
 		this.towerDefense = towerDefense;
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(true);
@@ -42,9 +43,11 @@ public class MainMenuScreen extends GDScreen {
 		spriteBatch = new SpriteBatch();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		
-		initializeFont();
+		FontHelper.initialize();
+		font = FontHelper.minecraftia12px;
+		
 		initializeButtons();
-		this.inputProcessor = new MenuInputProcessor(this, towerDefense);
+		this.inputProcessor = new MenuInputProcessor(towerDefense, this);
 	}
 	
 	@Override
@@ -113,16 +116,7 @@ public class MainMenuScreen extends GDScreen {
 		buttons.add(aboutBtn);
 		
 	}
-	
-	private void initializeFont() {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/Minecraftia.ttf"));
-		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 14;
-		parameter.flip = true;
-		font = generator.generateFont(parameter); // font size 12 pixels
-		generator.dispose(); // don't forget to dispose to avoid memory leaks!
-	}
-	
+		
 	public List<GDSprite> getButtons() {
 		return buttons;
 	}

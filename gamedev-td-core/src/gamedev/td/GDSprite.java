@@ -25,4 +25,10 @@ public class GDSprite extends Sprite {
 		return getBoundingRectangle().contains(x, y);
 	}
 	
+	public GDSprite clone(){
+		GDSprite clone = new GDSprite(getTexture());
+		clone.set(this);
+		return clone;
+	}
+	
 }

@@ -1,5 +1,7 @@
 package gamedev.entity;
 
+import gamedev.td.GDSprite;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class Projectile extends Entity {
@@ -8,14 +10,12 @@ public abstract class Projectile extends Entity {
 	private float speed, angle;
 	
 	//TODO projectile constructor
-	public Projectile(){
-		
+	public Projectile(GDSprite sprite){
+		super(sprite);
 	}
 	
 	//TODO implement method draw()
 	public void draw(SpriteBatch spriteBatch){
-		sprite.setX(this.x);
-		sprite.setY(this.y);
 		sprite.setRotation(angle);
 		sprite.draw(spriteBatch);
 		
@@ -23,14 +23,13 @@ public abstract class Projectile extends Entity {
 	
 	
 	//TODO implement method update()
-	public void update(Enemy enemy){
+	public void update(float delta){
 		
 	}
 	
 	//TODO implement method createProjectile (factory pattern)
 	public static Projectile createProjectile(String type){
 		Projectile projectile = null;
-		
 		return projectile;
 	}
 	
