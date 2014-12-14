@@ -3,6 +3,7 @@ package gamedev.entity;
 import gamedev.entity.enemy.Spider;
 import gamedev.td.GDSprite;
 import gamedev.td.SpriteManager;
+import gamedev.td.helper.MathHelper;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public abstract class Enemy extends Entity {
 
 			enemy = new Spider(sprite, health, moneyReward, speed);
 			enemy.addPath(waypointList);
+			enemy.setPosition(MathHelper.PointToVector2(waypointList.get(0)));
 
 			return enemy;
 
