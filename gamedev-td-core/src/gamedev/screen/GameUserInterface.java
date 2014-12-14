@@ -28,7 +28,8 @@ public class GameUserInterface {
 	BitmapFont towerInfoFont, costFont;
 	GDSprite uiBackground, infoBackground, towerSprite, towerToPutSprite, upgradeBtn, sellBtn,
 			upgradeToCorruptedEgg, upgradeToSlime, upgradeToWood,
-			upgradeToSand, upgradeToFireArrow, upgradeToIceArrow;
+			upgradeToSand, upgradeToFireArrow, upgradeToIceArrow,
+				tileHighlight, towerBtnHighlight;
 
 	Tower selectedDeployedTower;
 
@@ -91,6 +92,9 @@ public class GameUserInterface {
 		sellBtn = SpriteManager.getInstance().getSprite("sell_button");
 		sellBtn.setPosition(425, userInterfaceY + 120);
 
+		tileHighlight = SpriteManager.getInstance().getSprite("highlight");
+		towerBtnHighlight = SpriteManager.getInstance().getSprite("tower_highlight");
+		
 		towerRangeRenderer = new TowerRangeRenderer();
 		
 		initializeHeartSprites();
@@ -140,13 +144,16 @@ public class GameUserInterface {
 
 	public void draw(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
+		
+		tileHighlight.draw(spriteBatch);
+		
 		uiBackground.draw(spriteBatch);
 		infoBackground.draw(spriteBatch);
+		// Draw 'build tower' buttons
+		for (GDSprite tower : btnsBuildTower)
+			tower.draw(spriteBatch);
 
 		if (towerToBuild != null){
-			// Draw 'build tower' buttons
-			for (GDSprite tower : btnsBuildTower)
-				tower.draw(spriteBatch);
 			
 			// Draw tower descriptions
 			drawTowerInfo(spriteBatch);
@@ -168,9 +175,15 @@ public class GameUserInterface {
 			}
 		}
 
+		
 		towerRangeRenderer.render();
-
+		
+		towerBtnHighlight.draw(spriteBatch);
+		
 		drawHealthBars(spriteBatch);
+		
+		
+		
 		spriteBatch.end();
 		
 	}
@@ -223,9 +236,17 @@ public class GameUserInterface {
 			towerName = "";
 		}
 	}
-
+	
 	public List<GDSprite> getBuildTowerButtons() {
 		return btnsBuildTower;
+	}
+
+	public GDSprite getTileHighlight() {
+		return tileHighlight;
+	}
+
+	public GDSprite getTowerBtnHighlight() {
+		return towerBtnHighlight;
 	}
 
 	public void setTowerToBuild(Tower towerToBuild, TowerType towerType) {
@@ -260,7 +281,7 @@ public class GameUserInterface {
 	 * @param point
 	 */
 	public void setHighlightedCell(Point point) {
-		// TODO Auto-generated method stub
+		tileHighlight.setPosition(point.x, point.y);
 		
 	}
 
@@ -270,7 +291,7 @@ public class GameUserInterface {
 	 * @param point
 	 */
 	public void setGhostTowerToBeBuilt(Point point) {
-		// TODO Auto-generated method stub
+		towerToPutSprite.setPosition(point.x, point.y);
 		
 	}
 }

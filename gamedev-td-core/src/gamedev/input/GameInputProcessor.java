@@ -162,7 +162,6 @@ public class GameInputProcessor extends GDInputProcessor {
 			userInterface.setGhostTowerToBeBuilt(point);
 		}
 		
-
 // TODO: Don't know what this code is for
 		
 //		if (selectedTower == null) {
@@ -175,13 +174,14 @@ public class GameInputProcessor extends GDInputProcessor {
 
 
 		List<GDSprite> towerSprites = userInterface.getBuildTowerButtons();
+		userInterface.getTowerBtnHighlight().setPosition(-50, -50);
 		for (int i = 0; i < towerSprites.size(); i++) {
 			GDSprite sprite = towerSprites.get(i);
 			if (sprite.contains(x, y)) {
+				userInterface.getTowerBtnHighlight().setPosition(sprite.getX(), sprite.getY());
 				
-				// assumes size of sprites of available towers is equal to the size of the available towers model
-				boolean showTooltip = true;
-				Point spritePoint = sprite.getPosition();
+//				boolean showTooltip = true;
+//				Point spritePoint = sprite.getPosition();
 
 				TowerType towerType = TowerFactory.interpretType(i);
 				towerToBuild = TowerFactory.createTower(towerType);
