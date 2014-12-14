@@ -27,7 +27,6 @@ public class GameState {
 
 	private Level currentLevel;
 
-	private int score = 0;
 	private int money = 0;
 	private int playerLife = 10;
 	private int spawnedEnemies;
@@ -70,7 +69,6 @@ public class GameState {
 
 	public void initialize() {
 		currentLevel = Level.generateLevel(1);
-		score = 0;
 		money = 100;
 		playerLife = 10;
 		spawnDelay = 0;
@@ -105,6 +103,16 @@ public class GameState {
 
 	public void render(SpriteBatch spriteBatch) {
 		displayMap(spriteBatch);
+		displayEnemies(spriteBatch);
+	}
+	
+	private void displayEnemies(SpriteBatch spriteBatch){
+		spriteBatch.begin();
+		for(Enemy enemy : enemies){
+			enemy.draw(spriteBatch);
+		}
+		
+		spriteBatch.end();
 	}
 
 	private void displayMap(SpriteBatch spriteBatch) {
