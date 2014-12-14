@@ -6,19 +6,18 @@ import gamedev.entity.TowerFactory;
 import gamedev.entity.TowerFactory.TowerType;
 import gamedev.entity.tower.ArrowTower;
 import gamedev.entity.tower.DirtTower;
-import gamedev.screen.GameOverScreen;
 import gamedev.screen.GameScreen;
 import gamedev.screen.GameUserInterface;
 import gamedev.td.Config;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;
+import gamedev.td.helper.MathHelper;
 
 import java.awt.Point;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
-import com.badlogic.gdx.graphics.Color;
 
 public class GameInputProcessor extends GDInputProcessor {
 
@@ -114,8 +113,7 @@ public class GameInputProcessor extends GDInputProcessor {
 		GameState state = GameState.getInstance();
 		Point point = getGridCoordinate(x, y);
 		if(point != null) {
-			towerToBuild.setX(x);
-			towerToBuild.setY(y);
+			towerToBuild.getPosition().set(MathHelper.PointToVector2(point));
 		}
 		
 		if (point != null && state.isTowerPlaceable(point)) {
@@ -164,8 +162,7 @@ public class GameInputProcessor extends GDInputProcessor {
 		userInterface.setHighlightedCell(point);
 		if (towerToBuild != null){
 			userInterface.setGhostTowerLocation(point);
-			towerToBuild.setX(x);
-			towerToBuild.setY(y);
+			towerToBuild.getPosition().set(MathHelper.PointToVector2(point));
 		}
 		
 		

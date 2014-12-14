@@ -16,4 +16,8 @@ public class MathHelper {
 		int newY = (int) y / Config.tileSize * Config.tileSize;
 		return new Point(newX, newY);
 	}
+	
+	public static Vector2 getCenterOfTile(Vector2 position){
+		return new Vector2(position.x - Config.tileSize / 2, position.y - Config.tileSize / 2);
+	}
 }
