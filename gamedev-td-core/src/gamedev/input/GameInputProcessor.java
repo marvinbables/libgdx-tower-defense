@@ -8,7 +8,6 @@ import gamedev.entity.tower.ArrowTower;
 import gamedev.entity.tower.DirtTower;
 import gamedev.screen.GameScreen;
 import gamedev.screen.GameUserInterface;
-import gamedev.screen.TowerInformation;
 import gamedev.td.Config;
 import gamedev.td.GDSprite;
 import gamedev.td.TowerDefense;

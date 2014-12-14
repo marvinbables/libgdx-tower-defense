@@ -1,7 +1,6 @@
 package gamedev.screen;
 
 import gamedev.entity.GameState;
-import gamedev.input.GDInputProcessor;
 import gamedev.input.GameInputProcessor;
 import gamedev.td.TowerDefense;
 
@@ -11,15 +10,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameScreen extends GDScreen {
-	TowerDefense towerDefense;
 	OrthographicCamera camera;
 
 	SpriteBatch spriteBatch;
 	
 	private GameState gameState;
 	
-	public GameScreen(TowerDefense towerDefense, GDInputProcessor inputProcessor) {
-		super(towerDefense);
+	public GameScreen(TowerDefense towerDefense) {
 
 		gameState = GameState.getInstance();
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -31,7 +28,7 @@ public class GameScreen extends GDScreen {
 		gameState.initialize();
 		gameState.prepareLevel(1);
 		
-		this.inputProcessor = inputProcessor;
+		inputProcessor = new GameInputProcessor(towerDefense);
 	}
 
 	@Override

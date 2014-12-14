@@ -20,7 +20,7 @@ public class TowerDefense extends Game {
 	@Override
 	public void create () {
 		mainMenuScreen = new MainMenuScreen(this);
-		gameScreen = new GameScreen(this, new GameInputProcessor(this));
+		gameScreen = new GameScreen(this);
 		gameOverScreen = new GameOverScreen(this);
 		
 		switchScreen(mainMenuScreen);
