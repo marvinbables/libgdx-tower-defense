@@ -1,6 +1,7 @@
 package gamedev.entity;
 
 import gamedev.entity.enemy.Spider;
+import gamedev.td.Config;
 import gamedev.td.GDSprite;
 import gamedev.td.SpriteManager;
 import gamedev.td.helper.MathHelper;
@@ -142,10 +143,10 @@ public abstract class Enemy extends Entity {
 			sprite.setY(this.position.y);
 			sprite.setRotation(this.angle);
 			if(slowAilmentTimer > 0){
-				sprite.setColor(.5f, 1f, .5f, 1f);
+				sprite.setColor(Config.green);
 			}
 			else{
-				sprite.setColor(1f,1f,1f,1f);
+				sprite.setColor(Config.normal);
 			}
 			sprite.draw(spriteBatch);
 		}

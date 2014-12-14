@@ -16,9 +16,6 @@ public class GameOverInputProcessor extends GDInputProcessor{
 	List<GDSprite> buttons;
 	private GameOverScreen gameOverScreen;
 
-	Color red = new Color(1,0,0,.5f);
-	Color white = new Color(1,1,1,.5f);
-
 	public GameOverInputProcessor(TowerDefense towerDefense, GameOverScreen screen){
 		super(towerDefense);
 		this.gameOverScreen = screen;

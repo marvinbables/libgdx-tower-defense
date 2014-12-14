@@ -27,8 +27,6 @@ public class GameInputProcessor extends GDInputProcessor {
 	private GDSprite selectedSprite;
 	private GameUserInterface userInterface;
 
-	Color red = new Color(1, 0, 0, .5f);
-	Color white = new Color(1, 1, 1, .5f);
 
 	public GameInputProcessor(TowerDefense towerDefense) {
 		super(towerDefense);
