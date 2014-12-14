@@ -18,19 +18,29 @@ public class TowerFactory {
 		SpriteManager handler = SpriteManager.getInstance();
 		GDSprite towerSprite = handler.getTower(type);
 		
+		int level = -1, cost = -1;
+		
 		switch(type){
 			case Dirt_Tower:
 				// follow the format, for readability's sake
-				int level = 0;
-				int cost = 20;
+				level = 0;
+				cost = 20;
 				return new DirtTower(towerSprite, level, cost);
 			case Arrow_Tower:
+				level = 0;
+				cost = 30;
 				return new ArrowTower(towerSprite, 0, 30);
 			case Egg_Tower:
+				level = 0;
+				cost = 40;
 				return new EggTower(towerSprite, 0, 40);
 			case Potion_Tower:
+				level = 0;
+				cost = 70;
 				return new PotionTower(towerSprite, 0, 70);
 			case Currency_Tower:
+				level = 0;
+				 cost = 100;
 				return new CurrencyTower(towerSprite, 0, 100);
 		}
 		

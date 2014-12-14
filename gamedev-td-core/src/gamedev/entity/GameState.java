@@ -2,11 +2,8 @@ package gamedev.entity;
 
 import gamedev.entity.Enemy.EnemyType;
 import gamedev.entity.Tile.TileType;
-import gamedev.entity.TowerFactory.TowerType;
 import gamedev.level.Level;
 import gamedev.td.Config;
-import gamedev.td.GDSprite;
-import gamedev.td.SpriteManager;
 import gamedev.td.helper.MathHelper;
 
 import java.awt.Point;
