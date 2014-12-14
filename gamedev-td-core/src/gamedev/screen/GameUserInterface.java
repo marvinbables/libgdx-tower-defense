@@ -143,6 +143,7 @@ public class GameUserInterface {
 	}
 
 	public void draw(SpriteBatch spriteBatch) {
+		towerRangeRenderer.render();
 		spriteBatch.begin();
 		
 		tileHighlight.draw(spriteBatch);
@@ -183,7 +184,7 @@ public class GameUserInterface {
 		
 		
 		spriteBatch.end();
-		towerRangeRenderer.render();
+		
 		
 	}
 
@@ -262,6 +263,7 @@ public class GameUserInterface {
 			towerRangeRenderer.setAttackRange(towerToBuild.getAttackRange());
 		} else {
 			towerToPutSprite = null;
+			towerToBuild = null;
 		}
 	}
 
@@ -292,12 +294,14 @@ public class GameUserInterface {
 	 * @param point
 	 */
 	public void setGhostTowerLocation(Point point) {
-		if(ghostTower != null)
+		if(ghostTower != null) {
 			ghostTower.setPosition(point.x, point.y);
-		
+		}
 	}
 	
 	public void setGhostTower(TowerType towerType) {
 		ghostTower = SpriteManager.getInstance().getTower(towerType);
 	}
 }
+
+	
