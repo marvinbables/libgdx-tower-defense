@@ -103,6 +103,7 @@ public class GameInputProcessor extends GDInputProcessor {
 				System.out.println("[Input] User is trying to build a " + towerType);
 				towerToBuild = TowerFactory.createTower(towerType);
 				userInterface.setTowerToBuild(towerToBuild, towerType);
+				userInterface.setGhostTower(towerType);
 			}
 		}
 	}
@@ -113,6 +114,10 @@ public class GameInputProcessor extends GDInputProcessor {
 
 		GameState state = GameState.getInstance();
 		Point point = getGridCoordinate(x, y);
+		if(point != null) {
+			towerToBuild.setX(x);
+			towerToBuild.setY(y);
+		}
 		
 		if (point != null && state.isTowerPlaceable(point)) {
 			if (state.canBuyTower(towerToBuild)){
@@ -159,7 +164,7 @@ public class GameInputProcessor extends GDInputProcessor {
 		Point point = getGridCoordinate(x, y);
 		userInterface.setHighlightedCell(point);
 		if (towerToBuild != null){
-			userInterface.setGhostTowerToBeBuilt(point);
+			userInterface.setGhostTowerLocation(point);
 		}
 		
 // TODO: Don't know what this code is for

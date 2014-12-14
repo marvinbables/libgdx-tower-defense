@@ -1,6 +1,7 @@
 package gamedev.screen.render;
 
 import gamedev.entity.Tower;
+import gamedev.td.Config;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,6 +27,9 @@ public class TowerRangeRenderer extends ShapeRenderer {
 		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
 		begin(ShapeType.Filled);
 		// TODO: Fix this code; it's ugly. What are you trying to do?
+		
+		if(towerToBuild != null)
+			circle(towerToBuild.getX() + Config.tileSize / 2, convertYforShapeRenderer(towerToBuild.getY() + Config.tileSize * 3 / 2), attackRange);
 		
 		// if (towerToBuild != null) {
 		// circle(towerToBuild.getX() + Config.tileSize / 2, convertYforShapeRenderer(towerToBuild.getY() + Config.tileSize * 3 / 2), rangeRadius);
