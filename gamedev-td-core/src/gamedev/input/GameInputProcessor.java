@@ -165,7 +165,10 @@ public class GameInputProcessor extends GDInputProcessor {
 		userInterface.setHighlightedCell(point);
 		if (towerToBuild != null){
 			userInterface.setGhostTowerLocation(point);
+			towerToBuild.setX(x);
+			towerToBuild.setY(y);
 		}
+		
 		
 // TODO: Don't know what this code is for
 		
