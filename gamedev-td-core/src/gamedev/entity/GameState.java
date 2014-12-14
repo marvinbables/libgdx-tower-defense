@@ -37,6 +37,7 @@ public class GameState {
 	private List<Enemy> enemies;
 	private List<Integer> enemiesToBeSpawned;
 	private List<Tower> deployedTowers;
+	private List<Projectile> projectiles;
 
 	private boolean roundHasStarted;
 
@@ -55,6 +56,7 @@ public class GameState {
 		enemiesToBeSpawned = new ArrayList<Integer>();
 		enemies = new ArrayList<Enemy>();
 		deployedTowers = new ArrayList<Tower>();
+		projectiles = new ArrayList<Projectile>();
 		createMap();
 	}
 
@@ -105,8 +107,18 @@ public class GameState {
 		displayMap(spriteBatch);
 		displayEnemies(spriteBatch);
 		displayTowers(spriteBatch); 
+		displayProjectiles(spriteBatch);
 	}
 	
+	private void displayProjectiles(SpriteBatch spriteBatch) {
+		spriteBatch.begin();
+		for(Projectile projectile : projectiles){
+			projectile.draw(spriteBatch);
+		}
+		spriteBatch.end();
+		
+	}
+
 	private void displayTowers(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
 		for(Tower tower : deployedTowers) {
@@ -199,6 +211,10 @@ public class GameState {
 
 	public void getDamaged() {
 		playerLife--;
+	}
+	
+	public List<Projectile> getProjectiles(){
+		return projectiles;
 	}
 
 	public Level getCurrentLevel() {

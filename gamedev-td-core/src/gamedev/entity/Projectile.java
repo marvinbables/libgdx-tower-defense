@@ -1,5 +1,6 @@
 package gamedev.entity;
 
+import gamedev.entity.TowerFactory.TowerType;
 import gamedev.entity.projectile.ArrowProjectile;
 import gamedev.entity.projectile.CorruptedEggProjectile;
 import gamedev.entity.projectile.DirtProjectile;
@@ -11,6 +12,7 @@ import gamedev.td.SpriteManager;
 import gamedev.td.helper.MathHelper;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Projectile extends Entity {
@@ -34,22 +36,30 @@ public abstract class Projectile extends Entity {
 	
 	//TODO implement method draw()
 	public void draw(SpriteBatch spriteBatch){
-		spriteBatch.begin();
 		sprite.setRotation(angle);
 		sprite.draw(spriteBatch);
-		spriteBatch.end();
 	}
 	
 	
 	//TODO implement method update()
 	public void update(float delta){
 		super.update(delta);
-		checkCollision(target);
+		boolean collided = checkCollision(target);
+		if(collided){
+			target.damagedBySource(this.damage);
+			this.active = false;
+		}
+		else{
+			position.x += Math.cos(angle);
+			position.y += Math.sin(angle);
+			
+		}
 	}
 	
 	//TODO check enemy collision
-	private void checkCollision(Enemy target) {
-		
+	private boolean checkCollision(Enemy target) {
+		Rectangle minRect = sprite.getBoundingRectangle();
+		return minRect.contains(target.getSprite().getBoundingRectangle());
 		
 	}
 
@@ -87,6 +97,24 @@ public abstract class Projectile extends Entity {
 		}
 		
 		return projectile;
+	}
+	
+	public static ProjectileType interpretTypeFromTowerName(String name) {
+		if(name.equals("Dirt Tower"))
+			return ProjectileType.Dirt;
+		else if(name.equals("Arrow Tower"))
+			return ProjectileType.Arrow;
+		else if(name.equals("Egg Tower"))
+			return ProjectileType.Egg;
+		else if(name.equals("Potion Tower"))
+			return ProjectileType.Potion;
+		else if(name.equals("Corrupted Egg Tower"))
+			return ProjectileType.Cegg;
+		else if(name.equals("Ice Arrow Tower"))
+			return ProjectileType.Ice_Arrow;
+		else if(name.equals("Fire Arrow Tower"))
+			return ProjectileType.Fire_Arrow;
+		return null; 
 	}
 	
 	private float getAngle(){

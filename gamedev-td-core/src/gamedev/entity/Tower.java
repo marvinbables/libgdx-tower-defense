@@ -1,5 +1,6 @@
 package gamedev.entity;
 
+import gamedev.entity.Projectile.ProjectileType;
 import gamedev.td.Config;
 import gamedev.td.GDSprite;
 
@@ -12,7 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class Tower extends Entity {
 	protected int damage, cost, upgradeCost, sellCost, level;
-	protected float attackRange, attackRate, attackTimer;
+	protected float attackRange, attackRate, attackTimer, attackCooldown;
 	protected Point2D.Float center;
 	protected String towerName;
 
@@ -29,18 +30,19 @@ public abstract class Tower extends Entity {
 		this.level = level;
 		this.position = Vector2.Zero;
 		attackTimer = 0;
+		setAttackCooldown(attackRate);
 		targets = new ArrayList<Enemy>();
 		center = new Point2D.Float();
-
 		upgradeCost = 0;
 		sellCost = 0;
 	}
 
 	public void draw(SpriteBatch spriteBatch) {
-		sprite.setX(position.x);
-		sprite.setY(position.y);
-		sprite.draw(spriteBatch);
-
+		if(active){
+			sprite.setX(position.x);
+			sprite.setY(position.y);
+			sprite.draw(spriteBatch);
+		}
 	}
 
 	public void update(float delta) {
@@ -48,9 +50,11 @@ public abstract class Tower extends Entity {
 		List<Enemy> enemies = GameState.getInstance().getEnemies();
 		acquireTarget(enemies);
 		updateTargets();
+		shoot(delta);
+		
 	}
 
-	public void acquireTarget(List<Enemy> enemies) {
+	private void acquireTarget(List<Enemy> enemies) {
 		for (Enemy enemy : enemies) {
 			if (!targets.contains(enemy)) {
 				if (intersects(enemy)) {
@@ -60,7 +64,7 @@ public abstract class Tower extends Entity {
 		}
 	}
 
-	public void updateTargets() {
+	private void updateTargets() {
 
 		for (int i = targets.size() - 1; i >= 0; i--) {
 			if (!intersects(targets.get(i))) {
@@ -70,8 +74,17 @@ public abstract class Tower extends Entity {
 		}
 	}
 
-	public void shoot() {
-
+	private void shoot(float delta) {
+		if(targets.size() > 0){
+			List<Projectile> projectiles = GameState.getInstance().getProjectiles();
+			attackTimer += delta;
+			if(attackTimer >= attackCooldown){
+				attackTimer = 0;
+				ProjectileType type = Projectile.interpretTypeFromTowerName(towerName);
+				Projectile shotProjectile = Projectile.createProjectile(this, type, targets.get(0));
+				projectiles.add(shotProjectile);
+			}
+		}
 	}
 
 	public int getDamage() {
@@ -97,10 +110,11 @@ public abstract class Tower extends Entity {
 	public ArrayList<Enemy> getTarget() {
 		return targets;
 	}
-
-	public void setTarget(ArrayList<Enemy> targets) {
-		this.targets = targets;
+	
+	private void setAttackCooldown(float attackRate){
+		attackCooldown = 1f / attackRate;
 	}
+
 
 	public abstract void upgrade();
 
