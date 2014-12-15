@@ -56,14 +56,19 @@ public class LvlSelectInputProcessor extends GDInputProcessor{
 					switch(i) {
 					case LvlSelectScreen.MAP1:
 						GameState.getInstance().initialize();
+						GameState.getInstance().setMap(LvlSelectScreen.MAP1);
 						towerDefense.switchScreen(towerDefense.getGameScreen());
 						break;
 					case LvlSelectScreen.MAIN_MENU:
 						towerDefense.switchScreen(towerDefense.getMainMenuScreen());
 						break;
 					case LvlSelectScreen.MAP2:
+						GameState.getInstance().setMap(LvlSelectScreen.MAP2);
+						towerDefense.switchScreen(towerDefense.getGameScreen());
 						break;
 					case LvlSelectScreen.MAP3:
+						GameState.getInstance().setMap(LvlSelectScreen.MAP3);
+						towerDefense.switchScreen(towerDefense.getGameScreen());
 						break;
 					}
 				}
@@ -91,10 +96,20 @@ public class LvlSelectInputProcessor extends GDInputProcessor{
 			GDSprite sprite = buttons.get(i);
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
-						
+					
+					if(buttons.get(i).equals("menuBtn")){
+						buttons.get(i).setAlpha(0.8f);
+					}
+					else
 					buttons.get(i).setAlpha(1);
 				}
-				else buttons.get(i).setAlpha(0.7f);
+				else {
+					if(buttons.get(i).equals("menuBtn")){
+						buttons.get(i).setAlpha(1);
+					}
+					else
+					buttons.get(i).setAlpha(0.7f);
+				}
 		}
 		
 		return false;

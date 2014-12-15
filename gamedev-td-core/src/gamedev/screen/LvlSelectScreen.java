@@ -24,7 +24,7 @@ public class LvlSelectScreen extends GDScreen{
 	BitmapFont font;
 	private List<GDSprite> buttons;
 	public final static int MAP1 = 1, MAP2 = 2, MAP3 = 3, MAIN_MENU = 0;
-	GDSprite map1Btn, map2Btn, map3Btn, background;
+	GDSprite menuBtn, map1Btn, map2Btn, map3Btn, background;
 	
 	public LvlSelectScreen(TowerDefense towerDefense) {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -43,6 +43,9 @@ public class LvlSelectScreen extends GDScreen{
 		buttons = new ArrayList<GDSprite>();
 		SpriteManager spriteManager = SpriteManager.getInstance();
 		
+		menuBtn = spriteManager.getSprite("back_to_menu_button");
+		menuBtn.setPosition(160,520);
+		
 		map1Btn = spriteManager.getSprite("map1");
 		map1Btn.setPosition(80, 180);
 		map1Btn.setAlpha(0.7f);
@@ -55,6 +58,7 @@ public class LvlSelectScreen extends GDScreen{
 		map3Btn.setPosition(240, 360);
 		map3Btn.setAlpha(0.7f);
 		
+		buttons.add(menuBtn);
 		buttons.add(map1Btn);
 		buttons.add(map2Btn);
 		buttons.add(map3Btn);
