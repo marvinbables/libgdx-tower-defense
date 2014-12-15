@@ -19,16 +19,17 @@ public class Skeleton extends Enemy {
 	}
 	
 	public void draw(SpriteBatch spriteBatch){
-		
-		int offset = directionToInt(angle);
-		sprite.setRegion(offset, offset, 64, 64);
-		sprite.setX(this.position.x);
-		sprite.setY(this.position.y);
-		if(slowAilmentTimer > 0){
-			sprite.setColor(Config.green);
-		}
-		else{
-			sprite.setColor(Config.normal);
+		if(active){
+			int offset = directionToInt(angle);
+			sprite.setRegion(offset, offset, 64, 64);
+			sprite.setX(this.position.x);
+			sprite.setY(this.position.y);
+			if(slowAilmentTimer > 0){
+				sprite.setColor(Config.green);
+			}
+			else{
+				sprite.setColor(Config.normal);
+			}
 		}
 
 		sprite.setFlip(false, true);
