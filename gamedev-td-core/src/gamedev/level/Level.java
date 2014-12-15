@@ -37,9 +37,9 @@ public class Level {
 				
 			case 2:
 				int[][] enemies2 = {
-					// instances, enemy type
-					 {10, 1}
-				};
+						// instances, enemy type
+						{10, 1}
+					};
 	
 				level = new Level(enemies2);
 				break;
