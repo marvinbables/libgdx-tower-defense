@@ -3,6 +3,7 @@ package gamedev.td;
 import gamedev.screen.GDScreen;
 import gamedev.screen.GameOverScreen;
 import gamedev.screen.GameScreen;
+import gamedev.screen.LvlSelectScreen;
 import gamedev.screen.MainMenuScreen;
 import gamedev.screen.PauseScreen;
 
@@ -15,12 +16,14 @@ public class TowerDefense extends Game {
 	private GameOverScreen gameOverScreen;
 	private GameScreen gameScreen;
 	private PauseScreen pauseScreen;
+	private LvlSelectScreen lvlSelectScreen;
 	
 	@Override
 	public void create () {
 		mainMenuScreen = new MainMenuScreen(this);
 		gameScreen = new GameScreen(this);
 		gameOverScreen = new GameOverScreen(this);
+		setLvlSelectScreen(new LvlSelectScreen(this));
 		setPauseScreen(new PauseScreen(this));
 		
 		switchScreen(mainMenuScreen);
@@ -90,5 +93,13 @@ public class TowerDefense extends Game {
 
 	public void setPauseScreen(PauseScreen pauseScreen) {
 		this.pauseScreen = pauseScreen;
+	}
+
+	public LvlSelectScreen getLvlSelectScreen() {
+		return lvlSelectScreen;
+	}
+
+	public void setLvlSelectScreen(LvlSelectScreen lvlSelectScreen) {
+		this.lvlSelectScreen = lvlSelectScreen;
 	}
 }

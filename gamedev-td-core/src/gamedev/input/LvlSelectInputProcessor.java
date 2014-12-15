@@ -92,9 +92,9 @@ public class LvlSelectInputProcessor extends GDInputProcessor{
 				if(screenX >= sprite.getX() && screenX < sprite.getX() + sprite.getWidth()
 						&& screenY >= sprite.getY() && screenY < sprite.getY() + sprite.getHeight()) {
 						
-					buttons.get(i).setAlpha(0.8f);
+					buttons.get(i).setAlpha(1);
 				}
-				else buttons.get(i).setAlpha(1);
+				else buttons.get(i).setAlpha(0.7f);
 		}
 		
 		return false;

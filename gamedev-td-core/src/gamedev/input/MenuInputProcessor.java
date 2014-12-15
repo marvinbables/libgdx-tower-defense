@@ -55,7 +55,7 @@ public class MenuInputProcessor extends GDInputProcessor{
 				if(sprite.contains(screenX, screenY)) {
 					switch(i) {
 					case MainMenuScreen.START_GAME:
-						towerDefense.switchScreen(towerDefense.getGameScreen());
+						towerDefense.switchScreen(towerDefense.getLvlSelectScreen());
 						break;
 					case MainMenuScreen.LEVEL_SELECT:
 						break;

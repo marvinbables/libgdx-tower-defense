@@ -44,20 +44,22 @@ public class LvlSelectScreen extends GDScreen{
 		SpriteManager spriteManager = SpriteManager.getInstance();
 		
 		map1Btn = spriteManager.getSprite("map1");
-		map1Btn.setPosition(150, 380);
+		map1Btn.setPosition(80, 180);
+		map1Btn.setAlpha(0.7f);
 		
 		map2Btn = spriteManager.getSprite("map2");
-		map2Btn.setPosition(150, 420);
+		map2Btn.setPosition(400, 180);
+		map2Btn.setAlpha(0.7f);
 		
 		map3Btn = spriteManager.getSprite("map3");
-		map3Btn.setPosition(150, 460);
-		
+		map3Btn.setPosition(240, 360);
+		map3Btn.setAlpha(0.7f);
 		
 		buttons.add(map1Btn);
 		buttons.add(map2Btn);
 		buttons.add(map3Btn);
 		
-		background = spriteManager.getSprite("lvlSelectBG");
+		background = spriteManager.getSprite("lvlselectbg");
 		background.setPosition(0, 0);
 		
 	}
