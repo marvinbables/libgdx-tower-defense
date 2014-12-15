@@ -132,6 +132,13 @@ public class TextureFactory {
 			else if(key.equals("skeleton")) {
 				path = "assets/img/skeleton_spritesheet_reduced.png";
 			}
+			else if(key.equals("sand_tower")) {
+				path = "assets/img/sand_tower.png";
+			}
+			else if(key.equals("wood_tower")) {
+				path = "assets/img/wood_tower.png";
+			}
+			
 			
 			
 			else{
@@ -171,6 +178,14 @@ public class TextureFactory {
 			else if(key.equals("potion")){
 				path = "assets/img/projectile_potion.png";
 			}
+			else if(key.equals("sand")){
+				path = "assets/img/projectile_sand.png";
+			}
+			else if(key.equals("wood")){
+				path = "assets/img/projectile_wood.png";
+			}
+			
+			
 			else{
 				return null;
 			}
