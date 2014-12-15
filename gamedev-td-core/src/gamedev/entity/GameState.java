@@ -74,6 +74,7 @@ public class GameState {
 		money = 100;
 		playerLife = 10;
 		roundTime = PRE_ROUND_WAIT_DURATION;
+		deployedTowers = new ArrayList<Tower>();
 		
 	}
 	
@@ -82,7 +83,7 @@ public class GameState {
 		spawnedEnemies = 0;
 		enemiesToBeSpawned = new ArrayList<Integer>();
 		enemies = new ArrayList<Enemy>();
-		deployedTowers = new ArrayList<Tower>();
+		
 		projectiles = new ArrayList<Projectile>();
 	}
 	
