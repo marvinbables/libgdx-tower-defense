@@ -111,7 +111,7 @@ public abstract class Tower extends Entity {
 		return targets;
 	}
 	
-	private void setAttackCooldown(float attackRate){
+	protected void setAttackCooldown(float attackRate){
 		attackCooldown = 1f / attackRate;
 	}
 

@@ -25,23 +25,39 @@ public class Level {
 		Level level = null;
 		
 		switch(i){
-		case 1: 
-
-			int[][] enemies = {
-				// instances, enemy type
-				{10, 2}, {1,1}
-			};
-
-			level = new Level(enemies);
+			case 1: 
+	
+				int[][] enemies = {
+					// instances, enemy type
+					{5, 1}
+				};
+	
+				level = new Level(enemies);
+				break;
+				
+			case 2:
+				int[][] enemies2 = {
+					// instances, enemy type
+					{10, 1}, {1,1}
+				};
+	
+				level = new Level(enemies2);
+				break;
+			case 3:
+				int[][] enemies3 = {
+					// instances, enemy type
+					{5, 1}, {5,2}
+				};
+	
+			level = new Level(enemies3);
 			break;
-			
-		case 2:
-			int[][] enemies2 = {
-				// instances, enemy type
-				{10, 1}, {1,1}
-			};
-
-			level = new Level(enemies2);
+			case 4:
+				int[][] enemies4 = {
+					// instances, enemy type
+					{5, 2}, {5,2}
+				};
+	
+			level = new Level(enemies4);
 			break;
 		}
 		return level;
