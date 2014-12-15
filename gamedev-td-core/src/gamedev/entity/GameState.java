@@ -177,7 +177,8 @@ public class GameState {
 
 		if (spawnDelay >= .5 && spawnedEnemies < enemiesToBeSpawned.size()) {
 
-			Enemy enemy = Enemy.createEnemy(EnemyType.Spider);
+			EnemyType type = Enemy.interpretType(enemiesToBeSpawned.get(spawnedEnemies));
+			Enemy enemy = Enemy.createEnemy(type);
 			enemies.add(enemy);
 			spawnDelay = 0;
 			++spawnedEnemies;

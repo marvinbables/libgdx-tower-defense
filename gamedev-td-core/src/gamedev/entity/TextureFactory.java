@@ -129,6 +129,11 @@ public class TextureFactory {
 			else if(key.equals("title")) {
 				path = "assets/img/title.png";
 			}
+			else if(key.equals("skeleton")) {
+				path = "assets/img/skeleton_spritesheet_reduced.png";
+			}
+			
+			
 			else{
 				return null;
 			}

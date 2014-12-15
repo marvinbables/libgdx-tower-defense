@@ -146,7 +146,7 @@ public class SpriteManager {
 	}
 	
 	public GDSprite getEnemy(EnemyType type) {
-		return createSprite(type.toString());
+		return createSpriteTile(type.toString());
 	}
 
 	public GDSprite getTile(TileType type) {

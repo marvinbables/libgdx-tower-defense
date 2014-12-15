@@ -1,5 +1,6 @@
 package gamedev.entity;
 
+import gamedev.entity.enemy.Skeleton;
 import gamedev.entity.enemy.Spider;
 import gamedev.td.Config;
 import gamedev.td.GDSprite;
@@ -7,30 +8,28 @@ import gamedev.td.SpriteManager;
 import gamedev.td.helper.MathHelper;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Enemy extends Entity {
-	enum Dir {
+	protected enum Dir {
 		LEFT, RIGHT, UP, DOWN
 	}
 
 	public enum EnemyType {
-		Spider
+		Spider, Skeleton
 	}
 
-	private float angle;
+	protected float angle;
 	private int health;
 	private int moneyReward;
-	private float speed;
-	private float slowedSpeed;
-	private List<Point> waypoints;
-	private Dir dir;
-	private float slowAilmentTimer = 0;
+	protected float speed;
+	protected float slowedSpeed;
+	protected List<Point> waypoints;
+	protected Dir dir;
+	protected float slowAilmentTimer = 0;
 
 	// enemy factory pattern
 	/**
@@ -48,16 +47,27 @@ public abstract class Enemy extends Entity {
 		SpriteManager handler = SpriteManager.getInstance();
 		GDSprite sprite = handler.getEnemy(type);
 
-		switch (type) {
+		int health;
+		int moneyReward;
+		float speed;
 
+		switch (type) {		
+		
+		
 		case Spider:
-			int health = 15;
-			int moneyReward = 5;
-			float speed = 1.5f;
-
+			health = 15;
+			moneyReward = 5;
+			speed = 1.5f;
 			enemy = new Spider(sprite, health, moneyReward, speed, waypointList);
 			return enemy;
-
+			
+		case Skeleton:
+			health = 40;
+			moneyReward = 8;
+			speed = 1;
+			enemy = new Skeleton(sprite, health, moneyReward, speed, waypointList);
+			return enemy;
+			
 		default:
 			return enemy;
 		}
@@ -128,7 +138,7 @@ public abstract class Enemy extends Entity {
 	 * 
 	 * @param delta
 	 */
-	private void checkIfReachedThePlayer(float delta) {
+	protected void checkIfReachedThePlayer(float delta) {
 		if (waypoints.size() == 0 && isActive()) {
 			setActive(false);
 			GameState.getInstance().getDamaged();
@@ -150,7 +160,7 @@ public abstract class Enemy extends Entity {
 		}
 	}
 	
-	private float getSpeed(float delta){
+	protected float getSpeed(float delta){
 		if(slowAilmentTimer > 0){
 			slowAilmentTimer -= delta;
 			return slowedSpeed;
@@ -169,6 +179,17 @@ public abstract class Enemy extends Entity {
 			this.active = false;
 			GameState state = GameState.getInstance();
 			state.addMoney(this.moneyReward);
+		}
+	}
+	
+	public static EnemyType interpretType(int type){
+		switch(type - 1){
+			case 0:
+				return EnemyType.Spider;
+			case 1:
+				return EnemyType.Skeleton;
+			default:
+				return EnemyType.Spider;
 		}
 	}
 	
@@ -197,4 +218,5 @@ public abstract class Enemy extends Entity {
 	public float getAngle() {
 		return this.angle;
 	}
+	
 }
