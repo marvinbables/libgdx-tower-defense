@@ -22,6 +22,7 @@ public class PotionTower extends Tower {
 		damage = damageLevels[level];
 		attackRange = rangeLevels[level];
 		attackRate = attackRateLevels[level];
+		setAttackCooldown(attackRate);
 	}
 
 }
