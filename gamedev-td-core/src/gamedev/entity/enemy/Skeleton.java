@@ -15,7 +15,7 @@ public class Skeleton extends Enemy {
 			float speed, List<Point> waypointList) {
 		super(sprite, health, moneyReward, speed, waypointList);
 		sprite.setSize(50, 50);
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public void draw(SpriteBatch spriteBatch){
@@ -30,10 +30,16 @@ public class Skeleton extends Enemy {
 			else{
 				sprite.setColor(Config.normal);
 			}
-		}
 
 		sprite.setFlip(false, true);
 		sprite.draw(spriteBatch);
+
+		}
+	}
+	public void update(float delta){
+		if(active){
+			super.update(delta);
+		}
 	}
 	
 	private int directionToInt(float angle){
