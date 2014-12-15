@@ -69,7 +69,8 @@ public class GameInputProcessor extends GDInputProcessor {
 			// Step 2
 			buildSelectedTower(x, y, pointer, button);
 
-			upgradeTowers(x, y, pointer, button);
+			// Step 1
+			selectTowerToUpgrade(x, y, pointer, button);
 		} else if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
 			resetInteractions();
 
@@ -82,7 +83,7 @@ public class GameInputProcessor extends GDInputProcessor {
 
 	}
 
-	private void upgradeTowers(int x, int y, int pointer, int button) {
+	private void selectTowerToUpgrade(int x, int y, int pointer, int button) {
 		GameState state = GameState.getInstance();
 
 		List<Tower> deployedTowers = state.getDeployedTowers();
