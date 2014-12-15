@@ -55,11 +55,6 @@ public class GameState {
 	 */
 	private GameState() {
 		instance = this;
-		roundHasStarted = false;
-		enemiesToBeSpawned = new ArrayList<Integer>();
-		enemies = new ArrayList<Enemy>();
-		deployedTowers = new ArrayList<Tower>();
-		projectiles = new ArrayList<Projectile>();
 		createMap();
 	}
 
@@ -73,14 +68,22 @@ public class GameState {
 	}
 
 	public void initialize() {
+		newRoundInitialization();
 		level = 1;
 		currentLevel = Level.generateLevel(level);
 		money = 100;
 		playerLife = 10;
+		roundTime = PRE_ROUND_WAIT_DURATION;
+		
+	}
+	
+	public void newRoundInitialization(){
 		spawnDelay = 0;
 		spawnedEnemies = 0;
-		roundTime = PRE_ROUND_WAIT_DURATION;
-		roundHasStarted = false;
+		enemiesToBeSpawned = new ArrayList<Integer>();
+		enemies = new ArrayList<Enemy>();
+		deployedTowers = new ArrayList<Tower>();
+		projectiles = new ArrayList<Projectile>();
 	}
 	
 	public void update(float delta) {
@@ -189,6 +192,7 @@ public class GameState {
 	 * This should be called after every round.
 	 */
 	public void prepareLevel(int lvl) {
+		newRoundInitialization();
 		currentLevel = Level.generateLevel(lvl);
 		enemiesToBeSpawned = currentLevel.getEnemiesToBeSpawned();
 	}
