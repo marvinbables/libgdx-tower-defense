@@ -55,14 +55,14 @@ public abstract class Enemy extends Entity {
 		
 		
 		case Spider:
-			health = 15;
+			health = 20;
 			moneyReward = 5;
 			speed = 1.5f;
 			enemy = new Spider(sprite, health, moneyReward, speed, waypointList);
 			return enemy;
 			
 		case Skeleton:
-			health = 40;
+			health = 50;
 			moneyReward = 8;
 			speed = 1;
 			enemy = new Skeleton(sprite, health, moneyReward, speed, waypointList);

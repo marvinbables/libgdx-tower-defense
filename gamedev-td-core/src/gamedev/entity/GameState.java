@@ -22,7 +22,7 @@ public class GameState {
 	/**
 	 * One full round lasts thirty (30) seconds.
 	 */
-	private static final float ROUND_DURATION = 20;
+	private static final float ROUND_DURATION = 120;
 
 	private static final float PRE_ROUND_WAIT_DURATION = 5;
 
@@ -70,7 +70,7 @@ public class GameState {
 	public void initialize() {
 		newRoundInitialization();
 		level = 1;
-		currentLevel = Level.generateLevel(level);
+		currentLevel = Level.generateLevel(level);	
 		money = 100;
 		playerLife = 10;
 		roundTime = PRE_ROUND_WAIT_DURATION;
@@ -83,8 +83,8 @@ public class GameState {
 		spawnedEnemies = 0;
 		enemiesToBeSpawned = new ArrayList<Integer>();
 		enemies = new ArrayList<Enemy>();
-		
 		projectiles = new ArrayList<Projectile>();
+		
 	}
 	
 	public void update(float delta) {
@@ -107,11 +107,13 @@ public class GameState {
 	}
 
 	private void updateRoundTimer(float delta) {
-		if (roundTime > 0)
+		if (roundTime > 0) {
 			roundTime -= delta;
+		}
 		else {
 			roundHasStarted = true;
 			roundTime = ROUND_DURATION;
+			
 			prepareLevel(level++);
 			spawnedEnemies = 0;
 		}
@@ -195,7 +197,10 @@ public class GameState {
 	public void prepareLevel(int lvl) {
 		newRoundInitialization();
 		currentLevel = Level.generateLevel(lvl);
-		enemiesToBeSpawned = currentLevel.getEnemiesToBeSpawned();
+		if((enemiesToBeSpawned = currentLevel.getEnemiesToBeSpawned()) == null){
+			prepareLevel(lvl++);
+		}else enemiesToBeSpawned = currentLevel.getEnemiesToBeSpawned();
+		
 	}
 
 
