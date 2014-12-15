@@ -126,6 +126,18 @@ public class TextureFactory {
 			else if(key.equals("gameover")) {
 				path = "assets/img/gameover.png";
 			}
+			else if(key.equals("lvlSelectBG")) {
+				path = "assets/img/lvlSelectBG.png";
+			}
+			else if(key.equals("map1")) {
+				path = "assets/img/map1.png";
+			}
+			else if(key.equals("map2")) {
+				path = "assets/img/map2.png";
+			}
+			else if(key.equals("map3")) {
+				path = "assets/img/map3.png";
+			}
 			else if(key.equals("title")) {
 				path = "assets/img/title.png";
 			}
