@@ -46,6 +46,7 @@ public abstract class Projectile extends Entity {
 	public void update(float delta){
 		if(active){
 			super.update(delta);
+			angle = getAngle();
 			if(!target.active)
 				active = false;
 			boolean collided = false;
@@ -69,16 +70,17 @@ public abstract class Projectile extends Entity {
 	
 	private void moveProjectile(Enemy target) {
 		Vector2 enemyPosition = MathHelper.getCenterOfTile(target.position);
-		if(enemyPosition.x > position.x){
+		Vector2 center = MathHelper.getCenterOfSprite(sprite);
+		if(enemyPosition.x > center.x){
 			position.x += speed;
 		}
-		else{
+		else if (enemyPosition.x < center.x){
 			position.x -= speed;
 		}
-		if(enemyPosition.y > position.y){
+		if(enemyPosition.y > center.y){
 			position.y += speed;
 		}
-		else{
+		else if (enemyPosition.y < center.y){
 			position.y -= speed;
 		}
 	}

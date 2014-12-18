@@ -7,7 +7,7 @@ public class ArrowTower extends Tower{
 	
 	private int maxLevel = 5;
 	private static int damageLevels[] = {10};
-	private static int rangeLevels[] = {80};
+	private static int rangeLevels[] = {100};
 	private static float attackRateLevels[] = {1.5f};
 
 	public ArrowTower(GDSprite sprite, int level, int cost) {

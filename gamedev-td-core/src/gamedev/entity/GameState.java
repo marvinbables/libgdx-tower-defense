@@ -22,7 +22,7 @@ public class GameState {
 	/**
 	 * One full round lasts thirty (30) seconds.
 	 */
-	private static final float ROUND_DURATION = 120;
+	private static final float ROUND_DURATION = 30;
 
 	private static final float PRE_ROUND_WAIT_DURATION = 5;
 
